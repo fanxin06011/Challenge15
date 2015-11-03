@@ -1,0 +1,61 @@
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+	
+.axisx path,.axisx line {
+	fill: none;/*在路径里填充颜色fill: red*/
+	stroke: grey;
+    stroke-width: 1;
+	shape-rendering: crispEdges;
+	/*"shape-rendering"是形状渲染属性,有四个值,“crispEdges”表示该形状将平滑显示。*/
+}
+.axisx text {
+	font-family: sans-serif;
+	font-size: 11px; 
+}
+.axisy path,  
+.axisy line{  
+	fill: none;  
+	stroke: black;  
+	shape-rendering: crispEdges;  
+}  
+.axisy text {  
+	font-family: sans-serif;  
+	font-size: 11px;  
+}
+
+div#viewbtnbtn {
+	clear:both;
+}		
+div#view1a {
+	
+	height:600px;
+	width:550px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	float:left;
+	
+}		
+div#view1b {
+	
+	height:600px;
+	width:550px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	float:left;
+	
+}
+
+
+.view1asvg,.view1bsvg {
+	background-image:url(image/1.jpg);
+	background-repeat:no-repeat;
+	background-attachment:scroll;
+}	
+		
+
+
