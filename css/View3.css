@@ -1,33 +1,33 @@
 
-svg {
+#View3 svg {
   font: 10px sans-serif;
 }
 
-.background path {
+#View3 .background path {
   fill: none;
   stroke: #ddd;
   shape-rendering: crispEdges;
 }
 
-.foreground path {
+#View3 .foreground path {
   fill: none;
   stroke: steelblue;
 }
 
-.brush .extent {
+#View3 .brush .extent {
   fill-opacity: .3;
   stroke: #fff;
   shape-rendering: crispEdges;
 }
 
-.axis line,
-.axis path {
+#View3 .axis line,
+#View3 .axis path {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-.axis text {
+#View3 .axis text {
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
   cursor: move;
 }

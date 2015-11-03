@@ -85,6 +85,7 @@ function View2(Observer){
 	draw("data/dfSun.csv");
 
 	function choose(){
+		console.log("000");
 		//alert(document.getElementById("xAxisChoose").value);
 		selectedX = document.getElementById("xAxisChoose").value;
 		//alert(selectedX);
@@ -97,9 +98,9 @@ function View2(Observer){
 		d3.select("#View2").selectAll(".cell").remove();
 		d3.select("#View2").selectAll(".xAxis").remove();
 		d3.select("#View2").selectAll(".yAxis").remove();
-		draw("dfFri.csv");
-		draw("dfSat.csv");
-		draw("dfSun.csv");
+		draw("data/dfFri.csv");
+		draw("data/dfSat.csv");
+		draw("data/dfSun.csv");
 		//d3.selectAll("circle").remove();
 	}
 

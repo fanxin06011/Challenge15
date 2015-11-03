@@ -18,7 +18,7 @@ function View3(Observer){
 		background;
 		foreground;
 
-		svg1 = d3.select("body").append("svg")
+		svg1 = d3.select("#View3").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
@@ -87,7 +87,7 @@ function View3(Observer){
 {
 svg1.selectAll("g").remove();
 
-d3.csv("dfFri.csv", function(error, wine) {
+d3.csv("data/dfFri.csv", function(error, wine) {
 
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(wine[0]).filter(function(d) {
@@ -172,7 +172,7 @@ function sat()
 {
 svg1.selectAll("g").remove();
 
-d3.csv("dfSat.csv", function(error, wine) {
+d3.csv("data/dfSat.csv", function(error, wine) {
 
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(wine[0]).filter(function(d) {
@@ -257,7 +257,7 @@ function sun()
 {
 svg1.selectAll("g").remove();
 
-d3.csv("dfSun.csv", function(error, wine) {
+d3.csv("data/dfSun.csv", function(error, wine) {
 
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(wine[0]).filter(function(d) {

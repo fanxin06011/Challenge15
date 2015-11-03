@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
 	<title>map</title>
 	<link rel="stylesheet" type="text/css" href="css/mycss.css">
+	<link rel="stylesheet" type="text/css" href="css/View2.css">
 	<link rel="stylesheet" type="text/css" href="css/View3.css">
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="jslib/jquery-1.11.3.min.js"></script>
@@ -27,6 +28,40 @@
 	</div>
 	
 	<div id="View2">
+		<form>
+		xAxis
+		<select id = "xAxisChoose">
+			<option value = "num">num</option>
+			<option value = "stay">stay</option>
+			<option value = "in">in</option>
+			<option value = "out">out</option>
+			<option value = "average">average</option>
+			<option value = "from">from</option>
+			<option value = "to">to</option>
+			<option value = "all">all</option>
+			<option value = "comm">comm</option>
+			<option value = "way">way</option>
+			<option value = "wayPercent">wayPercent</option>
+			<option value = "numPlaceChoosen" id = "numPlaceX">numPlaceChoosen</option>
+			<option value = "stayPlaceChoosen">stayPlaceChoosen</option>
+		</select>
+		yAxis
+		<select id = "yAxisChoose">
+			<option value = "num">num</option>
+			<option value = "stay" selected = "selected">stay</option>
+			<option value = "in">in</option>
+			<option value = "out">out</option>
+			<option value = "average">average</option>
+			<option value = "from">from</option>
+			<option value = "to">to</option>
+			<option value = "all">all</option>
+			<option value = "comm">comm</option>
+			<option value = "way">way</option>
+			<option value = "wayPercent">wayPercent</option>
+			<option value = "numPlaceChoosen">numPlaceChoosen</option>
+			<option value = "stayPlaceChoosen" id = "stayPlaceY">stayPlaceChoosen</option>
+		</select>
+		</form>
 	</div>
 	
 	<div id="View3">
@@ -40,8 +75,8 @@
 <script type="text/javascript" src="js/view1b.js"></script>
 <script type="text/javascript" src="js/observer.js"></script>
 <script type="text/javascript" src="js/test.js"></script>
+<script type="text/javascript" src="js/XY_c.js"></script>
 <script type="text/javascript" src="main.js"></script>
-
 
 <script type="text/javascript">
 
