@@ -10,6 +10,9 @@ function (){
 	//obs.addView(view2);
 	//obs.fireEvent("selectscene", 1 ,"view1")
 	//obs.fireEvent("showPath", ["577530","1204869"] ,"view3")
+	
+	var obs = Observer();
+	var view3 = View3(obs);
 }
 
 
