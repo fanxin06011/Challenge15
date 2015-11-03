@@ -52,7 +52,7 @@ div#view1b {
 
 
 .view1asvg,.view1bsvg {
-	background-image:url(image/1.jpg);
+	background-image:url(../image/1.jpg);
 	background-repeat:no-repeat;
 	background-attachment:scroll;
 }	
