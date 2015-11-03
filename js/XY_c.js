@@ -34,7 +34,7 @@ function View2(Observer){
 
 
 
-	var size = 250,
+	var size = 200,
 		padding = 30;
 
 	var x = d3.scale.linear()
