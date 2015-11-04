@@ -39,7 +39,48 @@
 			}
 		}
 	};
-	
+	var sto;
+	var ttime=28800;
+	document.getElementById("view1autoplay").onclick=function(){
+		if(document.getElementById("view1autoplay").value=="autoplay"){
+			document.getElementById("view1autoplay").value="stop";
+			autop();
+		}else{
+			document.getElementById("view1autoplay").value="autoplay";
+			clearTimeout(sto);
+
+		}
+		
+	}
+
+	function autop(){
+		
+		ttime=ttime+60;
+		rects2.attr("x",10+(ttime-28800)/120);
+		hourrelative=Math.floor(ttime/3600);
+		minuterelative=Math.floor((ttime-hourrelative*3600)/60);
+		if(minuterelative<10){minuterelative="0"+minuterelative;}
+		timetag.text(function(d,i){return (hourrelative)+":"+minuterelative;});
+		if(daynum==0){
+		for(var i=0;i<idnum;i++){
+			findtimefri(i,ttime);
+			}
+		}else if(daynum==1){
+			for(var i=0;i<idnum;i++){
+				findtimesat(i,ttime);
+			}
+		}else{
+			
+			for(var i=0;i<idnum;i++){
+				//console.log(idnum+" "+ttime);
+				findtimesun(i,ttime);
+			}
+		}
+		if(ttime<=86400){
+		sto=setTimeout(function(){autop();},100);
+		}
+		
+	}
 
 	
 	function showUser(id,i,day){ 
@@ -293,7 +334,7 @@
 
 		if(newx<0){newx=0;}
 		if(newx>lengthlimit){newx=lengthlimit;}
-		var ttime=linear(newx);
+		ttime=linear(newx);
 	
 		var newx2=(linear(newx)-28800)/60
 		//console.log(517+newx2/2);
@@ -338,7 +379,7 @@
 			}
 		}
 		function onSelectPeople(data){
-			console.log("view1a showPath");
+			console.log("view1a data: "+data);
 			idnum=data.length;
 			id=data;
 			for(var i=0;i<idnum;i++){

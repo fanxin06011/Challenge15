@@ -255,24 +255,24 @@ function View1b(Observer){
 		
 		linearfri = d3.scale.linear()
 					   .domain([0, frimax])
-					   .range([166,6]);
+					   .range([83,6]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([333,173]);
+				   .range([165,88]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([500,340]);
+				   .range([247,170]);
 		
 		lineFunctionfri = d3.svg.line()
-								 .x(function(d) { return 15+d.x/2; })
+								 .x(function(d) { return 15+d.x/3; })
 								 .y(function(d) { return linearfri(d.y); })
 								 .interpolate("linear");
 		lineFunctionsat = d3.svg.line()
-								 .x(function(d) { return 15+d.x/2; })
+								 .x(function(d) { return 15+d.x/3; })
 								 .y(function(d) { return linearsat(d.y); })
 								 .interpolate("linear");
 		lineFunctionsun = d3.svg.line()
-								 .x(function(d) { return 15+d.x/2; })
+								 .x(function(d) { return 15+d.x/3; })
 								 .y(function(d) { return linearsun(d.y); })
 								 .interpolate("linear");						 
 		var pfri=svg2.append("g");			
@@ -331,13 +331,13 @@ function View1b(Observer){
 		
 		linearfri = d3.scale.linear()
 				   .domain([0, frimax])
-				   .range([166,6]);
+				   .range([83,6]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([333,173]);
+				   .range([165,88]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([500,340]);			
+				   .range([247,170]);			
 		
 		
 		lineGraphfri.transition()
@@ -428,7 +428,7 @@ function View1b(Observer){
 			
 			var newx2=(linear(newx)-28800)/60
 			rects2.attr("x",10+newx2/2);
-			rects3.attr("x",12.5+newx2/2);					
+			rects3.attr("x",12.5+newx2/3);					
 			ddx=linear(newx);
 
 			hourrelative=Math.floor(ddx/3600);
