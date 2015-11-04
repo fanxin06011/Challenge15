@@ -13,6 +13,11 @@ function View1b(Observer){
 				.attr("class","view1bsvg")
 				.attr("width",width)  
 				.attr("height",height);
+	var svg2 = d3.select("#view1b2")
+				.append("svg")  
+				.attr("class","view1b2svg")
+				.attr("width",width)  
+				.attr("height",height);
 	var destable=[[0,67],[6,43],[16,49],[16,66],[17,43],[17,67],[23,54],[26,59],[27,15],[28,66]
 		,[32,33],[34,68],[38,90],[42,37],[43,56],[43,78],[45,24],[47,11],[48,87],[50,57],[60,37],
 		[63,99],[67,37],[69,44],[73,79],[73,84],[76,22],[76,88],[78,37],[78,48],[79,87],[79,89],[81,77],
@@ -147,15 +152,15 @@ function View1b(Observer){
 				.on("drag", dragmove)
 			);	
 	var data5=[0];
-	var rects3=svg.append("g")
+	var rects3=svg2.append("g")
 			.selectAll("rect")
 			.data(data5)
 			.enter()
 			.append("rect")
 			.attr("fill","red" )
-			.attr("y",530)
+			.attr("y",0)
 			.attr("x",12.5)
-			.attr("height", 495)
+			.attr("height", 520)
 			.attr("width", 2);					
 	var circlelag;
 	
@@ -250,13 +255,13 @@ function View1b(Observer){
 		
 		linearfri = d3.scale.linear()
 					   .domain([0, frimax])
-					   .range([166+505,6+505]);
+					   .range([166,6]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([333+505,173+505]);
+				   .range([333,173]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([500+505,340+505]);
+				   .range([500,340]);
 		
 		lineFunctionfri = d3.svg.line()
 								 .x(function(d) { return 15+d.x/2; })
@@ -270,20 +275,20 @@ function View1b(Observer){
 								 .x(function(d) { return 15+d.x/2; })
 								 .y(function(d) { return linearsun(d.y); })
 								 .interpolate("linear");						 
-		var pfri=svg.append("g");			
+		var pfri=svg2.append("g");			
 		lineGraphfri = pfri.append("path")
 						   .attr("d", lineFunctionfri(dfri))
 						   .attr("stroke", "steelblue")
 						   .attr("stroke-width", 2) 
 						   .attr("fill", "none");
 						   
-		var psat=svg.append("g");			
+		var psat=svg2.append("g");			
 		lineGraphsat = pfri.append("path")
 						   .attr("d", lineFunctionsat(dsat))
 						   .attr("stroke", "yellowgreen")
 						   .attr("stroke-width", 2) 
 						   .attr("fill", "none");
-		var psun=svg.append("g");			
+		var psun=svg2.append("g");			
 		lineGraphsun = pfri.append("path")
 						   .attr("d", lineFunctionsun(dsun))
 						   .attr("stroke", "grey")
@@ -326,13 +331,13 @@ function View1b(Observer){
 		
 		linearfri = d3.scale.linear()
 				   .domain([0, frimax])
-				   .range([166+505,6+505]);
+				   .range([166,6]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([333+505,173+505]);
+				   .range([333,173]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([500+505,340+505]);			
+				   .range([500,340]);			
 		
 		
 		lineGraphfri.transition()
@@ -345,7 +350,8 @@ function View1b(Observer){
 		lineGraphsun.transition()
 					  .duration(1000)
 					  .attr("d", lineFunctionsun(dsun));						   
-		Observer.fireEvent("chooseSpot", destable[locnum], "view1b");			  
+		Observer.fireEvent("chooseSpot", destable[locnum], "view1b");
+		document.getElementById("view1b2").style.display = "block";
 	}
 	
 	

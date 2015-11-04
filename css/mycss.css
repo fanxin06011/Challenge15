@@ -36,7 +36,7 @@ div#view1a {
 	height:600px;
 	width:550px;
 	overflow-x:hidden;
-	overflow-y:auto;
+	overflow-y:hidden;
 	float:left;
 	
 }		
@@ -45,11 +45,23 @@ div#view1b {
 	height:600px;
 	width:550px;
 	overflow-x:hidden;
-	overflow-y:auto;
+	overflow-y:hidden;
 	float:left;
 	
 }
-
+div#view1b2 {
+	
+	height:540px;
+	width:550px;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	background-color: white;
+	//float:left;
+	left: 560px;
+	border-style: groove;
+	position:absolute ;
+	z-index:9999;
+}
 
 .view1asvg,.view1bsvg {
 	background-image:url(../image/1.jpg);
