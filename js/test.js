@@ -7,7 +7,7 @@ function View3(Observer){
 	function init(){
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
 		width = 1000 - margin.left - margin.right;
-		height = 800 - margin.top - margin.bottom;
+		height = 500 - margin.top - margin.bottom;
 
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};
