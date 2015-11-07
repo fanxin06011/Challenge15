@@ -41,6 +41,9 @@ function View3(Observer){
 			}
 		}
 	}
+	
+	Observer.fireEvent("showPath",array,view);
+	
 	function onSelectPeople(){
 		return array;
 	}
