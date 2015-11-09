@@ -80,7 +80,9 @@ function View3(Observer){
 		if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
 		{
 			array.push(d.id);
+			
 		}
+		console.log(array);
 		Observer.fireEvent("showPath",array,view);
 		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
 	  
