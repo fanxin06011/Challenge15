@@ -69,7 +69,8 @@ function View3(Observer){
 	function brushstart() {
 	d3.event.sourceEvent.stopPropagation();
 	}
-
+	
+	var array=[];
 	// Handles a brush event, toggling the display of foreground lines.
 	function brush() {
 		var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
@@ -82,12 +83,17 @@ function View3(Observer){
 			array.push(d.id);
 			
 		}
-		console.log(array);
-		Observer.fireEvent("showPath",array,view);
+		
 		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
 	  
 		}) ? null : "none";
 		});
+	}
+	function brushend()
+	{
+		console.log("aaaaa");
+		console.log(array);
+		Observer.fireEvent("showPath",array,view);
 	}
 	function fri()
 {
@@ -164,7 +170,7 @@ d3.csv("data/dfFri.csv", function(error, wine) {
   g.append("g")
       .attr("class", "brush")
       .each(function(d) {
-        d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
+        d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush).on("brushend", brushend));
       })
     .selectAll("rect")
       .attr("x", -8)
