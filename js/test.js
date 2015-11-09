@@ -6,8 +6,8 @@ function View3(Observer){
 	init();
 	function init(){
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
-		width = 1000 - margin.left - margin.right;
-		height = 500 - margin.top - margin.bottom;
+		width = 500 - margin.left - margin.right;
+		height = 300 - margin.top - margin.bottom;
 
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};
@@ -42,7 +42,7 @@ function View3(Observer){
 		}
 	}
 	
-	Observer.fireEvent("showPath",array,view);
+	
 	
 	function onSelectPeople(){
 		return array;
@@ -81,6 +81,7 @@ function View3(Observer){
 		{
 			array.push(d.id);
 		}
+		Observer.fireEvent("showPath",array,view);
 		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
 	  
 		}) ? null : "none";
