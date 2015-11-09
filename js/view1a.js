@@ -382,6 +382,8 @@
 			console.log("view1a data: "+data);
 			idnum=data.length;
 			id=data;
+			sunloc=[];satloc=[];friloc=[];
+			xmlDocfri=[];xmlDocsat=[];xmlDocsun=[];
 			for(var i=0;i<idnum;i++){
 				sunloc.push({x:0,y:0});satloc.push({x:0,y:0});friloc.push({x:0,y:0});
 				xmlDocfri.push(0);xmlDocsat.push(0);xmlDocsun.push(0);
