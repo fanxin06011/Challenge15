@@ -80,7 +80,7 @@ function View3(Observer){
 		return actives.every(function(p, i) {
 		if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
 		{
-			array.push(d.id);
+			array.push(parseInt(d.id));
 			
 		}
 		
@@ -255,7 +255,7 @@ d3.csv("data/dfSat.csv", function(error, wine) {
   g.append("g")
       .attr("class", "brush")
       .each(function(d) {
-        d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
+        d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush).on("brushend", brushend));
       })
     .selectAll("rect")
       .attr("x", -8)
@@ -340,7 +340,7 @@ d3.csv("data/dfSun.csv", function(error, wine) {
   g.append("g")
       .attr("class", "brush")
       .each(function(d) {
-        d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
+        d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush).on("brushend", brushend));
       })
     .selectAll("rect")
       .attr("x", -8)
