@@ -58,9 +58,13 @@ div#view1b2 {
 	background-color: white;
 	//float:left;
 	left: 560px;
-	border-style: groove;
+	top: 280px;
+	//border-style: groove;
 	position:absolute ;
 	z-index:9999;
+	-webkit-box-shadow:1px 1px 3px #292929;
+    -moz-box-shadow:1px 1px 3px #292929;
+    box-shadow:1px 1px 3px #292929;
 }
 
 .view1asvg,.view1bsvg {

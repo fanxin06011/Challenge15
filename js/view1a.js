@@ -11,12 +11,12 @@
 	//var id=["577530","1204869"];
 	var id=[];
 	var idnum=0;
-	var sunloc=[];var satloc=[];var friloc=[];
-
+	var idnumlimit=150;
+	var loc=[[],[],[]];
 	var daynum=0;//0代表fri 1代表sat 2代表sun
 
 	var xmlHttp
-	var xmlDocfri=[];var xmlDocsat=[];var xmlDocsun=[];
+	var xmlDoc=[[],[],[]];
 		///////////////////////////////////////////////////
 	//人的点
 	
@@ -32,6 +32,9 @@
 	
 	
 	document.getElementById("view1choose").onclick=function(){//对每天每个id做一次查询
+		circles.data(id)
+				.exit()  
+				.remove();
 		for(var i=0;i<idnum;i++){
 			for(var j=0;j<3;j++){
 				showUser(id[i],i,j);
@@ -61,20 +64,9 @@
 		minuterelative=Math.floor((ttime-hourrelative*3600)/60);
 		if(minuterelative<10){minuterelative="0"+minuterelative;}
 		timetag.text(function(d,i){return (hourrelative)+":"+minuterelative;});
-		if(daynum==0){
+
 		for(var i=0;i<idnum;i++){
-			findtimefri(i,ttime);
-			}
-		}else if(daynum==1){
-			for(var i=0;i<idnum;i++){
-				findtimesat(i,ttime);
-			}
-		}else{
-			
-			for(var i=0;i<idnum;i++){
-				//console.log(idnum+" "+ttime);
-				findtimesun(i,ttime);
-			}
+			findtime(i,ttime);
 		}
 		if(ttime<=86400){
 		sto=setTimeout(function(){autop();},100);
@@ -98,12 +90,7 @@
 		 //xmlHttp.onreadystatechange=stateChanged
 		 xmlHttp.onreadystatechange=function(){
 			if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){
-				if(day==0){
-					xmlDocfri[i]=xmlHttp.responseXML;
-				}else if(day==1){
-					xmlDocsat[i]=xmlHttp.responseXML;
-				}else{xmlDocsun[i]=xmlHttp.responseXML;}
-				//xmlDoc[i]=xmlHttp.responseXML;
+				xmlDoc[day][i]=xmlHttp.responseXML;
 			}
 		 }
 		 xmlHttp.open("GET",url,false)
@@ -122,82 +109,37 @@
 	}
 	
 	////////////////////////////////////////////////////////////
-	function findtimesun(i,time){
+	
+	function findtime(i,time){
 		var k=0;
-		//console.log(id);
-		if(xmlDocsun[i].getElementsByTagName("time")[0].childNodes[0].nodeValue>=time){
-			sunloc[i].x=0;
-			sunloc[i].y=0;
-		}
-		else{
-			while(xmlDocsun[i].getElementsByTagName("time")[k+1].childNodes[0].nodeValue<time){k=k+1;}
-			sunloc[i].x=xmlDocsun[i].getElementsByTagName("x")[k].childNodes[0].nodeValue;
-			sunloc[i].y=xmlDocsun[i].getElementsByTagName("y")[k].childNodes[0].nodeValue;
-		}
-		if(i==idnum-1){
-			circles.data(id)  
-				   .transition()
-				   .duration(0) 
-				   .attr("cx",function(d,i){
-					    console.log(sunloc[i].x*5);
-						return sunloc[i].x*5;
-						
-					})
-					.attr("cy",function(d,i){
-						console.log(500-5*sunloc[i].y);
-						return 500-5*sunloc[i].y;
-					});
-		}
-	}
-	function findtimesat(i,time){
-		var k=0;
-		if(xmlDocsat[i].getElementsByTagName("time")[0].childNodes[0].nodeValue>=time){
-			satloc[i].x=0;
-			satloc[i].y=0;
-		}
-		else{
-			while(xmlDocsat[i].getElementsByTagName("time")[k+1].childNodes[0].nodeValue<time){k=k+1;}
-			satloc[i].x=xmlDocsat[i].getElementsByTagName("x")[k].childNodes[0].nodeValue;
-			satloc[i].y=xmlDocsat[i].getElementsByTagName("y")[k].childNodes[0].nodeValue;
-		}
-		if(i==idnum-1){
-			circles.data(id)  
-				   .transition()
-				   .duration(0) 
-				   .attr("cx",function(d,i){
-						return satloc[i].x*5;							
-					})
-					.attr("cy",function(d,i){
-						return 500-5*satloc[i].y;
-					});
-		}
-	}
-	function findtimefri(i,time){
-		var k=0;
-		if(xmlDocfri[i].getElementsByTagName("time")[0].childNodes[0].nodeValue>=time){
-			friloc[i].x=0;
-			friloc[i].y=0;
-			flag=1;
+		var limit=xmlDoc[daynum][i].getElementsByTagName("time").length;
+		if(xmlDoc[daynum][i].getElementsByTagName("time")[0].childNodes[0].nodeValue>=time){
+			loc[daynum][i].x=0;
+			loc[daynum][i].y=0;
 		}else{
-			while(xmlDocfri[i].getElementsByTagName("time")[k+1].childNodes[0].nodeValue<time){k=k+1;}
-			friloc[i].x=xmlDocfri[i].getElementsByTagName("x")[k].childNodes[0].nodeValue;
-			friloc[i].y=xmlDocfri[i].getElementsByTagName("y")[k].childNodes[0].nodeValue;
-			flag=1;
+			for(;(k+1)<limit;k++){
+				if(xmlDoc[daynum][i].getElementsByTagName("time")[k+1].childNodes[0].nodeValue>time){break;}
+			}
+			if(k==(limit-1)){
+				loc[daynum][i].x=0;loc[daynum][i].y=0;
+			}
+			else{
+				loc[daynum][i].x=xmlDoc[daynum][i].getElementsByTagName("x")[k].childNodes[0].nodeValue;
+				loc[daynum][i].y=xmlDoc[daynum][i].getElementsByTagName("y")[k].childNodes[0].nodeValue;
+			}
 		}
 		if(i==idnum-1){
 			circles.data(id)  
 				   .transition()
 				   .duration(0) 
 				   .attr("cx",function(d,i){
-						return friloc[i].x*5;							
+						return loc[daynum][i].x*5;							
 					})
 					.attr("cy",function(d,i){
-						return 500-5*friloc[i].y;
+						return 500-5*loc[daynum][i].y;
 					});
 		}
 	}
-
-
 
 	///////////////////////////////////////////////////////
 	//鼠标放在点上，显示id
@@ -346,21 +288,9 @@
 		minuterelative=Math.floor((ddx-hourrelative*3600)/60);
 		if(minuterelative<10){minuterelative="0"+minuterelative;}
 		timetag.text(function(d,i){return (hourrelative)+":"+minuterelative;});
-		//console.log(daynum);
-		if(daynum==0){
-			for(var i=0;i<idnum;i++){
-				findtimefri(i,ttime);
-			}
-		}else if(daynum==1){
-			for(var i=0;i<idnum;i++){
-				findtimesat(i,ttime);
-			}
-		}else{
-			
-			for(var i=0;i<idnum;i++){
-				//console.log(idnum+" "+ttime);
-				findtimesun(i,ttime);
-			}
+
+		for(var i=0;i<idnum;i++){
+				findtime(i,ttime);
 		}
 
 	}
@@ -370,36 +300,122 @@
 	
 	function View1a(Observer){
 		var view1a={};
-	
+		
 		view1a.onMessage = function(message, data, from){
+			console.log(message);
 			if(message == "showPath"){
-				if(from != "view1a"){
+				console.log(data);
+				if(from != view1a){
 					onSelectPeople(data);
 				}
 			}
+			if(message == "highlightstart"){
+				console.log(data);
+				if(from != view1a){
+					var tmpi=0;
+					circles.transition()
+							.duration(1)
+							.attr("fill",function(d,i){
+								if(d==data){tmpi=i;return "yellow";}
+								else{return "red";}
+							});
+					loctmp=[];
+					var len=xmlDoc[daynum][tmpi].getElementsByTagName("x").length;
+					for(var m=0;m<len;m++){
+						var xx=xmlDoc[daynum][tmpi].getElementsByTagName("x")[m].childNodes[0].nodeValue;
+						var yy=xmlDoc[daynum][tmpi].getElementsByTagName("y")[m].childNodes[0].nodeValue;
+						loctmp.push({"x":xx,"y":yy});
+					}
+					//console.log(loctmp);
+					lineGraph.transition()
+							.duration(0)
+							.attr("d", lineFunction(loctmp));
+				}
+			}
+			if(message == "highlightend"){
+				console.log(data);
+				if(from != view1a){
+					var tmpi=0;
+					circles.transition()
+							.duration(1)
+							.attr("fill","red");
+					loctmp=[{x:0,y:0}];
+					lineGraph.transition()
+							.duration(0)
+							.attr("d", lineFunction(loctmp));
+				}
+			}
 		}
+		var loctmp=[{x:0,y:0}];
+		var lineFunction = d3.svg.line()
+									 .x(function(d) { return d.x*5; })
+									 .y(function(d) { return 500-5*d.y; })
+									 .interpolate("linear");
+		var lineGraph= svg.append("g")
+						   .append("path")
+						   .attr("d", lineFunction(loctmp))
+						   .attr("stroke", "blue")
+						   .attr("stroke-width", 2) 
+						   .attr("fill", "none");
+		
+		
 		function onSelectPeople(data){
 			console.log("view1a data: "+data);
 			idnum=data.length;
+			if(idnum>idnumlimit){idnum=idnumlimit;}
 			id=data;
 			sunloc=[];satloc=[];friloc=[];
-			xmlDocfri=[];xmlDocsat=[];xmlDocsun=[];
+			xmlDoc=[[],[],[]];
 			for(var i=0;i<idnum;i++){
-				sunloc.push({x:0,y:0});satloc.push({x:0,y:0});friloc.push({x:0,y:0});
-				xmlDocfri.push(0);xmlDocsat.push(0);xmlDocsun.push(0);
+				loc[0].push({x:0,y:0});loc[1].push({x:0,y:0});loc[2].push({x:0,y:0});
+				xmlDoc[0].push(0);xmlDoc[1].push(0);xmlDoc[2].push(0);
 			}
+			circles = circles.data([]).exit().remove();
 			circles = circles.data(id)  
 						.enter()  
 						.append("circle")  
 						.attr("r",3)  
-						.style("fill","red")  
+						.attr("fill","red")  
 						.attr("cx",0)
-						.attr("cy",500);
+						.attr("cy",500)
+						.on("mouseover",function(d,i){
+							
+							loctmp=[];
+							var len=xmlDoc[daynum][i].getElementsByTagName("x").length;
+							for(var m=0;m<len;m++){
+								var xx=xmlDoc[daynum][i].getElementsByTagName("x")[m].childNodes[0].nodeValue;
+								var yy=xmlDoc[daynum][i].getElementsByTagName("y")[m].childNodes[0].nodeValue;
+								loctmp.push({"x":xx,"y":yy});
+							}
+							//console.log(loctmp);
+							lineGraph.transition()
+									.duration(0)
+									.attr("d", lineFunction(loctmp));
+											   
+							Observer.fireEvent("highlightstart", d, view1a);
+							d3.select(this).attr("fill","yellow")
+						})
+						.on("mouseout",function(d,i){
+							loctmp=[{x:0,y:0}];
+							lineGraph.transition()
+									.duration(0)
+									.attr("d", lineFunction(loctmp));
+							d3.select(this).attr("fill", "red");
+							Observer.fireEvent("highlightend", d, view1a);
+						});
+			circlelag=circles.append("title")
+				.text(function(d,i){
+					return d;
+				});
 		}
-
+		Observer.addView(view1a);
 		return view1a;
 		
+		
+		
+		
 	}
+	
 	window["View1a"] = View1a;
 }
 )()

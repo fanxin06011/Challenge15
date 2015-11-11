@@ -445,7 +445,7 @@ function View1b(Observer){
 
 
 		view1b.onMessage = function(message, data, from){}
-
+		Observer.addView(view1b);
 		return view1b;
 	}
 	window["View1b"] = View1b;
