@@ -48,12 +48,12 @@ function View4(Observer){
 		  $("fieldset#list p:last").mouseover(function(){
 			  $(this).css("background-color","yellow");
 			  //console.log($(this).attr("id"));
-			  Observer.fireEvent("highlightstart", $(this).attr("id"), view4);
+			  Observer.fireEvent("highlightstart", [$(this).attr("id")], view4);
 		  });
 		  $("fieldset#list p:last").mouseout(function(){
 			  $(this).css("background-color","white");
 			  //console.log($(this).attr("id"));
-			  Observer.fireEvent("highlightend", $(this).attr("id"), view4);
+			  Observer.fireEvent("highlightend", [$(this).attr("id")], view4);
 		  });
 	  }
 	});

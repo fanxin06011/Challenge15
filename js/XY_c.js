@@ -17,31 +17,35 @@ function View2(Observer){
 	}
 
 	view.onMessage = function(message, data, from){
-		console.log("view2");
-		console.log(message);
+		//console.log("view2---"+message);
 		if(message == "showPath"){
 			data = selectedId;
 		}
 		else if(message == "chooseSpot"){
 			XY = data[0] * 100 + data[1];
-			console.log(XY);
+			console.log("view2---"+"chooseSpot"+XY);
 			document.getElementById("numPlaceX").selected = "selected";
 			document.getElementById("stayPlaceY").selected = "selected";
 			choose();
 		}
 		else if(message == "highlightstart"){
 			highLightId = data;
+			console.log("view2---"+"highlightstart!");
+			console.log(highLightId);
 			//highLightId=[103006, 313073, 439584, 657863, 1283386, 1412235, 1763672, 1781128, 1937834, 2049974];
-			d3.selectAll(".circleId").style("fill",colorList[0]);
 			highLightId.forEach(function(id,i){
 				var idClass=".id"+id;
 				//console.log(idClass);
 				d3.selectAll(idClass)
+					.attr("r",4)
 					.style("fill",colorList[1]);
 			})			
 		}
 		else if(message == "highlightend"){
-			d3.selectAll(".circleId").style("fill",colorList[0]);
+			console.log("view2---"+"highlightend!");
+			d3.selectAll(".circleId")
+				.attr("r",1.5)
+				.style("fill",colorList[0]);
 		}
 		else{
 		}
@@ -100,7 +104,7 @@ function View2(Observer){
 	draw("data/dfSun.csv");
 
 	function choose(){
-		console.log("000");
+		console.log("view2---"+"000");
 		//alert(document.getElementById("xAxisChoose").value);
 		selectedX = document.getElementById("xAxisChoose").value;
 		//alert(selectedX);
@@ -199,14 +203,17 @@ function View2(Observer){
 				.attr("class",function(d) {var id = +d[p.id];id="id"+id;return "circleId "+id; })
 				.attr("cx", function(d) {return x(d[p.x]); })
 				.attr("cy", function(d) {return y(d[p.y]); })
-				.attr("r", 2.5)
+				.attr("r", 1.5)
 				.style("fill", function(d) { return colorList[colorI]; });
 		}
 
 		var brushCell;
-
+		var selectedId = [];
+		
 		// Clear the previously-active brush, if any.
 		function brushstart(p) {
+			Observer.fireEvent("highlightend", selectedId, view);
+			selectedId=[];
 			if (brushCell !== this) {
 			d3.select(brushCell).call(brush.clear());
 			x.domain(domainByTrait[p.x]);
@@ -218,18 +225,18 @@ function View2(Observer){
 		// Highlight the selected circles.
 		function brushmove(p) {
 			var e = brush.extent();
-			svg.selectAll("circle").classed("hidden", function(d) {
+			/*svg.selectAll("circle").classed("hidden", function(d) {
 				return e[0][0] > d[p.x] || d[p.x] > e[1][0] || e[0][1] > d[p.y] || d[p.y] > e[1][1];
-			});
+			});*/
 		}
 
 		// If the brush is empty, select all circles.
 		function brushend(p) {
-			selectedId = [];
-			if (brush.empty()) svg.selectAll(".hidden").classed("hidden", false);
+			
+			if (brush.empty()) ;//svg.selectAll(".hidden").classed("hidden", false);
 			else {
 			var e = brush.extent();
-			console.log(e);
+			//console.log(e);
 			for(i=-1;++i<data.length;)
 			{
 				//console.log(data[i][selectedX]);
@@ -238,7 +245,9 @@ function View2(Observer){
 					selectedId.push(parseInt(data[i]["id"]));
 				}
 			}
+			console.log("view2---");
 			console.log(selectedId);//被选中的id列表
+			
 			Observer.fireEvent("highlightstart", selectedId, view);
 				
 			Observer.fireEvent("showPath", selectedId, view);////////////////////////////////
