@@ -6,7 +6,8 @@ function View2(Observer){
 	var selectedId = [];///////输出id的接口	
 	var selectedX = "num";
 	var selectedY = "stay";	
-
+	var colorList=["#fdae6b","#d62728"];
+	
 	document.getElementById("xAxisChoose").onchange=function(){
 		choose();
 		//alert("haha");
@@ -27,6 +28,20 @@ function View2(Observer){
 			document.getElementById("numPlaceX").selected = "selected";
 			document.getElementById("stayPlaceY").selected = "selected";
 			choose();
+		}
+		else if(message == "highlightstart"){
+			highLightId = data;
+			//highLightId=[103006, 313073, 439584, 657863, 1283386, 1412235, 1763672, 1781128, 1937834, 2049974];
+			d3.selectAll(".circleId").style("fill",colorList[0]);
+			highLightId.forEach(function(id,i){
+				var idClass=".id"+id;
+				//console.log(idClass);
+				d3.selectAll(idClass)
+					.style("fill",colorList[1]);
+			})			
+		}
+		else if(message == "highlightend"){
+			d3.selectAll(".circleId").style("fill",colorList[0]);
 		}
 		else{
 		}
@@ -51,7 +66,7 @@ function View2(Observer){
 		.orient("left")
 		.ticks(5);
 		
-	var color = d3.scale.category10();
+	//var color = d3.scale.category10();
 	var svgFri = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgFri")
@@ -109,8 +124,8 @@ function View2(Observer){
 	var svg;
 	var colorI,day;
 	if(fileName=="data/dfFri.csv"){svg = svgFri; colorI=0; day = "Friday";}
-	else if(fileName=="data/dfSat.csv"){svg = svgSat; colorI=1; day = "Saturday";}
-	else {svg = svgSun; colorI=2; day = "Sunday";}
+	else if(fileName=="data/dfSat.csv"){svg = svgSat; colorI=0; day = "Saturday";}
+	else {svg = svgSun; colorI=0; day = "Sunday";}
 	d3.csv(fileName, function(error, data) {
 		if (error) throw error;
 
@@ -157,7 +172,7 @@ function View2(Observer){
 			.each(function(d) { y.domain(domainByTrait[d]); d3.select(this).call(yAxis); });
 
 		var cell = svg.selectAll(".cell")
-			.data(cross(traitsX, traitsY))
+			.data(cross(traitsX, traitsY,"id"))
 			.enter().append("g")
 			.attr("class", "cell")
 			//.attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
@@ -178,14 +193,14 @@ function View2(Observer){
 				.attr("width", size - padding)
 				.attr("height", size - padding);
 			//描点d[p.x]--该点x属性值
-			cell.selectAll("circle")
+			cell.selectAll("circleId")
 				.data(data)
 				.enter().append("circle")
-				.attr("class","circle")
-				.attr("cx", function(d) { return x(d[p.x]); })
-				.attr("cy", function(d) { return y(d[p.y]); })
+				.attr("class",function(d) {var id = +d[p.id];id="id"+id;return "circleId "+id; })
+				.attr("cx", function(d) {return x(d[p.x]); })
+				.attr("cy", function(d) {return y(d[p.y]); })
 				.attr("r", 2.5)
-				.style("fill", function(d) { return color(colorI); });
+				.style("fill", function(d) { return colorList[colorI]; });
 		}
 
 		var brushCell;
@@ -224,13 +239,19 @@ function View2(Observer){
 				}
 			}
 			console.log(selectedId);//被选中的id列表
+			Observer.fireEvent("highlightstart", selectedId, view);
+				
 			Observer.fireEvent("showPath", selectedId, view);////////////////////////////////
 			}
 		}
+		
 
-		function cross(a, b) {
-			var c = [], n = a.length, m = b.length, i, j;
-			for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+
+		function cross(a, b, id) {
+			//var c = [], n = a.length, m = b.length, i, j;
+			//for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+			var c = [];
+			c.push({x:a[0],y:b[0],id:id});
 			return c;
 		}
 
