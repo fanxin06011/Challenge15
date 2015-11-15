@@ -9,6 +9,11 @@
 	<link rel="stylesheet" type="text/css" href="css/View3.css">
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="jslib/jquery-1.11.3.min.js"></script>
+	<script src="jslib/underscore-min.js"></script>
+	<script src="jslib/Blob.js"></script>
+    <script src="jslib/FileSaver.js"></script>
+	<script type="text/javascript" src="js/importfile.js"></script>
+
 	<script type="text/javascript" src="js/b4.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -74,12 +79,31 @@
 		<input type="button"  value="Sat" id="satnum">
 		<input type="button"  value="Sun" id="sunnum">
 	</div>
+	<div id="view4" >
+	<form>
+	  <fieldset id="list">
+	  <div id="listbtn">
+		<button type="button" id="add">add</button>
+		<button type="button" id="clear">clear</button>
+		<button type="button" id="submit">submit</button><br/>
+		<button type="button" id="save">save</button>
+		<a href="javascript:;" class="filea">
+			<input type="file" id="file" onchange="handleFiles(this.files)" ls="" >import</input>
+		</a>
+		</div>
+		<legend>idlist</legend>
+	  </fieldset>
+	</form>
+	<iframe src="" width="0" height="0" id="imgFrame" name="imgFrame"></iframe>
+
+	</div>
 </div>
 
 <script type="text/javascript" src="js/view1a.js"></script>
 <script type="text/javascript" src="js/view1b.js"></script>
 <script type="text/javascript" src="js/observer.js"></script>
 <script type="text/javascript" src="js/test.js"></script>
+<script type="text/javascript" src="js/view4.js"></script>
 <script type="text/javascript" src="js/XY_c.js"></script>
 <script type="text/javascript" src="main.js"></script>
 
