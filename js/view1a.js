@@ -302,7 +302,7 @@
 		var view1a={};
 		var tmpi=[];
 		view1a.onMessage = function(message, data, from){
-			console.log(message);
+			console.log(message+"  "+data);
 			if(message == "showPath"){
 				console.log(data);
 				if(from != view1a){
@@ -316,7 +316,12 @@
 					circles.transition()
 							.duration(1)
 							.attr("fill",function(d,i){
-								if(_.indexOf(data, d)!=-1){tmpi.push(i);return "yellow";}
+								if(_.indexOf(data, d)>=0){
+									console.log("exist "+d);
+									tmpi.push(i);
+									return "yellow";
+								
+								}
 								else{return "red";}
 							});
 					

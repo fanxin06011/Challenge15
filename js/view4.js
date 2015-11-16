@@ -38,12 +38,18 @@ function View4(Observer){
 	function add(){
 		
 	  if($("input#file").attr("flag")=="1"){
-		  idlist=$("input#file").attr("ls").split(",");
+		  var aaa=[];
+		  idlist=[];
+		  aaa=$("input#file").attr("ls").split(",");
+		  for(var i=0;i<aaa.length;i++){
+			  idlist.push(+aaa[i]);
+		  }
 		  idlisttmp=[];
-		  
+		  console.log(idlist);
 		  //idlisttmp=$("input#file").attr("ls").split(",");
 		  $("input#file").attr("flag","0");
 		  //console.log($("input#file").attr("flag"));
+		  
 	  }else{
 		  idlist=_.union(idlist,idlisttmp);
 	  }
@@ -53,7 +59,7 @@ function View4(Observer){
 	  $("fieldset#list").children("p").remove();
 	  for(var i=0;i<idlist.length;i++){
 		  $("fieldset#list").append("<p>"+idlist[i]+"</p>");
-		  $("fieldset#list p:last").attr("id",idlist[i]);
+		  $("fieldset#list p:last").attr("id",+idlist[i]);
 		  $("fieldset#list p:last").addClass("idlistp");
 		  $("fieldset#list p:last").append('<button type="button" class="deleteid">delete</button>');
 		  $(".deleteid:last").click(function(){

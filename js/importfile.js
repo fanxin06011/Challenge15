@@ -12,7 +12,7 @@ function  handleFiles(files)
 		   $("input#file").attr("flag","1");
 		   $("button#add").click();
        };
-       reader.readAsText(file);
 	   
+       reader.readAsText(file);
     }
   }
