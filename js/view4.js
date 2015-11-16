@@ -63,7 +63,7 @@ function View4(Observer){
 		  $("fieldset#list p:last").addClass("idlistp");
 		  $("fieldset#list p:last").append('<button type="button" class="deleteid">delete</button>');
 		  $(".deleteid:last").click(function(){
-				
+				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], view4);
 				$(this).parent("p").remove();
 			});
 		  $("fieldset#list p:last").mouseover(function(){
@@ -82,6 +82,7 @@ function View4(Observer){
 	
 	
 	$("button#clear").click(function(){
+
 	  idlist=[];
 	  $("fieldset#list").children("p").remove();
 	});
