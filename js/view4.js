@@ -11,29 +11,44 @@ function View4(Observer){
 					//changelist(data);
 					idlisttmp=data;
 					$("input#file").attr("flag","0");
+					//$("button#add").click();
 				}
 			}
 			if(message == "highlightstart"){
 				if(from != view4){
 					console.log("view4 highlightstart "+data);
-					$("fieldset#list p").filter("#"+data).css("background-color","yellow");
+					for(var i=0;i<data.length;i++){
+						$("fieldset#list p").filter("#"+data[i]).css("background-color","yellow");
+					}
+					
 				}
 			}
 			if(message == "highlightend"){
 				if(from != view4){
 					console.log("view4 highlightend "+data);
-					$("fieldset#list p").filter("#"+data).css("background-color","white");
+					for(var i=0;i<data.length;i++){
+						$("fieldset#list p").filter("#"+data[i]).css("background-color","white");
+					}
 				}
 			}
 	}
+
+	$("button#add").click(add);
 	
-	$("button#add").click(function(){
+	function add(){
+		
 	  if($("input#file").attr("flag")=="1"){
 		  idlist=$("input#file").attr("ls").split(",");
 		  idlisttmp=[];
+		  
+		  //idlisttmp=$("input#file").attr("ls").split(",");
 		  $("input#file").attr("flag","0");
+		  //console.log($("input#file").attr("flag"));
+	  }else{
+		  idlist=_.union(idlist,idlisttmp);
 	  }
-	  else{idlist=_.union(idlist,idlisttmp);}
+	  
+	  
 	  
 	  $("fieldset#list").children("p").remove();
 	  for(var i=0;i<idlist.length;i++){
@@ -48,15 +63,17 @@ function View4(Observer){
 		  $("fieldset#list p:last").mouseover(function(){
 			  $(this).css("background-color","yellow");
 			  //console.log($(this).attr("id"));
-			  Observer.fireEvent("highlightstart", $(this).attr("id"), view4);
+			  Observer.fireEvent("highlightstart", [+$(this).attr("id")], view4);
 		  });
 		  $("fieldset#list p:last").mouseout(function(){
 			  $(this).css("background-color","white");
 			  //console.log($(this).attr("id"));
-			  Observer.fireEvent("highlightend", $(this).attr("id"), view4);
+			  Observer.fireEvent("highlightend", [+$(this).attr("id")], view4);
 		  });
 	  }
-	});
+	}
+	
+	
 	
 	$("button#clear").click(function(){
 	  idlist=[];

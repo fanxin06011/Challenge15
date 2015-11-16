@@ -300,7 +300,7 @@
 	
 	function View1a(Observer){
 		var view1a={};
-		
+		var tmpi=[];
 		view1a.onMessage = function(message, data, from){
 			console.log(message);
 			if(message == "showPath"){
@@ -312,52 +312,76 @@
 			if(message == "highlightstart"){
 				console.log(data);
 				if(from != view1a){
-					var tmpi=0;
+					tmpi=[];
 					circles.transition()
 							.duration(1)
 							.attr("fill",function(d,i){
-								if(d==data){tmpi=i;return "yellow";}
+								if(_.indexOf(data, d)!=-1){tmpi.push(i);return "yellow";}
 								else{return "red";}
 							});
-					loctmp=[];
-					var len=xmlDoc[daynum][tmpi].getElementsByTagName("x").length;
-					for(var m=0;m<len;m++){
-						var xx=xmlDoc[daynum][tmpi].getElementsByTagName("x")[m].childNodes[0].nodeValue;
-						var yy=xmlDoc[daynum][tmpi].getElementsByTagName("y")[m].childNodes[0].nodeValue;
-						loctmp.push({"x":xx,"y":yy});
+					
+					for(var k=0;k<tmpi.length;k++){
+						loctmp[k]=[];
+						var len=xmlDoc[daynum][tmpi[k]].getElementsByTagName("x").length;
+						for(var m=0;m<len;m++){
+							var xx=xmlDoc[daynum][tmpi[k]].getElementsByTagName("x")[m].childNodes[0].nodeValue;
+							var yy=xmlDoc[daynum][tmpi[k]].getElementsByTagName("y")[m].childNodes[0].nodeValue;
+							loctmp[k].push({"x":xx,"y":yy});
+						}
+						//var lineGraphtmp= 
+						lineGraph[k]=svg.append("g")
+							   .append("path")
+							   .attr("d", lineFunction(loctmp[k]))
+							   .attr("stroke", "blue")
+							   .attr("stroke-width", 2) 
+							   .attr("fill", "none");
 					}
+					
+					
+					/*
 					//console.log(loctmp);
 					lineGraph.transition()
 							.duration(0)
 							.attr("d", lineFunction(loctmp));
+							*/
 				}
 			}
 			if(message == "highlightend"){
 				console.log(data);
+				
 				if(from != view1a){
-					var tmpi=0;
 					circles.transition()
 							.duration(1)
 							.attr("fill","red");
-					loctmp=[{x:0,y:0}];
-					lineGraph.transition()
-							.duration(0)
-							.attr("d", lineFunction(loctmp));
+					for(var i=0;i<tmpi.length;i++){
+						loctmp[i]=[{x:0,y:0}];
+						lineGraph[i].transition()
+								.duration(0)
+								.attr("d", lineFunction(loctmp[i]));
+					}
+					
+					tmpi=[];
 				}
 			}
 		}
-		var loctmp=[{x:0,y:0}];
+		var loctmp=[];
+		for(var i=0;i<idnumlimit;i++){
+			loctmp.push([{x:0,y:0}]);
+		}
+		
 		var lineFunction = d3.svg.line()
 									 .x(function(d) { return d.x*5; })
 									 .y(function(d) { return 500-5*d.y; })
-									 .interpolate("linear");
+									 .interpolate("basis");
+									 /*
 		var lineGraph= svg.append("g")
 						   .append("path")
 						   .attr("d", lineFunction(loctmp))
 						   .attr("stroke", "blue")
 						   .attr("stroke-width", 2) 
 						   .attr("fill", "none");
-		
+		*/
+		var lineGraph=_.range(idnumlimit);
 		
 		function onSelectPeople(data){
 			console.log("view1a data: "+data);
@@ -380,28 +404,38 @@
 						.attr("cy",500)
 						.on("mouseover",function(d,i){
 							
-							loctmp=[];
+							loctmp[0]=[];
 							var len=xmlDoc[daynum][i].getElementsByTagName("x").length;
 							for(var m=0;m<len;m++){
 								var xx=xmlDoc[daynum][i].getElementsByTagName("x")[m].childNodes[0].nodeValue;
 								var yy=xmlDoc[daynum][i].getElementsByTagName("y")[m].childNodes[0].nodeValue;
-								loctmp.push({"x":xx,"y":yy});
+								loctmp[0].push({"x":xx,"y":yy});
 							}
 							//console.log(loctmp);
+							
+							
+							var lineGraphtmp= svg.append("g")
+							   .append("path")
+							   .attr("d", lineFunction(loctmp[0]))
+							   .attr("stroke", "blue")
+							   .attr("stroke-width", 2) 
+							   .attr("fill", "none");
+							lineGraph[0]=lineGraphtmp;
+							/*
 							lineGraph.transition()
 									.duration(0)
 									.attr("d", lineFunction(loctmp));
-											   
-							Observer.fireEvent("highlightstart", d, view1a);
+											   */
+							Observer.fireEvent("highlightstart", [d], view1a);
 							d3.select(this).attr("fill","yellow")
 						})
 						.on("mouseout",function(d,i){
-							loctmp=[{x:0,y:0}];
-							lineGraph.transition()
+							loctmp[0]=[{x:0,y:0}];
+							lineGraph[0].transition()
 									.duration(0)
-									.attr("d", lineFunction(loctmp));
+									.attr("d", lineFunction(loctmp[0]));
 							d3.select(this).attr("fill", "red");
-							Observer.fireEvent("highlightend", d, view1a);
+							Observer.fireEvent("highlightend", [d], view1a);
 						});
 			circlelag=circles.append("title")
 				.text(function(d,i){
