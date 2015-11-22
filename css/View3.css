@@ -6,14 +6,16 @@
 #View3 .background path {
   fill: none;
   stroke: #ddd;
-  stroke-width:1px;
+  
+  stroke-width:0.3px;
   shape-rendering: crispEdges;
 }
 
 #View3 .foreground path {
   fill: none;
   stroke: #7171C6;
-  stroke-width:1px;
+  stroke-opacity:0.2;
+  stroke-width:0.3px;
 }
 
 #View3 .brush .extent {
