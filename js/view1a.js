@@ -32,7 +32,7 @@
 						.attr("cx",0)
 						.attr("cy",500);
 	
-	
+	/*
 	document.getElementById("view1choose").onclick=function(){//对每天每个id做一次查询
 		circles.data(id)
 				.exit()  
@@ -44,6 +44,7 @@
 			}
 		}
 	};
+	*/
 	var sto;
 	var ttime=28800;
 	document.getElementById("view1autoplay").onclick=function(){
@@ -302,24 +303,44 @@
 	
 	function View1a(Observer){
 		var view1a={};
-		var tmpi=[];
+		var tmpi=[];//需要高亮的id的序号i
 		view1a.onMessage = function(message, data, from){
 			console.log(message+"  "+data);
 			if(message == "showPath"){
-				console.log(data);
-				if(from != view1a){
+				
+				if(from == "view4"){
+					console.log("view4 select");
 					onSelectPeople(data);
+					circles.data(id)
+							.exit()  
+							.remove();
+					for(var i=0;i<idnum;i++){
+						for(var j=0;j<3;j++){
+							showUser(id[i],i,j);
+							
+						}
+					}
 				}
 			}
 			if(message == "highlightstart"){
-				console.log(data);
-				if(from != view1a){
+				
+				if(from != "view1a"){
+					circles.transition()
+							.duration(1)
+							.attr("fill","red")
+							.attr("r",3);
+					for(var i=0;i<tmpi.length;i++){
+						loctmp[i]=[{x:0,y:0}];
+						lineGraph[i].transition()
+								.duration(0)
+								.attr("d", lineFunction(loctmp[i]));
+					}
 					tmpi=[];
 					circles.transition()
 							.duration(1)
 							.attr("fill",function(d,i){
 								if(_.indexOf(data, d)>=0){
-									console.log("exist "+d);
+									//console.log("exist "+d);
 									tmpi.push(i);
 									return "yellow";
 								
@@ -338,28 +359,15 @@
 							var yy=xmlDoc[daynum][tmpi[k]].getElementsByTagName("y")[m].childNodes[0].nodeValue;
 							loctmp[k].push({"x":xx,"y":yy});
 						}
-						//var lineGraphtmp= 
-						lineGraph[k]=svg.append("g")
-							   .append("path")
-							   .attr("d", lineFunction(loctmp[k]))
-							   .attr("stroke", "blue")
-							   .attr("stroke-width", 2) 
-							   .attr("fill", "none");
+						lineGraph[k].transition()
+								.duration(0)
+								.attr("d", lineFunction(loctmp[k]));
 					}
-					
-					
-					/*
-					//console.log(loctmp);
-					lineGraph.transition()
-							.duration(0)
-							.attr("d", lineFunction(loctmp));
-							*/
 				}
 			}
-			if(message == "highlightend"){
-				console.log(data);
-				
-				if(from != view1a){
+			if(message == "highlightend" || data==[]){
+
+				if(from != "view1a"){
 					circles.transition()
 							.duration(1)
 							.attr("fill","red")
@@ -375,25 +383,22 @@
 				}
 			}
 		}
-		var loctmp=[];
-		for(var i=0;i<idnumlimit;i++){
-			loctmp.push([{x:0,y:0}]);
-		}
+		
 		
 		var lineFunction = d3.svg.line()
 									 .x(function(d) { return d.x*5; })
 									 .y(function(d) { return 500-5*d.y; })
 									 .interpolate("basis");
-									 /*
-		var lineGraph= svg.append("g")
+		var lineGraph=_.range(idnumlimit);
+		var loctmp=_.range(idnumlimit);
+		for(var i=0;i<idnumlimit;i++){
+			lineGraph[i]=svg.append("g")
 						   .append("path")
-						   .attr("d", lineFunction(loctmp))
+						   .attr("d", lineFunction([{x:0,y:0}]))
 						   .attr("stroke", "blue")
 						   .attr("stroke-width", 2) 
 						   .attr("fill", "none");
-		*/
-		var lineGraph=_.range(idnumlimit);
-		
+		}
 		function onSelectPeople(data){
 			console.log("view1a data: "+data);
 			idnum=data.length;
@@ -422,31 +427,19 @@
 								var yy=xmlDoc[daynum][i].getElementsByTagName("y")[m].childNodes[0].nodeValue;
 								loctmp[0].push({"x":xx,"y":yy});
 							}
-							//console.log(loctmp);
-							
-							
-							var lineGraphtmp= svg.append("g")
-							   .append("path")
-							   .attr("d", lineFunction(loctmp[0]))
-							   .attr("stroke", "blue")
-							   .attr("stroke-width", 2) 
-							   .attr("fill", "none");
-							lineGraph[0]=lineGraphtmp;
-							/*
-							lineGraph.transition()
+							lineGraph[0].transition()
 									.duration(0)
-									.attr("d", lineFunction(loctmp));
-											   */
-							Observer.fireEvent("highlightstart", [d], view1a);
-							d3.select(this).attr("fill","yellow")
+									.attr("d", lineFunction(loctmp[0]));				   
+							Observer.fireEvent("highlightstart", [d], "view1a");
+							d3.select(this).attr("fill","yellow").attr("r",6);
 						})
 						.on("mouseout",function(d,i){
 							loctmp[0]=[{x:0,y:0}];
 							lineGraph[0].transition()
 									.duration(0)
 									.attr("d", lineFunction(loctmp[0]));
-							d3.select(this).attr("fill", "red");
-							Observer.fireEvent("highlightend", [d], view1a);
+							d3.select(this).attr("fill", "red").attr("r",3);
+							Observer.fireEvent("highlightend", [d], "view1a");
 						});
 			circlelag=circles.append("title")
 				.text(function(d,i){

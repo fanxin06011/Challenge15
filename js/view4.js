@@ -5,6 +5,7 @@ function View4(Observer){
 	var idlist=[];
 	//var idlist=[629048, 1486047, 1690685, 1797150] 
 	var idlisttmp=[];
+	var idhighlight=[];
 	view4.onMessage = function(message, data, from){
 			if(message == "showPath"){
 				if(from != view4){
@@ -69,6 +70,7 @@ function View4(Observer){
 				idlist=_.without(idlist,d);
 				console.log(idlist);
 			});
+			/*
 		  $("fieldset#list p:last").mouseover(function(){
 			  $(this).css("background-color","yellow");
 			  //console.log($(this).attr("id"));
@@ -79,6 +81,23 @@ function View4(Observer){
 			  //console.log($(this).attr("id"));
 			  Observer.fireEvent("highlightend", [+$(this).attr("id")], view4);
 		  });
+		  */
+		  
+		  $("fieldset#list p:last").click(function(){
+			  if($(this).css("background-color")=="rgb(255, 255, 0)"){
+				  $(this).css("background-color","white");
+				  idhighlight=_.without(idhighlight,parseInt($(this).attr("id")));
+				  //console.log("idhighlight  "+idhighlight);
+				  Observer.fireEvent("highlightstart", idhighlight, "view4");
+				  console.log("view4 highlight");
+			  }else{
+				  $(this).css("background-color","yellow");
+				  idhighlight.push(parseInt($(this).attr("id")));
+				  //console.log("idhighlight  "+idhighlight);
+				  Observer.fireEvent("highlightstart", idhighlight, "view4");
+				  console.log("view4 highlight");
+			  }
+		  });
 	  }
 	}
 	
@@ -88,9 +107,10 @@ function View4(Observer){
 
 	  idlist=[];
 	  $("fieldset#list").children("p").remove();
+	  Observer.fireEvent("highlightend", idhighlight, "view4");
 	});
 	$("button#submit").click(function(){
-	  Observer.fireEvent("showPath", idlist, view4);
+	  Observer.fireEvent("showPath", idlist, "view4");
 	});
 	
 	

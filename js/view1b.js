@@ -123,7 +123,7 @@ function View1b(Observer){
 		
 	var parseDate = d3.time.format("%H:%M").parse;
 	
-	var x = d3.time.scale().range([0,480]);
+	var x = d3.time.scale().range([0,width-20]);
 	var datax=[];
 	var datax1 = parseDate("8:00");
 	var datax2 = parseDate("23:59");
@@ -135,7 +135,7 @@ function View1b(Observer){
 				.attr("class","axisx")
 				.attr("transform", "translate(15,510)")
 				.call(xAxis);
-
+	
 	var data4=[0];
 	var rects2=svg.append("g")
 			.selectAll("rect")
@@ -161,8 +161,35 @@ function View1b(Observer){
 			.attr("x",12.5)
 			.attr("height", 520)
 			.attr("width", 2);					
-	var circlelag;
+			
+	var x2 = d3.time.scale().domain([8,24]).range([0,318]);
 	
+	var xAxisb1 = d3.svg.axis().scale(x2).orient("bottom");
+	var xAxisb2 = d3.svg.axis().scale(x2).orient("bottom");
+	var xAxisb3 = d3.svg.axis().scale(x2).orient("bottom");
+	svg2.append("g")
+				.attr("class","axisx")
+				.attr("transform", "translate(15,83)")
+				.call(xAxisb1);
+	svg2.append("g")
+				.attr("class","axisx")
+				.attr("transform", "translate(15,165)")
+				.call(xAxisb2);
+	svg2.append("g")
+				.attr("class","axisx")
+				.attr("transform", "translate(15,247)")
+				.call(xAxisb3);
+	var circlelag;
+	var view1b2=  svg2.append("g")
+					.selectAll("text")	
+					.data(["num in selected attraction time profile"])
+					.enter()
+					.append("text")
+					.attr("transform","translate(30,3)")
+					.attr("dy",10) 
+					.attr("dx",35)
+					.attr("font-size", "10px")								
+					.text(function(d,i){return d;}); 
 	var y2=svg.append("g");
 	var label=["steelblue","yellowgreen","grey"];
 	var labelRect = y2.append("g")
@@ -235,6 +262,14 @@ function View1b(Observer){
                             .attr("fill","red")  
                             .attr("cx",function(d,i){return destable[i][0]*5;})
 							.attr("cy",function(d,i){return 500-destable[i][1]*5;})
+							.on("mouseover",function(d,i){
+								Observer.fireEvent("spothighlightstart", [d], view1a);
+								d3.select(this).attr("fill","yellow").attr("r",6);
+							})
+							.on("mouseout",function(d,i){
+								d3.select(this).attr("fill", "red").attr("r",3);
+								Observer.fireEvent("spothighlightend", [d], view1a);
+							})
 							.on("dblclick",function(d,i){dblclick(i);});
 
 
