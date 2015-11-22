@@ -1,5 +1,6 @@
 function View2(Observer){
 	var view = {};
+	Observer.addView(view);
 	//var baseDiv = getElementById("View2");
 
 	var XY=67;///////////////景点的接口
