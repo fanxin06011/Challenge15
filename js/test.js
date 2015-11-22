@@ -5,6 +5,7 @@ function View3(Observer){
 	var svg1;
 	init();
 	function init(){
+		Observer.addView(view);
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
 		width = 600 - margin.left - margin.right;
 		height = 250 - margin.top - margin.bottom;
