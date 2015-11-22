@@ -69,20 +69,16 @@ function View4(Observer){
 		  $("fieldset#list p:last").mouseover(function(){
 			  $(this).css("background-color","yellow");
 			  //console.log($(this).attr("id"));
-<<<<<<< HEAD
-			  Observer.fireEvent("highlightstart", [$(this).attr("id")], view4);
-=======
+
 			  Observer.fireEvent("highlightstart", [+$(this).attr("id")], view4);
->>>>>>> a6231ad9a3087ec7defb6361fdbcf29561cd2ea4
+
 		  });
 		  $("fieldset#list p:last").mouseout(function(){
 			  $(this).css("background-color","white");
 			  //console.log($(this).attr("id"));
-<<<<<<< HEAD
-			  Observer.fireEvent("highlightend", [$(this).attr("id")], view4);
-=======
+
 			  Observer.fireEvent("highlightend", [+$(this).attr("id")], view4);
->>>>>>> a6231ad9a3087ec7defb6361fdbcf29561cd2ea4
+
 		  });
 	  }
 	}
