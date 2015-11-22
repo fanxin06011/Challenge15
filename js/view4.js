@@ -63,8 +63,11 @@ function View4(Observer){
 		  $("fieldset#list p:last").addClass("idlistp");
 		  $("fieldset#list p:last").append('<button type="button" class="deleteid">delete</button>');
 		  $(".deleteid:last").click(function(){
+				var d=parseInt($(this).parent("p").attr("id"));
 				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], view4);
 				$(this).parent("p").remove();
+				idlist=_.without(idlist,d);
+				console.log(idlist);
 			});
 		  $("fieldset#list p:last").mouseover(function(){
 			  $(this).css("background-color","yellow");
