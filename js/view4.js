@@ -11,54 +11,86 @@ function View4(Observer){
 					//changelist(data);
 					idlisttmp=data;
 					$("input#file").attr("flag","0");
+					//$("button#add").click();
 				}
 			}
 			if(message == "highlightstart"){
 				if(from != view4){
 					console.log("view4 highlightstart "+data);
-					$("fieldset#list p").filter("#"+data).css("background-color","yellow");
+					for(var i=0;i<data.length;i++){
+						$("fieldset#list p").filter("#"+data[i]).css("background-color","yellow");
+					}
+					
 				}
 			}
 			if(message == "highlightend"){
 				if(from != view4){
 					console.log("view4 highlightend "+data);
-					$("fieldset#list p").filter("#"+data).css("background-color","white");
+					for(var i=0;i<data.length;i++){
+						$("fieldset#list p").filter("#"+data[i]).css("background-color","white");
+					}
 				}
 			}
 	}
+
+	$("button#add").click(add);
 	
-	$("button#add").click(function(){
+	function add(){
+		
 	  if($("input#file").attr("flag")=="1"){
-		  idlist=$("input#file").attr("ls").split(",");
+		  var aaa=[];
+		  idlist=[];
+		  aaa=$("input#file").attr("ls").split(",");
+		  for(var i=0;i<aaa.length;i++){
+			  idlist.push(+aaa[i]);
+		  }
 		  idlisttmp=[];
+		  console.log(idlist);
+		  //idlisttmp=$("input#file").attr("ls").split(",");
 		  $("input#file").attr("flag","0");
+		  //console.log($("input#file").attr("flag"));
+		  
+	  }else{
+		  idlist=_.union(idlist,idlisttmp);
 	  }
-	  else{idlist=_.union(idlist,idlisttmp);}
+	  
+	  
 	  
 	  $("fieldset#list").children("p").remove();
 	  for(var i=0;i<idlist.length;i++){
 		  $("fieldset#list").append("<p>"+idlist[i]+"</p>");
-		  $("fieldset#list p:last").attr("id",idlist[i]);
+		  $("fieldset#list p:last").attr("id",+idlist[i]);
 		  $("fieldset#list p:last").addClass("idlistp");
 		  $("fieldset#list p:last").append('<button type="button" class="deleteid">delete</button>');
 		  $(".deleteid:last").click(function(){
-				
+				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], view4);
 				$(this).parent("p").remove();
 			});
 		  $("fieldset#list p:last").mouseover(function(){
 			  $(this).css("background-color","yellow");
 			  //console.log($(this).attr("id"));
+<<<<<<< HEAD
 			  Observer.fireEvent("highlightstart", [$(this).attr("id")], view4);
+=======
+			  Observer.fireEvent("highlightstart", [+$(this).attr("id")], view4);
+>>>>>>> a6231ad9a3087ec7defb6361fdbcf29561cd2ea4
 		  });
 		  $("fieldset#list p:last").mouseout(function(){
 			  $(this).css("background-color","white");
 			  //console.log($(this).attr("id"));
+<<<<<<< HEAD
 			  Observer.fireEvent("highlightend", [$(this).attr("id")], view4);
+=======
+			  Observer.fireEvent("highlightend", [+$(this).attr("id")], view4);
+>>>>>>> a6231ad9a3087ec7defb6361fdbcf29561cd2ea4
 		  });
 	  }
-	});
+	}
+	
+	
 	
 	$("button#clear").click(function(){
+
 	  idlist=[];
 	  $("fieldset#list").children("p").remove();
 	});

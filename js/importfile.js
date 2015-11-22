@@ -10,7 +10,9 @@ function  handleFiles(files)
            console.log(this.result) ;
 		   $("input#file").attr("ls",this.result);
 		   $("input#file").attr("flag","1");
+		   $("button#add").click();
        };
+	   
        reader.readAsText(file);
     }
   }
