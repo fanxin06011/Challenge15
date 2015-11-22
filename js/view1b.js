@@ -3,10 +3,9 @@ function View1b(Observer){
 	
 	var view1b={};
 	
-	
-	
-	var width = 3800;  
-	var height = 1200;  
+
+	var width=$("div#view1b").width(); 
+	var height=$("div#view1b").height();
 	var color = d3.scale.category20();  			  
 	var svg = d3.select("#view1b")
 				.append("svg")  

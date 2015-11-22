@@ -1,6 +1,8 @@
 (function(){
-	var width = 3700;  
-	var height = 600;  
+	//var width = 3700;  
+	var width=$("div#view1a").width();
+	//var height = 600;  
+	var height=$("div#view1a").height();
 	var color = d3.scale.category20();  			  
 	var svg = d3.select("#view1a")
 				.append("svg")  

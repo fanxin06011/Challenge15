@@ -34,7 +34,7 @@ div#viewbtnbtn {
 div#view1a {
 	
 	height:600px;
-	width:550px;
+	width:37%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	float:left;
@@ -43,7 +43,7 @@ div#view1a {
 div#view1b {
 	
 	height:600px;
-	width:550px;
+	width:37%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	float:left;
@@ -52,12 +52,12 @@ div#view1b {
 div#view1b2 {
 	
 	height:280px;
-	width:367px;
+	width:27%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	background-color: white;
 	//float:left;
-	left: 560px;
+	left: 38%;
 	top: 280px;
 	//border-style: groove;
 	position:absolute ;
@@ -69,10 +69,10 @@ div#view1b2 {
 div#view4 {
 	background-color: white;
 	position:absolute;
-	left: 520px;
+	left: 38%;
 	top: 280px;
 	height:200px;
-	width:160px;
+	width:12%;
 	overflow-x:hidden;
 	overflow-y:auto;
 	float:left;
