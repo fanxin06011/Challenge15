@@ -38,7 +38,7 @@ function View2(Observer){
 				//console.log(idClass);
 				d3.selectAll(idClass)
 					.attr("r",4)
-					.style("fill",colorList[1]
+					.style("fill",colorList[1])
 					.style("fill-opacity",1);
 			})			
 		}
