@@ -323,6 +323,9 @@
 								
 								}
 								else{return "red";}
+							})
+							.attr("r",function(d,i){
+								if(_.indexOf(data, d)>=0){return 6;}else{return 3;}
 							});
 					
 					for(var k=0;k<tmpi.length;k++){
@@ -357,7 +360,8 @@
 				if(from != view1a){
 					circles.transition()
 							.duration(1)
-							.attr("fill","red");
+							.attr("fill","red")
+							.attr("r",3);
 					for(var i=0;i<tmpi.length;i++){
 						loctmp[i]=[{x:0,y:0}];
 						lineGraph[i].transition()
