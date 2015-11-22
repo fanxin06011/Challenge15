@@ -1,4 +1,10 @@
 $(document).ready(function(){
+  $(function() {
+    $( "div#view1b2" ).draggable();
+  });
+  $(function() {
+    $( "div#view4" ).draggable();
+  });
   $("div#view1a").hide();
   $("div#view1b2").hide();
   $("button#view1change").click(function(){

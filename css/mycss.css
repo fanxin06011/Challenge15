@@ -34,7 +34,7 @@ div#viewbtnbtn {
 div#view1a {
 	
 	height:600px;
-	width:550px;
+	width:37%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	float:left;
@@ -43,7 +43,7 @@ div#view1a {
 div#view1b {
 	
 	height:600px;
-	width:550px;
+	width:37%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	float:left;
@@ -52,17 +52,65 @@ div#view1b {
 div#view1b2 {
 	
 	height:280px;
-	width:367px;
+	width:27%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	background-color: white;
 	//float:left;
-	left: 560px;
-	border-style: groove;
+	left: 38%;
+	top: 280px;
+	//border-style: groove;
 	position:absolute ;
 	z-index:9999;
+	-webkit-box-shadow:1px 1px 3px #292929;
+    -moz-box-shadow:1px 1px 3px #292929;
+    box-shadow:1px 1px 3px #292929;
 }
+div#view4 {
+	background-color: white;
+	position:absolute;
+	left: 38%;
+	top: 280px;
+	height:200px;
+	width:12%;
+	overflow-x:hidden;
+	overflow-y:auto;
+	float:left;
+	
+}
+.idlistp{
+	font-family:Verdana;
+	font-size:13px;
+	margin: 2%;
+}
+.filea {
+    position: relative;
+    display: inline-block;
+	background: #EEEFED;
 
+    border: 1px solid grey;
+    border-radius: 1px;
+    //padding: 4px 12px;
+	margin-top:5px;
+    overflow: hidden;
+    color: black;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 15px;
+}
+.filea input {
+    position: absolute;
+    font-size: 6px;
+	font-family: sans-serif;
+    right: 0;
+    top: 0px;
+    opacity: 0;
+}
+button.deleteid{
+	position:absolute;
+	background-color: #e8f4ff;
+	left:70%;
+}
 .view1asvg,.view1bsvg {
 	background-image:url(../image/1.jpg);
 	background-repeat:no-repeat;

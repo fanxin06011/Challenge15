@@ -9,8 +9,15 @@
 	<link rel="stylesheet" type="text/css" href="css/View3.css">
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="jslib/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="js/b4.js"></script>
+	<script src="jslib/underscore-min.js"></script>
+	<script src="jslib/Blob.js"></script>
+    <script src="jslib/FileSaver.js"></script>
+	<script type="text/javascript" src="js/importfile.js"></script>
 
+	<script type="text/javascript" src="js/b4.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </head>
 
 
@@ -34,35 +41,35 @@
 		<form>
 		xAxis
 		<select id = "xAxisChoose">
-			<option value = "num">num</option>
-			<option value = "stay">stay</option>
-			<option value = "in">in</option>
-			<option value = "out">out</option>
-			<option value = "average">average</option>
-			<option value = "from">from</option>
-			<option value = "to">to</option>
-			<option value = "all">all</option>
-			<option value = "comm">comm</option>
-			<option value = "way">way</option>
-			<option value = "wayPercent">wayPercent</option>
-			<option value = "numPlaceChoosen" id = "numPlaceX">numPlaceChoosen</option>
-			<option value = "stayPlaceChoosen">stayPlaceChoosen</option>
+			<option value = "num">Times to any attraction</option>
+			<option value = "stay">Total time in dinofun world(second)</option>
+			<option value = "in">Entry time</option>
+			<option value = "out">Leaving time</option>
+			<option value = "average">Average time at one attraction(second)</option>
+			<option value = "from">Number of calls from to the id</option>
+			<option value = "to">Number of calls to the id</option>
+			<option value = "all">Number of calls</option>
+			<option value = "comm">Number of contacts</option>
+			<option value = "way">Total time on the road(second)</option>
+			<option value = "wayPercent">Percentage of time spend on the road(%)</option>
+			<option value = "numPlaceChoosen" id = "numPlaceX">Times to the selected attraction</option>
+			<option value = "stayPlaceChoosen">Total time at the selected attraction(second)</option>
 		</select>
 		yAxis
 		<select id = "yAxisChoose">
-			<option value = "num">num</option>
-			<option value = "stay" selected = "selected">stay</option>
-			<option value = "in">in</option>
-			<option value = "out">out</option>
-			<option value = "average">average</option>
-			<option value = "from">from</option>
-			<option value = "to">to</option>
-			<option value = "all">all</option>
-			<option value = "comm">comm</option>
-			<option value = "way">way</option>
-			<option value = "wayPercent">wayPercent</option>
-			<option value = "numPlaceChoosen">numPlaceChoosen</option>
-			<option value = "stayPlaceChoosen" id = "stayPlaceY">stayPlaceChoosen</option>
+			<option value = "num">Times to any attraction</option>
+			<option value = "stay" selected = "selected">Total time in dinofun world(second)</option>
+			<option value = "in">Entry time</option>
+			<option value = "out">Leaving time</option>
+			<option value = "average">Average time at one attraction(second)</option>
+			<option value = "from">Number of calls from to the id</option>
+			<option value = "to">Number of calls to the id</option>
+			<option value = "all">Number of calls</option>
+			<option value = "comm">Number of contacts</option>
+			<option value = "way">Total time on the road(second)</option>
+			<option value = "wayPercent">Percentage of time spend on the road(%)</option>
+			<option value = "numPlaceChoosen">Times to the selected attraction</option>
+			<option value = "stayPlaceChoosen" id = "stayPlaceY">otal time at the selected attraction(second)</option>
 		</select>
 		</form>
 	</div>
@@ -72,12 +79,31 @@
 		<input type="button"  value="Sat" id="satnum">
 		<input type="button"  value="Sun" id="sunnum">
 	</div>
+	<div id="view4" >
+	<form>
+	  <fieldset id="list">
+	  <div id="listbtn">
+		<button type="button" id="add">add</button>
+		<button type="button" id="clear">clear</button>
+		<button type="button" id="submit">submit</button><br/>
+		<button type="button" id="save">save</button>
+		<a href="javascript:;" class="filea">
+			<input type="file" id="file" onchange="handleFiles(this.files)" ls="" >import</input>
+		</a>
+		</div>
+		<legend>idlist</legend>
+	  </fieldset>
+	</form>
+	<iframe src="" width="0" height="0" id="imgFrame" name="imgFrame"></iframe>
+
+	</div>
 </div>
 
 <script type="text/javascript" src="js/view1a.js"></script>
 <script type="text/javascript" src="js/view1b.js"></script>
 <script type="text/javascript" src="js/observer.js"></script>
 <script type="text/javascript" src="js/test.js"></script>
+<script type="text/javascript" src="js/view4.js"></script>
 <script type="text/javascript" src="js/XY_c.js"></script>
 <script type="text/javascript" src="main.js"></script>
 
