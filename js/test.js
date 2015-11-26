@@ -3,12 +3,24 @@ function View3(Observer){
 	var margin,width,height;
 	var x,y,dradding,line,axis,background,foreground;
 	var svg1;
+	
+	var winWidth;
+	var winHeight;
+	if (window.innerWidth)
+	winWidth = window.innerWidth;
+	else if ((document.body) && (document.body.clientWidth))
+	winWidth = document.body.clientWidth;
+	if (window.innerHeight)
+	winHeight = window.innerHeight;
+	else if ((document.body) && (document.body.clientHeight))
+	winHeight = document.body.clientHeight;
+
 	init();
 	function init(){
 		Observer.addView(view);
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
-		width = 600 - margin.left - margin.right;
-		height = 250 - margin.top - margin.bottom;
+		width = 600/1360*winWidth - margin.left - margin.right;
+		height = 200/386*winHeight - margin.top - margin.bottom;
 
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};

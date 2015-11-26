@@ -34,7 +34,7 @@ function View4(Observer){
 			}
 	}
 
-	$("button#add").click(add);
+	$("input#add").click(add);
 	
 	function add(){
 		
@@ -46,7 +46,7 @@ function View4(Observer){
 			  idlist.push(+aaa[i]);
 		  }
 		  idlisttmp=[];
-		  console.log(idlist);
+		  //console.log(idlist);
 		  //idlisttmp=$("input#file").attr("ls").split(",");
 		  $("input#file").attr("flag","0");
 		  //console.log($("input#file").attr("flag"));
@@ -62,7 +62,7 @@ function View4(Observer){
 		  $("fieldset#list").append("<p>"+idlist[i]+"</p>");
 		  $("fieldset#list p:last").attr("id",+idlist[i]);
 		  $("fieldset#list p:last").addClass("idlistp");
-		  $("fieldset#list p:last").append('<button type="button" class="deleteid">delete</button>');
+		  $("fieldset#list p:last").append('<input type="button" class="deleteid" value="delete">');
 		  $(".deleteid:last").click(function(){
 				var d=parseInt($(this).parent("p").attr("id"));
 				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], view4);
@@ -103,13 +103,13 @@ function View4(Observer){
 	
 	
 	
-	$("button#clear").click(function(){
+	$("#clear").click(function(){
 
 	  idlist=[];
 	  $("fieldset#list").children("p").remove();
 	  Observer.fireEvent("highlightend", idhighlight, "view4");
 	});
-	$("button#submit").click(function(){
+	$("#submit").click(function(){
 	  Observer.fireEvent("showPath", idlist, "view4");
 	});
 	
@@ -134,7 +134,7 @@ function View4(Observer){
 	}
 	
 	
-	$("button#save").click(function(){
+	$("#save").click(function(){
 		var textBlob1 = new Blob([idlist.toString()], { type: "text/plain"});
 	    saveAs(textBlob1,num+'.txt');
 	    num=num+1;

@@ -1,12 +1,12 @@
 <?php
 error_reporting(E_ALL & ~E_DEPRECATED);
 error_reporting(E_ALL || ~E_NOTICE);
-header('Content-Type: text/xml');//定义编码Javascript
+header('Content-Type: text/json');//定义编码Javascript
 header("Cache-Control: no-cache, must-revalidate");//当前页面不进行缓存，每次访问的时间必须从服务器上读取最新的数据
 //A date in the past
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");//内容过期时间,故意写一个过期时间目的也是让浏览器去重新读取页面内容
 
-$id=$_GET["id"];
+$idstr=$_GET["id"];
 $day=$_GET["day"];
 
 $con = mysql_connect('localhost', 'root', '584007');
@@ -15,39 +15,52 @@ if (!$con)
  {
  die('Could not connect: ' . mysql_error());
  }
-
 //mysql_select_db("vc2015", $con);
 mysql_select_db("aaa", $con);
-//$time=28891;
-//$id=39012;
+
+//$idstr="39012,530079";
 //$day=2;
+
 //$sql="SELECT * FROM ttt WHERE id = ".$id."";
-$sql="SELECT x,y,time FROM fri WHERE id = ".$id." ORDER BY time " ;
-if($day==0){
-	global $sql;
-	$sql="SELECT x,y,time FROM fri WHERE id = ".$id." ORDER BY time " ;
-}elseif($day==1){
-	global $sql;
-	$sql="SELECT x,y,time FROM sat WHERE id = ".$id." ORDER BY time " ;
-}else{
-	global $sql;
-	$sql="SELECT x,y,time FROM sun WHERE id = ".$id." ORDER BY time " ;
+$id=explode(',',$idstr);
+$arrlength=count($id);
+for($x=0;$x<$arrlength;$x++) {
+	$sql="SELECT x,y,time FROM fri WHERE id = ".$id[$x]." ORDER BY time " ;
+	if($day==0){
+		global $sql;
+		$sql="SELECT x,y,time FROM fri WHERE id = ".$id[$x]." ORDER BY time " ;
+	}elseif($day==1){
+		global $sql;
+		$sql="SELECT x,y,time FROM sat WHERE id = ".$id[$x]." ORDER BY time " ;
+	}else{
+		global $sql;
+		$sql="SELECT x,y,time FROM sun WHERE id = ".$id[$x]." ORDER BY time " ;
+	}
+	$result = mysql_unbuffered_query($sql);
+	//print_r(mysql_fetch_array($result)) ;
+	$idx=array();$idy=array();$idtime=array();
+   $i=0;
+   while($row = mysql_fetch_array($result)){
+	   //array_push($idx,$row['x']);
+	   $idx[$i]=$row['x'];
+	   $idy[$i]=$row['y'];
+	   $idtime[$i]=$row['time'];
+	   $i=$i+1;
+   }
+   $tmp=array(
+		"id"=>$id[$x],
+		"x"=>$idx,
+		"y"=>$idy,
+		"time"=>$idtime
+   );
+	//print_r($tmp) ;
+   $res[$x]=$tmp;
 	
 }
 
-//$sql1="SELECT x,y from sun where time<".$time." AND id = ".$id."";
-$result = mysql_unbuffered_query($sql);
-
-echo '<?xml version="1.0" encoding="utf-8"?>
-<person>';
-while($row = mysql_fetch_array($result))
- {
- echo "<x>" . $row['x'] . "</x>";
- echo "<y>" . $row['y'] . "</y>";
- echo "<time>" . $row['time'] . "</time>";
-
- }
-echo "</person>";
-
+$json_string = json_encode($res);
+//$arr=json_decode($json_string);//再进行json解码
+//print_r($json_string);     
+echo $json_string;
 mysql_close($con);
 ?>

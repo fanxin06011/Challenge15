@@ -51,14 +51,13 @@ div#view1b {
 }
 div#view1b2 {
 	
-	height:300px;
 	width:27%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	background-color: white;
 	//float:left;
 	left: 38%;
-	top: 280px;
+	top: 45%;
 	//border-style: groove;
 	position:absolute ;
 	z-index:999;
@@ -70,7 +69,7 @@ div#view4 {
 	background-color: white;
 	position:absolute;
 	left: 38%;
-	top: 280px;
+	top: 50%;
 	height:200px;
 	width:12%;
 	overflow-x:hidden;
@@ -78,9 +77,16 @@ div#view4 {
 	float:left;
 	
 }
+div#view1a2{
+	position:absolute;
+	left: 38%;
+	top: 20%;
+	height:150px;
+	width:40%;
+}
 .idlistp{
 	font-family:Verdana;
-	font-size:13px;
+	font-size:1vw;
 	margin: 2%;
 }
 .filea {
@@ -106,16 +112,27 @@ div#view4 {
     top: 0px;
     opacity: 0;
 }
-button.deleteid{
+.deleteid{
+	//font:4px "Trebuchet MS", Helvetica, "Helvetica Neue", Arial, sans-serif;
+	font-size:.8wv;
+	width:28%;
+	height:9%;
 	position:absolute;
 	background-color: #e8f4ff;
-	left:70%;
+	left:60%;
 }
+#add,#clear ,#save{
+	width:20%;
+}
+#submit{
+	width:35%;
+}
+
 .view1asvg,.view1bsvg {
 	background-image:url(../image/1.jpg);
+	background-size:200% ;
 	background-repeat:no-repeat;
 	background-attachment:scroll;
 }	
-		
 
 
