@@ -5,18 +5,21 @@ function View1b(Observer){
 	
 
 	var width=$("div#view1b").width(); 
-	var height=$("div#view1b").height();
+	var height=$("div#view1b").width()*1.3;
+	$("div#view1b").attr("height",height);
+	$("div#view1b2").attr("height",width*0.6);
 	var color = d3.scale.category20();  			  
 	var svg = d3.select("#view1b")
 				.append("svg")  
 				.attr("class","view1bsvg")
 				.attr("width",width)  
 				.attr("height",height);
+				
 	var svg2 = d3.select("#view1b2")
 				.append("svg")  
 				.attr("class","view1b2svg")
 				.attr("width",width)  
-				.attr("height",height);
+				.attr("height",width*0.6);
 	var destable=[[0,67],[6,43],[16,49],[16,66],[17,43],[17,67],[23,54],[26,59],[27,15],[28,66]
 		,[32,33],[34,68],[38,90],[42,37],[43,56],[43,78],[45,24],[47,11],[48,87],[50,57],[60,37],
 		[63,99],[67,37],[69,44],[73,79],[73,84],[76,22],[76,88],[78,37],[78,48],[79,87],[79,89],[81,77],
@@ -70,8 +73,20 @@ function View1b(Observer){
 			dataloc.push([L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,L31,L32,L33,L34,L35,L36,L37,L38,L39,L40,L41,L42]);
 		}
 	});
+	var loctotal=42;
+	var locidnum=new Array();
+	var locname=new Array();
+	var loctype=new Array();
+	d3.csv("data/spot.csv",function(error,data){
+		for(var i=0;i<loctotal;i++){
+			locidnum[i]=data[i].idnum;
+			locname[i]=data[i].name;
+			loctype=data[i].type;
+		}
+		
+	});
 	
-	var lengthlimit=480;
+	var lengthlimit=480/500*width;
 		
 	var linear = d3.scale.linear()
 			   .domain([0, lengthlimit])
@@ -90,9 +105,9 @@ function View1b(Observer){
 				.data(dd)  
 				.enter()
 				.append("text")
-				.attr("transform","translate(10,80)")
+				.attr("transform","translate("+10/500*width+","+80/500*width+")")
 				.text(function(d,i){return (hourrelative)+":"+minuterelative;})
-				.attr("font-size", "30px")
+				.attr("font-size", 30/500*width+"px")
 				.attr("font-family", "Georgia");
 	
 	var timeindex1=0;
@@ -131,9 +146,9 @@ function View1b(Observer){
 	x.domain(d3.extent(datax.map(function(d) { return d; })));
 	var xAxis = d3.svg.axis().scale(x).orient("bottom");
 
-	svg.append("g")
+	var v2axis=svg.append("g")
 				.attr("class","axisx")
-				.attr("transform", "translate(15,510)")
+				.attr("transform", "translate("+15/500*width+","+510/500*width+")")
 				.call(xAxis);
 	
 	var data4=[0];
@@ -143,10 +158,10 @@ function View1b(Observer){
 			.enter()
 			.append("rect")
 			.attr("fill","red" )
-			.attr("y",510)
-			.attr("x",10)
-			.attr("height", 20)
-			.attr("width", 7)
+			.attr("y",510/500*width)
+			.attr("x",10/500*width)
+			.attr("height", 20/500*width)
+			.attr("width", 7/500*width)
 			.call(d3.behavior.drag()
 				.on("drag", dragmove)
 			);	
@@ -158,26 +173,26 @@ function View1b(Observer){
 			.append("rect")
 			.attr("fill","red" )
 			.attr("y",0)
-			.attr("x",12.5)
-			.attr("height", 520)
-			.attr("width", 2);					
+			.attr("x",12.5/500*width)
+			.attr("height", 520/500*width)
+			.attr("width", 2/500*width);					
 			
-	var x2 = d3.time.scale().domain([8,24]).range([0,318]);
+	var x2 = d3.time.scale().domain([8,24]).range([0,318/500*width]);
 	
 	var xAxisb1 = d3.svg.axis().scale(x2).orient("bottom");
 	var xAxisb2 = d3.svg.axis().scale(x2).orient("bottom");
 	var xAxisb3 = d3.svg.axis().scale(x2).orient("bottom");
-	svg2.append("g")
+	var xax1=svg2.append("g")
 				.attr("class","axisx")
-				.attr("transform", "translate(15,83)")
+				.attr("transform", "translate("+15/500*width+","+83/500*width+")")
 				.call(xAxisb1);
-	svg2.append("g")
+	var xax2=svg2.append("g")
 				.attr("class","axisx")
-				.attr("transform", "translate(15,165)")
+				.attr("transform", "translate("+15/500*width+","+165/500*width+")")
 				.call(xAxisb2);
-	svg2.append("g")
+	var xax3=svg2.append("g")
 				.attr("class","axisx")
-				.attr("transform", "translate(15,247)")
+				.attr("transform", "translate("+15/500*width+","+247/500*width+")")
 				.call(xAxisb3);
 	var circlelag;
 	var view1b2=  svg2.append("g")
@@ -185,10 +200,10 @@ function View1b(Observer){
 					.data(["num in selected attraction time profile"])
 					.enter()
 					.append("text")
-					.attr("transform","translate(30,3)")
-					.attr("dy",10) 
-					.attr("dx",35)
-					.attr("font-size", "10px")								
+					.attr("transform","translate("+30/500*width+","+3/500*width+")")
+					.attr("dy",10/500*width) 
+					.attr("dx",35/500*width)
+					.attr("font-size", 10/500*width+"px")								
 					.text(function(d,i){return d;}); 
 	var y2=svg.append("g");
 	var label=["steelblue","yellowgreen","grey"];
@@ -197,10 +212,10 @@ function View1b(Observer){
 					.data(label)
 					.enter()
 					.append("rect")
-					.attr("x",10)  
-					.attr("y",function(d,i){return 450+15 * i;})  
-					.attr("width",25)
-					.attr("height",12)
+					.attr("x",10/500*width)  
+					.attr("y",function(d,i){return (450+15 * i)/500*width;})  
+					.attr("width",25/500*width)
+					.attr("height",12/500*width)
 					.attr("fill",function(d,i){return d;})
 					.on("click", function(d,i){click(i);});
 	var label2=["Fri","Sat","Sun"];
@@ -209,10 +224,10 @@ function View1b(Observer){
 					.data(label2)
 					.enter()
 					.append("text")
-					.attr("transform",function(d,i){return "translate(10," + (450+15 * i)+ ")";})
-					.attr("dy",10) 
-					.attr("dx",35)
-					.attr("font-size", "15px")								
+					.attr("transform",function(d,i){return "translate("+10/500*width+","+ (450+15 * i)/500*width+ ")";})
+					.attr("dy",10/500*width) 
+					.attr("dx",35/500*width)
+					.attr("font-size", 15/500*width+"px")								
 					.text(function(d,i){return d;}); 
 
 	var timeindex1=0;
@@ -224,13 +239,13 @@ function View1b(Observer){
 				.data(d2)  
 				.enter()
 				.append("text")
-				.attr("transform","translate(10,45)")
+				.attr("transform","translate("+10/500*width+","+45/500*width+")")
 				.text(function(d,i){
 					if(daynum==0){return "Fri";}
 					if(daynum==1){return "Sat";}
 					if(daynum==2){return "Sun";}
 				})
-				.attr("font-size", "30px")
+				.attr("font-size", 30/500*width+"px")
 				.attr("font-family", "Georgia");
 	
 	
@@ -252,22 +267,22 @@ function View1b(Observer){
 
 		linear2 = d3.scale.linear()
 				   .domain([0, dmax])
-				   .rangeRound([2.5,17.5]);
+				   .rangeRound([2.5/500*width,17.5/500*width]);
  
 		circles = svg.append("g").selectAll("circle")  
                             .data(dataloc[0])  
                             .enter()  
                             .append("circle")  
-                            .attr("r",2.5)  
+                            .attr("r",2.5/500*width)  
                             .attr("fill","red")  
-                            .attr("cx",function(d,i){return destable[i][0]*5;})
-							.attr("cy",function(d,i){return 500-destable[i][1]*5;})
+                            .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
+							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;})
 							.on("mouseover",function(d,i){
 								Observer.fireEvent("spothighlightstart", [d], view1a);
-								d3.select(this).attr("fill","yellow").attr("r",6);
+								d3.select(this).attr("fill","yellow");
 							})
 							.on("mouseout",function(d,i){
-								d3.select(this).attr("fill", "red").attr("r",3);
+								d3.select(this).attr("fill", "red");
 								Observer.fireEvent("spothighlightend", [d], view1a);
 							})
 							.on("dblclick",function(d,i){dblclick(i);});
@@ -289,49 +304,49 @@ function View1b(Observer){
 		
 		linearfri = d3.scale.linear()
 					   .domain([0, frimax])
-					   .range([83,6]);
+					   .range([83/500*width,6/500*width]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([165,88]);
+				   .range([165/500*width,88/500*width]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([247,170]);
+				   .range([247/500*width,170/500*width]);
 		
 		lineFunctionfri = d3.svg.line()
-								 .x(function(d) { return 15+d.x/3; })
+								 .x(function(d) { return (15+d.x/3)/500*width; })
 								 .y(function(d) { return linearfri(d.y); })
 								 .interpolate("linear");
 		lineFunctionsat = d3.svg.line()
-								 .x(function(d) { return 15+d.x/3; })
+								 .x(function(d) { return (15+d.x/3)/500*width; })
 								 .y(function(d) { return linearsat(d.y); })
 								 .interpolate("linear");
 		lineFunctionsun = d3.svg.line()
-								 .x(function(d) { return 15+d.x/3; })
+								 .x(function(d) { return (15+d.x/3)/500*width; })
 								 .y(function(d) { return linearsun(d.y); })
 								 .interpolate("linear");						 
 		var pfri=svg2.append("g");			
 		lineGraphfri = pfri.append("path")
 						   .attr("d", lineFunctionfri(dfri))
 						   .attr("stroke", "steelblue")
-						   .attr("stroke-width", 2) 
+						   .attr("stroke-width", 2/500*width) 
 						   .attr("fill", "none");
 						   
 		var psat=svg2.append("g");			
 		lineGraphsat = pfri.append("path")
 						   .attr("d", lineFunctionsat(dsat))
 						   .attr("stroke", "yellowgreen")
-						   .attr("stroke-width", 2) 
+						   .attr("stroke-width", 2/500*width) 
 						   .attr("fill", "none");
 		var psun=svg2.append("g");			
 		lineGraphsun = pfri.append("path")
 						   .attr("d", lineFunctionsun(dsun))
 						   .attr("stroke", "grey")
-						   .attr("stroke-width", 2) 
+						   .attr("stroke-width", 2/500*width) 
 						   .attr("fill", "none");
-		
+
 		circlelag=circles.append("title")
 					.text(function(d,i){
-						return dataloc[0][i];
+						return dataloc[0][i]+" people in "+locidnum[i]+":"+locname[i];
 					});	
 
 
@@ -365,13 +380,13 @@ function View1b(Observer){
 		
 		linearfri = d3.scale.linear()
 				   .domain([0, frimax])
-				   .range([83,6]);
+				   .range([83/500*width,6/500*width]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([165,88]);
+				   .range([165/500*width,88/500*width]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([247,170]);			
+				   .range([247/500*width,170/500*width]);			
 		
 		
 		lineGraphfri.transition()
@@ -456,13 +471,13 @@ function View1b(Observer){
 							})  ;
 
 			circlelag.text(function(d,i){
-					return dataloctmp[timeindex1][i];
+					return dataloctmp[timeindex1][i]+" people in "+locidnum[i]+":"+locname[i];
 				});
 			
 			
 			var newx2=(linear(newx)-28800)/60
-			rects2.attr("x",10+newx2/2);
-			rects3.attr("x",12.5+newx2/3);					
+			rects2.attr("x",(10+newx2/2)/500*width);
+			rects3.attr("x",(12.5+newx2/3)/500*width);					
 			ddx=linear(newx);
 
 			hourrelative=Math.floor(ddx/3600);
@@ -474,6 +489,109 @@ function View1b(Observer){
 				
 	}
 	
+	
+	
+	
+	$(window).resize(function(){
+		var prewidth=width;
+		width=$("div#view1b").width(); 
+		height=$("div#view1b").width()*1.3;
+		$("div#view1b").attr("height",height);
+		$("div#view1b2").attr("height",width*0.6);
+	
+		svg =svg.attr("width",width)  
+				.attr("height",height);
+		svg2 =svg2.attr("width",width)  
+				.attr("height",width*0.6);
+				
+		lengthlimit=480/500*width;
+		linear =linear.domain([0, lengthlimit]);
+		
+		timetag=timetag.attr("transform","translate("+10/500*width+","+80/500*width+")")
+						.attr("font-size", 30/500*width+"px");
+						
+		x = x.range([0,width-20]);
+		xAxis = xAxis.scale(x);
+		v2axis=v2axis.attr("transform", "translate("+15/500*width+","+510/500*width+")")
+				.call(xAxis);				
+		preR2x=rects2.attr("x")*500/prewidth;
+		preR3x=rects3.attr("x")*500/prewidth;
+		rects2=rects2.attr("y",510/500*width)
+					.attr("x",preR2x/500*width)
+					.attr("height", 20/500*width)
+					.attr("width", 7/500*width);	
+	    rects3=rects3.attr("x",preR3x/500*width)
+					.attr("height", 520/500*width)
+					.attr("width", 2/500*width);					
+			
+	    x2 = x2.range([0,318/500*width]);
+	
+		xAxisb1 = xAxisb1.scale(x2);
+		xAxisb2 = xAxisb2.scale(x2);
+		xAxisb3 = xAxisb3.scale(x2);
+		xax1=xax1.attr("transform", "translate("+15/500*width+","+83/500*width+")")
+				.call(xAxisb1);
+		xax2=xax2.attr("transform", "translate("+15/500*width+","+165/500*width+")")
+				.call(xAxisb2);
+		xax3=xax3.attr("transform", "translate("+15/500*width+","+247/500*width+")")
+				.call(xAxisb3);
+
+		view1b2=view1b2.attr("transform","translate("+30/500*width+","+3/500*width+")")
+					.attr("dy",10/500*width) 
+					.attr("dx",35/500*width)
+					.attr("font-size", 10/500*width+"px"); 
+
+		labelRect = labelRect.attr("x",10/500*width)  
+							.attr("y",function(d,i){return (450+15 * i)/500*width;})  
+							.attr("width",25/500*width)
+							.attr("height",12/500*width);
+
+		labelText = labelText.attr("transform",function(d,i){return "translate("+10/500*width+","+ (450+15 * i)/500*width+ ")";})
+							.attr("dy",10/500*width) 
+							.attr("dx",35/500*width)
+							.attr("font-size", 15/500*width+"px"); 
+	
+		timetag2=timetag2.attr("transform","translate("+10/500*width+","+45/500*width+")")
+						.attr("font-size", 30/500*width+"px");				
+				
+		linear2 = linear2.rangeRound([2.5/500*width,17.5/500*width]);
+		var dataloctmp=[];
+		if(daynum==0){
+				dataloctmp=dataloc;
+		}
+		else{
+			if(daynum==1){
+				dataloctmp=datalocSat;
+			}
+			else{
+				dataloctmp=datalocSun;
+			}
+		}
+		timeindex1=numberindata((preR2x-10)*2*60+28800);
+		circles = circles.attr("r",function(d,i){return linear2(dataloctmp[timeindex1][i]);})
+                            .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
+							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;});				
+				
+		linearfri = linearfri.range([83/500*width,6/500*width]);
+		linearsat =linearsat.range([165/500*width,88/500*width]);
+		linearsun =linearsun.range([247/500*width,170/500*width]);
+		
+		lineFunctionfri = lineFunctionfri.x(function(d) { return (15+d.x/3)/500*width; });
+		lineFunctionsat = lineFunctionsat.x(function(d) { return (15+d.x/3)/500*width; });
+		lineFunctionsun = lineFunctionsun.x(function(d) { return (15+d.x/3)/500*width; });						 
+		
+		lineGraphfri = lineGraphfri.attr("stroke-width", 2/500*width) ;		
+		lineGraphsat = lineGraphsat.attr("stroke-width", 2/500*width);		
+		lineGraphsun = lineGraphsun.attr("stroke-width", 2/500*width);				
+		linearfri =linearfri.range([83/500*width,6/500*width]);
+		linearsat =linearsat.range([165/500*width,88/500*width]);
+		linearsun =linearsun.range([247/500*width,170/500*width]);					
+				
+		lineGraphfri.attr("d", lineFunctionfri(dfri)); 
+		lineGraphsat.attr("d", lineFunctionsat(dsat));
+		lineGraphsun.attr("d", lineFunctionsun(dsun));		
+				
+	});
 
 
 
