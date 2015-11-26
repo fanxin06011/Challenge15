@@ -54,8 +54,8 @@ function View2(Observer){
 		}
 	}
 
-	var width = $("div#View2").width();
-	var height = $("div#View2").height();
+	var width = $("div#View2").width() * 0.7;
+	var height = $("div#View2").height() * 0.7;
 	
 	var sizeStandard = width/3;
 	var paddingStandard = sizeStandard/6;
@@ -73,7 +73,8 @@ function View2(Observer){
 		.attr("height", size  + padding)
 		.append("g")
 		.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
-
+	//svgFri.attr("width", 30).attr("height", 30);
+		
 	var svgSat = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSat")
@@ -100,12 +101,36 @@ function View2(Observer){
 		
 	var fileName;
 
-
 	draw("data/dfFri.csv",0);
 	draw("data/dfSat.csv",0);
 	draw("data/dfSun.csv",0);
 
+	$(window).resize(function(){
+		var preWidth = width;
+		var preHeight = height;
+		var width = $("div#View2").width() * 2/3;
+		var height = $("div#View2").width() * 2/3;
+		sizeStandard = width/3;
+		paddingStandard = sizeStandard/6;
+		sizeEnlarge = sizeStandard * 1.95;
+		paddingEnLarge = paddingStandard * 1.95;
+
+		size = sizeStandard * 1;
+		padding = paddingStandard * 1;
+		
+		d3.select("#View2")
+			.selectAll("svg")
+			.attr("width", size + padding)
+			.attr("height", size  + padding);
+		d3.select("#View2b")
+			.select("#svgEnlarge")
+			.attr("width", sizeEnlarge + paddingEnLarge)
+			.attr("height", sizeEnlarge + paddingEnLarge);		
+		choose();
+	});	
+	
 	function choose(){
+		d3.select("#View2b").style.height=d3.select("#View2b").style.width*1.05;
 		console.log("view2---"+"000");
 		//alert(document.getElementById("xAxisChoose").value);
 		selectedX = document.getElementById("xAxisChoose").value;
@@ -203,6 +228,7 @@ function View2(Observer){
 					if(day == "Friday"){draw("data/dfFri.csv",1); dayEnlarge = 1;}
 					else if(day == "Saturday"){draw("data/dfSat.csv",2); dayEnlarge =2;}
 					else if(day == "Sunday"){draw("data/dfSun.csv",3); dayEnlarge =3;}
+					//d3.select("#View2b").style.display="block";
 					document.getElementById("View2b").style.display="block";
 				});	
 
