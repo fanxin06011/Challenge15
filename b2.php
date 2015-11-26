@@ -9,14 +9,14 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");//内容过期时间,故意写�
 $idstr=$_GET["id"];
 $day=$_GET["day"];
 
-$con = mysql_connect('localhost', 'root', '584007');
-//$con = mysql_connect('120.27.55.102', 'root', 'root');
+//$con = mysql_connect('localhost', 'root', '584007');
+$con = mysql_connect('120.27.55.102', 'root', 'root');
 if (!$con)
  {
  die('Could not connect: ' . mysql_error());
  }
-//mysql_select_db("vc2015", $con);
-mysql_select_db("aaa", $con);
+mysql_select_db("vc2015", $con);
+//mysql_select_db("aaa", $con);
 
 //$idstr="39012,530079";
 //$day=2;
