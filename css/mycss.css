@@ -61,7 +61,7 @@ div#view1b2 {
 	top: 280px;
 	//border-style: groove;
 	position:absolute ;
-	z-index:9999;
+	z-index:999;
 	-webkit-box-shadow:1px 1px 3px #292929;
     -moz-box-shadow:1px 1px 3px #292929;
     box-shadow:1px 1px 3px #292929;

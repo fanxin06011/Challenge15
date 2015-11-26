@@ -6,6 +6,7 @@
 	<title>map</title>
 	<link rel="stylesheet" type="text/css" href="css/mycss.css">
 	<link rel="stylesheet" type="text/css" href="css/View2.css">
+	<link rel="stylesheet" type="text/css" href="css/View2b.css">
 	<link rel="stylesheet" type="text/css" href="css/View3.css">
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 	<script src="jslib/jquery-1.11.3.min.js"></script>
@@ -23,22 +24,22 @@
 
 <body >
 <div>
-<div id="view1">
-	<div id="view1btn">
-	<button type="button" id="view1change">change function</button>
-	<input type="button" value="autoplay" id="view1autoplay"/>
-	</div >
-	
-	<div id="view1a" >
+	<div id="view1">
+		<div id="view1btn">
+		<button type="button" id="view1change">change function</button>
+		<input type="button" value="autoplay" id="view1autoplay"/>
+		</div >
+		
+		<div id="view1a" >
+		</div>
+		
+		<div id="view1b" >
+		</div>
+		<div id="view1b2" >
+		<button type="button" id="viewb2close">close</button>
+		</div>
 	</div>
-	
-	<div id="view1b" >
-	</div>
-	<div id="view1b2" >
-	<button type="button" id="viewb2close">close</button>
-	</div>
-</div>
-	<div id="View2">
+	<div id="View2" style="float:right; " >
 		<form>
 		xAxis
 		<select id = "xAxisChoose">
@@ -70,9 +71,13 @@
 			<option value = "way">Total time on the road(second)</option>
 			<option value = "wayPercent">Percentage of time spend on the road(%)</option>
 			<option value = "numPlaceChoosen">Times to the selected attraction</option>
-			<option value = "stayPlaceChoosen" id = "stayPlaceY">otal time at the selected attraction(second)</option>
+			<option value = "stayPlaceChoosen" id = "stayPlaceY">total time at the selected attraction(second)</option>
 		</select>
 		</form>
+	</div>
+	<div id="View2b">
+		<button type="button" id="View2bclose">close</button>
+		<br>
 	</div>
 	
 	<div id="View3">

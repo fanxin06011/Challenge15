@@ -2,6 +2,7 @@ $(document).ready(function(){
   $(function() {
     $( "div#view1b2" ).draggable();
   });
+
   $(function() {
     $( "div#view4" ).draggable();
   });
@@ -14,6 +15,9 @@ $(document).ready(function(){
   });
   $("button#viewb2close").click(function(){
 	  $("div#view1b2").hide();
+  });
+   $("button#View2bclose").click(function(){
+	  $("div#View2b").hide();
   });
 });
 //window.onload=function(){   alert("bbbbbbbb"); } 
