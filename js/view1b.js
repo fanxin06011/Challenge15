@@ -20,12 +20,13 @@ function View1b(Observer){
 				.attr("class","view1b2svg")
 				.attr("width",width)  
 				.attr("height",width*0.6);
+
 	var destable=[[0,67],[6,43],[16,49],[16,66],[17,43],[17,67],[23,54],[26,59],[27,15],[28,66]
 		,[32,33],[34,68],[38,90],[42,37],[43,56],[43,78],[45,24],[47,11],[48,87],[50,57],[60,37],
 		[63,99],[67,37],[69,44],[73,79],[73,84],[76,22],[76,88],[78,37],[78,48],[79,87],[79,89],[81,77],
 		[82,80],[83,88],[85,86],[86,44],[87,48],[87,63],[87,81],[92,81],[99,77]];
 		
-	var datalocSat=[];			
+	var datalocSat=[];
 	d3.csv("data/SatResult.csv", function(error, data) {		
 		for(var i=0;i<960;i++){
 			var L1=data[i].L1-'0';var L2=data[i].L2-'0';var L3=data[i].L3-'0';var L4=data[i].L4-'0';var L5=data[i].L5-'0';
@@ -278,12 +279,12 @@ function View1b(Observer){
                             .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
 							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;})
 							.on("mouseover",function(d,i){
-								Observer.fireEvent("spothighlightstart", [d], view1a);
+								Observer.fireEvent("spothighlightstart", [i], "view1b");
 								d3.select(this).attr("fill","yellow");
 							})
 							.on("mouseout",function(d,i){
 								d3.select(this).attr("fill", "red");
-								Observer.fireEvent("spothighlightend", [d], view1a);
+								Observer.fireEvent("spothighlightend", [i], "view1b");
 							})
 							.on("dblclick",function(d,i){dblclick(i);});
 
@@ -596,7 +597,32 @@ function View1b(Observer){
 
 
 
-		view1b.onMessage = function(message, data, from){}
+		view1b.onMessage = function(message, datal, from){
+			if(message == "spothighlightstart"){
+				if(from != "view1b"){
+					datal=_.uniq(datal);
+					console.log("view1b spothighlightstart "+datal);
+					circles.transition()
+							.duration(1).attr("fill",function(d,i){
+								if(_.indexOf(datal,""+i)>=0){
+									return "yellow";
+									}
+								else{return "red";}
+							})
+							.attr("r",function(d,i){
+								if(_.indexOf(datal, ""+i)>=0){return 6/500*width;}
+								else{return 3/500*width;}
+							});
+				}
+			}
+			if(message == "spothighlightend"){
+				console.log("view1b spothighlightend "+datal);
+				if(from != "view1b"){
+					circles.attr("fill","red")
+							.attr("r",3/500*width);
+				}
+			}
+		}
 		Observer.addView(view1b);
 		return view1b;
 	}

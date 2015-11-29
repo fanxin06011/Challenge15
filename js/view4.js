@@ -18,6 +18,7 @@ function View4(Observer){
 			if(message == "highlightstart"){
 				if(from != view4){
 					console.log("view4 highlightstart "+data);
+					$("fieldset#list p").css("background-color","white");
 					for(var i=0;i<data.length;i++){
 						$("fieldset#list p").filter("#"+data[i]).css("background-color","yellow");
 					}
@@ -61,6 +62,7 @@ function View4(Observer){
 	  for(var i=0;i<idlist.length;i++){
 		  $("fieldset#list").append("<p>"+idlist[i]+"</p>");
 		  $("fieldset#list p:last").attr("id",+idlist[i]);
+		  $("fieldset#list p:last").css("background-color","white");
 		  $("fieldset#list p:last").addClass("idlistp");
 		  $("fieldset#list p:last").append('<input type="button" class="deleteid" value="delete">');
 		  $(".deleteid:last").click(function(){
@@ -110,7 +112,9 @@ function View4(Observer){
 	  Observer.fireEvent("highlightend", idhighlight, "view4");
 	});
 	$("#submit").click(function(){
+	  
 	  Observer.fireEvent("showPath", idlist, "view4");
+	  $("#viewa2draw").click();
 	});
 	
 	

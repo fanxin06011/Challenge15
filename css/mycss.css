@@ -60,13 +60,13 @@ div#view1b2 {
 	top: 45%;
 	//border-style: groove;
 	position:absolute ;
-	z-index:999;
+	z-index:99;
 	-webkit-box-shadow:1px 1px 3px #292929;
     -moz-box-shadow:1px 1px 3px #292929;
     box-shadow:1px 1px 3px #292929;
 }
 div#view4 {
-	background-color: white;
+	//background-color: white;
 	position:absolute;
 	left: 38%;
 	top: 50%;
@@ -77,12 +77,18 @@ div#view4 {
 	float:left;
 	
 }
+div#listbtn{
+	background-color: white;
+}
 div#view1a2{
 	position:absolute;
+	//background: white;
 	left: 38%;
 	top: 20%;
 	height:150px;
 	width:40%;
+	overflow: hidden;
+	z-index:999;
 }
 .idlistp{
 	font-family:Verdana;
