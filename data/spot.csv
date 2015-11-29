@@ -1,5 +1,5 @@
 x,y,idnum,name,type
-0,67,0,gate,gate
+0,67,90,gate,gate
 6,43,20,Scholtz Express,Rides For Everyone
 16,49,23,Phynasaurus Rampage,Rides For Everyone
 16,66,5,Wendisaurus Chase,Thrill Rides
@@ -12,18 +12,18 @@ x,y,idnum,name,type
 32,33,32,Creighton Pavilion,Shows & Entertainment
 34,68,21,Paleocarrie Carousel,Rides For Everyone
 38,90,3,Auvilotops Express,Thrill Rides
-42,37,-1,unknown,unknown
+42,37,95,unknown,unknown
 43,56,24,Kauf's Lost Canyon Escape,Rides For Everyone
 43,78,31,Raptor Race,Rides For Everyone
 45,24,8,Atmosfear,Thrill Rides
 47,11,1,Wrightiraptor,Thrill Rides
 48,87,27,Squidosaur,Rides For Everyone
 50,57,62,Liggement Fix-Me-Up,Information & Assistance
-60,37,-1,unknown,unknown
-63,99,0,gate,gate
-67,37,-1,unknown,unknown
+60,37,96,unknown,unknown
+63,99,91,gate,gate
+67,37,97,unknown,unknown
 69,44,81,Flight of the Swingodon,Thrill Rides
-73,79,-1,unknown,unknown
+73,79,98,unknown,unknown
 73,84,12,Flying TyrAndrienkos,Kiddie Rides
 76,22,63,Grinosaurus Stage,Shows & Entertainment
 76,88,14,Beelzebufo,Kiddie Rides
@@ -40,4 +40,4 @@ x,y,idnum,name,type
 87,63,64,SabreTooth Theatre,Shows & Entertainment
 87,81,19,Stone Cups,Kiddie Rides
 92,81,9,North Line,Kiddie Rides
-99,77,0,gate,gate
+99,77,92,gate,gate
