@@ -6,6 +6,8 @@ function View1b(Observer){
 
 	var width=$("div#view1b").width(); 
 	var height=$("div#view1b").width()*1.3;
+	$("div#view1b").css("height",height);
+	
 	$("div#view1b").attr("height",height);
 	$("div#view1b2").attr("height",width*0.6);
 	var color = d3.scale.category20();  			  

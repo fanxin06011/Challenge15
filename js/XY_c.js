@@ -72,7 +72,7 @@ function View2(Observer){
 		.attr("width", size  + padding)
 		.attr("height", size  + padding)
 		.append("g")
-		.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+		.attr("transform", "translate(" + 1.5 * padding + "," + padding / 2 + ")");
 	//svgFri.attr("width", 30).attr("height", 30);
 		
 	var svgSat = d3.select("#View2").append("svg")
@@ -81,7 +81,7 @@ function View2(Observer){
 		.attr("width", size  + padding)
 		.attr("height", size  + padding)
 		.append("g")
-		.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+		.attr("transform", "translate(" + 1.5 * padding + "," + padding / 2 + ")");
 
 	var svgSun = d3.select("#View2").append("svg")
 		.attr("class","svg")
@@ -89,7 +89,7 @@ function View2(Observer){
 		.attr("width", size  + padding)
 		.attr("height", size  + padding)
 		.append("g")
-		.attr("transform", "translate(" + padding + "," + padding / 2 + ")");
+		.attr("transform", "translate(" + 1.5 * padding + "," + padding / 2 + ")");
 
 	var svgEnlarge = d3.select("#View2b").append("svg")  
 		.attr("class","svg")
@@ -97,7 +97,7 @@ function View2(Observer){
 		.attr("width", sizeEnlarge + paddingEnLarge)  
 		.attr("height", sizeEnlarge + paddingEnLarge)
 		.append("g")
-		.attr("transform", "translate(" + (2 * padding) + "," + padding  + ")");
+		.attr("transform", "translate(" + (2.5 * padding) + "," + padding  + ")");
 		
 	var fileName;
 
@@ -124,8 +124,8 @@ function View2(Observer){
 			.attr("height", size  + padding);
 		d3.select("#View2b")
 			.select("#svgEnlarge")
-			.attr("width", sizeEnlarge + paddingEnLarge)
-			.attr("height", sizeEnlarge + paddingEnLarge);		
+			.attr("width", sizeEnlarge + 1 * paddingEnLarge)
+			.attr("height", sizeEnlarge + 1.5 * paddingEnLarge);		
 		choose();
 	});	
 	
@@ -216,9 +216,16 @@ function View2(Observer){
 			
 			xAxis.tickSize(size);//辅助线
 			yAxis.tickSize(-size);
-			svg.append("text").attr("font-family","微软雅黑").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
-			svg.append("text").attr("font-family","微软雅黑").attr("x",-15).attr("y",15).text(selectedY);	
-			svg.append("text").attr("font-family","微软雅黑").attr("x",size/2-30).attr("y",0)
+			if(isEnlarge==0){
+				svg.append("text").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
+				svg.append("text").attr("x",-15).attr("y",5).text(selectedY);
+			}
+			else{
+				svg.append("text").attr("x",size-25-selectedX.length*12).attr("y",size).text(selectedX);
+				svg.append("text").attr("x",-15).attr("y",10).text(selectedY);
+			}
+				
+			svg.append("text").attr("x",size/2-30).attr("y",0)
 				.text(day)
 				.on("dblclick", function(){
 					d3.select("#View2b").selectAll("text").remove();

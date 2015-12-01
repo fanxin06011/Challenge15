@@ -5,7 +5,8 @@
 	function View1a(Observer){
 		var width=$("div#view1a").width();//1350*37%=499
 		var height=$("div#view1a").width()*1.3;
-		var width2=$("div#view1a2").width();
+		$("div#view1a").css("height",height);
+		var width2=$("div#view1a2").width()-20;
 		var height2=$("div#view1a2").height()-20;//减掉按钮的长度
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
@@ -163,7 +164,7 @@
 						.data(loctype)
 						.enter()
 						.append("rect")
-						.attr("x",function(d,i){return (width2/typenum)*i ;})  
+						.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
 						.attr("y",(height2-50)/540*width2)  
 						.attr("width",function(d,i){return (width2/typenum-25);})
 						.attr("height",10/540*width2)
@@ -180,6 +181,7 @@
 								.data(function(d) { return d; })
 								.enter()
 								.append("text")
+								.attr("dx",10)
 								.attr("dy",function(d,i){return 11*i+"px";})
 								.attr("font-size", 10/540*width2+"px")
 								.text(function(d){return d;});
@@ -217,13 +219,13 @@
 				$scope.Properties=[];
 				for(var i=0;i<idnum;i++){
 					count=count+1;
-					$scope.Properties.push({"x":0, "y": i*(recth+2)/540*width2, "width": width2, "height": recth/540*width2, "fill": "#EEEFED","idnum":"-2,"+count+","+i});
+					$scope.Properties.push({"x":10, "y": i*(recth+2)/540*width2, "width": width2, "height": recth/540*width2, "fill": "#EEEFED","idnum":"-2,"+count+","+i});
 					for(var j=0;j<datajson[daynum][i].x.length-1;j++){
 						var typeid=isdes(datajson[daynum][i].x[j],datajson[daynum][i].y[j]);
 						if(typeid!=-1){
 							//console.log(destable[typeid][4]);
 							count=count+1;
-							$scope.Properties.push({"x": (datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2)/540*width2, "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth/540*width2, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
+							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2)/540*width2, "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth/540*width2, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
 						}
 					}
 				
