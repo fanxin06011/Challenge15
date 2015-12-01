@@ -55,7 +55,7 @@ function View2(Observer){
 	}
 
 	var width = $("div#View2").width() * 0.7;
-	var height = $("div#View2").height() * 0.7;
+	var height = $("div#View2").height() * 0.75;
 	
 	var sizeStandard = width/3;
 	var paddingStandard = sizeStandard/6;
@@ -125,7 +125,7 @@ function View2(Observer){
 		d3.select("#View2b")
 			.select("#svgEnlarge")
 			.attr("width", sizeEnlarge + paddingEnLarge)
-			.attr("height", sizeEnlarge + paddingEnLarge);		
+			.attr("height", sizeEnlarge + 2*paddingEnLarge);		
 		choose();
 	});	
 	
