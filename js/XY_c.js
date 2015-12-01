@@ -202,11 +202,12 @@ function View2(Observer){
 			//data[i]["num"]即可读取第i行num的值
 			//d3.keys(data[0])返回了csv的首行,加个filter滤除了不是数字格式列的最后一列
 			var domainByTrait = {},
-				traits = d3.keys(data[0]).filter(function(d) { return d == selectedX || d == selectedY; }),
+				//traits = d3.keys(data[0]).filter(function(d) { return d == selectedX || d == selectedY; }),
+				traits=[selectedX,selectedY],
 				n = traits.length;
 			traits.forEach(function(trait,i) {//确定真实值域
 				if(trait =="in"||trait =="out"){
-					domainByTrait[trait] = [d3.min(data, function(d) { return parseInt(d[trait]); }),d3.max(data, function(d) { return parseInt(d[trait]); })];
+					domainByTrait[trait] = [d3.min(data, function(d) { /*每个d都是data的一行数据*/return parseInt(d[trait]); }),d3.max(data, function(d) { return parseInt(d[trait]); })];
 				}
 				else if(trait == "wayPercent")domainByTrait[trait] = [0,d3.max(data, function(d) { return parseInt(d[trait]*1000)/1000; })];
 				else domainByTrait[trait] = [0,d3.max(data, function(d) { return parseInt(d[trait]); })];
