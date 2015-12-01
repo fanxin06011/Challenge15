@@ -48,7 +48,7 @@
 }
 
 #View2b circle {
-	fill-opacity: .4;
+	fill-opacity: .4;//Í¸Ã÷¶È
 }
 
 #View2b circle.hidden {
@@ -62,6 +62,6 @@
 }
 
 #View2b text{
-	font-family:Calibri;
+	font-family:"Î¢ÈíÑÅºÚ";
 	font-size:15px;
 }

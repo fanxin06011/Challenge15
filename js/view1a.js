@@ -372,6 +372,7 @@
 						if(daynum==1){return "Sat";}
 						if(daynum==2){return "Sun";}
 					});
+			$("#viewa2draw").click();
 
 		}
 		/////////////////////////////////////
