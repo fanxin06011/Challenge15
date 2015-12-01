@@ -12,9 +12,11 @@ function View5(Observer){
 	
 	var file = "data/leader2id-100.json";
 	$("button#inputNum").click(function num2group(){
-		groupId.innerHTML="";
+		groupId.innerHTML="<option value = 'none'>leader's id</option>";
 		minNum = document.getElementById("minNum").value;
+		if(minNum=""){minNum=0;}
 		maxNum = document.getElementById("maxNum").value;
+		if(maxNum=""){maxNum=1000;}
 		d3.json(file,function(data){
 			//console.log(data);
 			for (leader in data){
@@ -26,15 +28,17 @@ function View5(Observer){
 	});
 	groupId.onchange=function(){
 		leader = groupId.value;
-		d3.json(file,function(data){
-			//console.log(parseInt(leader));
-			selectedId = data[leader]["members"];
-			selectedId.push(parseInt(leader));
-			console.log(selectedId);
-			Observer.fireEvent("showPath", selectedId, view);
-			Observer.fireEvent("highlightend", selectedId, view);
-			Observer.fireEvent("highlightstart", selectedId, view);
-		});
+		if (leader!="none"){
+			d3.json(file,function(data){
+				//console.log(parseInt(leader));
+				selectedId = data[leader]["members"];
+				selectedId.push(parseInt(leader));
+				console.log(selectedId);
+				Observer.fireEvent("showPath", selectedId, view);
+				Observer.fireEvent("highlightend", selectedId, view);
+				Observer.fireEvent("highlightstart", selectedId, view);
+			});
+		}
 	}
 		
 	

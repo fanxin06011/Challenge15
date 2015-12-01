@@ -216,9 +216,9 @@ function View2(Observer){
 			
 			xAxis.tickSize(size);//辅助线
 			yAxis.tickSize(-size);
-			svg.append("text").attr("font-family","微软雅黑").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
-			svg.append("text").attr("font-family","微软雅黑").attr("x",-15).attr("y",15).text(selectedY);	
-			svg.append("text").attr("font-family","微软雅黑").attr("x",size/2-30).attr("y",0)
+			svg.append("text").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
+			svg.append("text").attr("x",-15).attr("y",15).text(selectedY);	
+			svg.append("text").attr("x",size/2-30).attr("y",0)
 				.text(day)
 				.on("dblclick", function(){
 					d3.select("#View2b").selectAll("text").remove();
