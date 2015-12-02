@@ -10,6 +10,10 @@ function View1b(Observer){
 	
 	$("div#view1b").attr("height",height);
 	$("div#view1b2").attr("height",width*0.6);
+	
+	var vb2top=$("div#view1b2").css("top");
+	//$("div#viewb2outer").css("top",vb2top);
+	//$("div#viewb2outer").css("height",width*0.6+25);
 	var color = d3.scale.category20();  			  
 	var svg = d3.select("#view1b")
 				.append("svg")  
@@ -198,6 +202,7 @@ function View1b(Observer){
 				.attr("transform", "translate("+15/500*width+","+247/500*width+")")
 				.call(xAxisb3);
 	var circlelag;
+	/*
 	var view1b2=  svg2.append("g")
 					.selectAll("text")	
 					.data(["num in selected attraction time profile"])
@@ -208,6 +213,7 @@ function View1b(Observer){
 					.attr("dx",35/500*width)
 					.attr("font-size", 10/500*width+"px")								
 					.text(function(d,i){return d;}); 
+					*/
 	var y2=svg.append("g");
 	var label=["steelblue","yellowgreen","grey"];
 	var labelRect = y2.append("g")
@@ -403,7 +409,7 @@ function View1b(Observer){
 					  .duration(1000)
 					  .attr("d", lineFunctionsun(dsun));						   
 		Observer.fireEvent("chooseSpot", destable[locnum], "view1b");
-		document.getElementById("view1b2").style.display = "block";
+		document.getElementById("viewb2outer").style.display = "block";
 	}
 	
 	
@@ -501,7 +507,7 @@ function View1b(Observer){
 		height=$("div#view1b").width()*1.1;
 		$("div#view1b").css("height",height);
 		$("div#view1b").attr("height",height);
-		$("div#view1b2").attr("height",width*0.6);
+		$("div#view1b2").attr("height",width*0.);
 	
 		svg =svg.attr("width",width)  
 				.attr("height",height);
@@ -539,12 +545,12 @@ function View1b(Observer){
 				.call(xAxisb2);
 		xax3=xax3.attr("transform", "translate("+15/500*width+","+247/500*width+")")
 				.call(xAxisb3);
-
+/*
 		view1b2=view1b2.attr("transform","translate("+30/500*width+","+3/500*width+")")
 					.attr("dy",10/500*width) 
 					.attr("dx",35/500*width)
 					.attr("font-size", 10/500*width+"px"); 
-
+*/
 		labelRect = labelRect.attr("x",10/500*width)  
 							.attr("y",function(d,i){return (450+15 * i)/500*width;})  
 							.attr("width",25/500*width)

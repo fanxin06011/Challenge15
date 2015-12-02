@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $(function() {
-    $( "div#view1b2" ).draggable();
-	$( "div#view1a2" ).draggable();
+    $( "div#viewb2outer" ).draggable();
+	$( "div#va2outer" ).draggable();
   });
 
   $(function() {
@@ -9,22 +9,28 @@ $(document).ready(function(){
   });
 
   $("div#view1a").hide();
-  $("div#view1b2").hide();
-  //$("div#view1a2").hide();
-  $("button#view1change").click(function(){
+  $("#v1await").hide();
+  $("div#viewb2outer").hide();
+  $("div#va2outer").hide();
+  $("#view1change").click(function(){
+	  if(document.getElementById("view1change").value=="show track"){
+		document.getElementById("view1change").value="show attraction";
+	  }else{
+		document.getElementById("view1change").value="show track";
+	  }
 	  $("div#view1a").toggle();
 	  $("div#view1b").toggle();
-	  $("div#view1b2").hide();
+	  $("div#viewb2outer").hide();
   });
-  $("button#viewb2close").click(function(){
-	  $("div#view1b2").hide();
+  $("#viewb2close").click(function(){
+	  $("div#viewb2outer").hide();
   });
 
    $("button#View2bclose").click(function(){
 	  $("div#View2b").hide();
   });
-  $("button#viewa2close").click(function(){
-	  $("div#view1a2").hide();
+  $("#viewa2close").click(function(){
+	  $("div#va2outer").hide();
   });
   
 });

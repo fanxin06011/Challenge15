@@ -7,8 +7,8 @@
 		var height=$("div#view1a").width()*1.1;
 		$("div#view1a").css("height",height);
 		var width2=$("div#view1a2").width()-20;
-		var height2=$("div#view1a2").height()-20;//减掉按钮的长度
-		$("div#view1a2").css("top",height*1.05);
+		var height2=$("div#view1a2").height();
+		//$("div#view1a2").css("top",height*1.05);
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
 					.append("svg")  
@@ -92,6 +92,7 @@
 
 		
 		function showUser(idlist,day){ 
+			 
 			 //document.getElementById("judge").innerHTML='0';
 			 var idstr="";
 			 for(var i=0;i<idlist.length;i++){
@@ -103,15 +104,31 @@
 			 url=url+"?id="+id;
 			 url=url+"&day="+day;
 			 url=url+"&sid="+Math.random();
+			 var v1await=document.getElementById("v1await");
+			 $("body").showLoading({text: "图表数据正在努力加载...",
+				x: "center",
+				y: "center",
+				textStyle: {
+				color:"red",
+				fontSize:14
+				},
+				effect:"spin"
+				});
 
 			 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
+				 //beforeSend: function(XMLHttpRequest){
+					//$("#v1await").showLoading();
+				//},
 				 success:function(data){  
 					 //console.log(data);
-					 datajson[day]=data;    
+					 datajson[day]=data;  
+					 //$("#v1await").hideLoading();
 				 },
+
 				 error:function(xhr){console.log("error");} 
 			 })
-			 //console.log(datajson[0][0].time.length);
+			 //$("#v1await").hide();
+			 //console.log("find");
 		 }
 
 		////////////////////////////////////////////////////////////
@@ -490,13 +507,9 @@
 					circles.data(id)
 							.exit()  
 							.remove();
-					//for(var i=0;i<idnum;i++){
-						for(var j=0;j<3;j++){
-							showUser(id,j);
-							
-						}
-					//}
-					$("div#view1a2").show();
+					showUser(id,daynum);
+
+					//$("div#view1a2").show();
 				}
 			}
 			if(message == "highlightstart"){
@@ -656,8 +669,10 @@
 			height=$("div#view1a").width()*1.1;
 			$("div#view1a").css("height",height);
 			width2=$("div#view1a2").width();
-			height2=$("div#view1a2").height()-20;
-			$("div#view1a2").css("top",height*1.05);
+			//var preheight=$("div#view1a2").height();
+			$("div#view1a2").css("height",180/460*width2);
+			height2=160/460*width2;
+			//$("div#view1a2").css("top",height*1.05);
 			//console.log(width);
 			svg = svg.attr("width",width)  
 					.attr("height",height);
@@ -699,13 +714,13 @@
 			circles.attr("r",3/500*width);
 
 			
-			va2label=va2label.attr("x",function(d,i){return (width2/typenum)*i ;})  
-							.attr("y",(height2-50)/540*width2)  
+			va2label=va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
+							.attr("y",height2-50/460*width2)  
 							.attr("width",function(d,i){return (width2/typenum-25);})
-							.attr("height",10/540*width2);
-			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-27)/540*width2+")";}); 
-			va2labelText=va2labelText.attr("dy",function(d,i){return 11*i/540*width2+"px";})
-									.attr("font-size", 10/540*width2+"px");
+							.attr("height",10/460*width2);
+			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-27/460*width2)+")";}); 
+			va2labelText=va2labelText.attr("dy",function(d,i){return 11*i/460*width2+"px";})
+									.attr("font-size", 10/460*width2+"px");
 			$("#viewa2draw").click();
 			
 		});
