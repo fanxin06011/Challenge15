@@ -34,7 +34,7 @@ div#viewbtnbtn {
 div#view1a {
 	
 	//height:600px;
-	width:37%;
+	width:100%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	float:left;
@@ -43,7 +43,7 @@ div#view1a {
 div#view1b {
 	
 	//height:600px;
-	width:37%;
+	width:100%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	float:left;
@@ -51,7 +51,7 @@ div#view1b {
 }
 div#view1b2 {
 	
-	width:27%;
+	width:75%;
 	overflow-x:hidden;
 	overflow-y:hidden;
 	background-color: white;
@@ -70,10 +70,10 @@ div#view4 {
 	//-webkit-box-shadow:3px 3px 3px #292929;
 	//background-color: white;
 	position:absolute;
-	left: 38%;
-	top: 50%;
+	//left: 38%;
+	//top: 50%;
 	height:200px;
-	width:12%;
+	width:100%;
 	overflow-x:hidden;
 	overflow-y:auto;
 	float:left;
@@ -99,12 +99,12 @@ div#view1a2{
 	border:1px solid #999;
 	border-style:groove;
 	background-color: white;
-	left: 38%;
-	top: 20%;
+	//left: 38%;
+	//top: 70%;
 	height:150px;
-	width:40%;
+	width:100%;
 	overflow: hidden;
-	z-index:999;
+	z-index:9999;
 }
 #viewa2close{
 	font:4px "Trebuchet MS", Helvetica, "Helvetica Neue", Arial, sans-serif;
@@ -168,7 +168,7 @@ div#view1a2{
 
 .view1asvg,.view1bsvg {
 	background-image:url(../image/1.jpg);
-	background-size:200% ;
+	background-size:100% ;
 	background-repeat:no-repeat;
 	background-attachment:scroll;
 }	
