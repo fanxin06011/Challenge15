@@ -16,11 +16,16 @@ function View3(Observer){
 	winHeight = document.body.clientHeight;
 
 	init();
+	window.onresize=function()
+	{
+		location.reload();
+	}
+	
 	function init(){
 		Observer.addView(view);
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
-		width = 600/1360*winWidth - margin.left - margin.right;
-		height = 200/386*winHeight - margin.top - margin.bottom;
+		width = 540/1360*winWidth - margin.left - margin.right;
+		height = 180/386*winHeight - margin.top - margin.bottom;
 
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};
@@ -43,6 +48,8 @@ function View3(Observer){
 		document.getElementById("sunnum").onclick=sun
 	}
 	
+	
+	
 	view.onMessage = function(message, data, from){
 		if(message == "selectPeople"){
 			if(from != view){
@@ -60,9 +67,6 @@ function View3(Observer){
 	function onSelectPeople(){
 		return array;
 	}
-	
-	
-	
 	
 	function position(d) {
 	var v = dragging[d];
@@ -108,7 +112,7 @@ function View3(Observer){
 		console.log(array);
 		Observer.fireEvent("showPath",array,view);
 	}
-	function fri()
+function fri()
 {
 svg1.selectAll("g").remove();
 

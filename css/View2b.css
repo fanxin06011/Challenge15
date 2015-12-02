@@ -13,7 +13,7 @@
 
 #View2b svg {
 	font: 10px sans-serif;
-	//padding: 10px;
+	/*padding: 10px;*/
 }
 
 #View2b .xAxis,
@@ -55,7 +55,7 @@
 	fill: #ccc !important;
 }
 
-#View2b .extent {//Ñ¡ÖÐÇøÓò
+#View2b .extent {
 	fill: #000;
 	fill-opacity: .125;
 	stroke: #fff;

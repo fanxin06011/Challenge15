@@ -10,7 +10,7 @@ $(document).ready(function(){
 
   $("div#view1a").hide();
   $("div#view1b2").hide();
-  $("div#view1a2").hide();
+  //$("div#view1a2").hide();
   $("button#view1change").click(function(){
 	  $("div#view1a").toggle();
 	  $("div#view1b").toggle();
@@ -25,4 +25,3 @@ $(document).ready(function(){
   });
   
 });
-//window.onload=function(){   alert("bbbbbbbb"); } 
