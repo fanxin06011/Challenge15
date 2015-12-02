@@ -31,6 +31,10 @@ function View2(Observer){
 		}
 		else if(message == "highlightstart"){
 			highLightId = data;
+			d3.selectAll(".circleId")
+				.attr("r",2)
+				.style("fill",colorList[0])
+				.style("fill-opacity",0.4);
 			console.log("view2---"+"highlightstart!");
 			console.log(highLightId);
 			//highLightId=[103006, 313073, 439584, 657863, 1283386, 1412235, 1763672, 1781128, 1937834, 2049974];
@@ -99,11 +103,10 @@ function View2(Observer){
 		.append("g")
 		.attr("transform", "translate(" + (2.5 * padding) + "," + padding  + ")");
 		
-	var fileName;
-
-	draw("data/dfFri.csv",0);
-	draw("data/dfSat.csv",0);
-	draw("data/dfSun.csv",0);
+	var attrJson = [];
+	draw("Fri",0);
+	draw("Sat",0);
+	draw("Sun",0);
 
 	$(window).resize(function(){
 		var preWidth = width;
@@ -128,6 +131,23 @@ function View2(Observer){
 			.attr("height", sizeEnlarge + 1.5 * paddingEnLarge);		
 		choose();
 	});	
+
+
+	function getAttrValue(selectedX,selectedY,day){ 
+		 var url = "v2.php";
+		 url = url + "?array=" + selectedX + "," + selectedY;
+		 url = url +"&day=" + day;
+
+		 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
+			 success:function(data){  
+				 //console.log(data);
+				 attrJson[day]=data;    
+			 },
+			 error:function(xhr){console.log("error");} 
+		 })
+		 //console.log(datajson[0][0].time.length);
+	 }
+	 
 	
 	function choose(){
 		d3.select("#View2b").style.height=d3.select("#View2b").style.width*1.05;
@@ -151,34 +171,35 @@ function View2(Observer){
 		d3.select("#View2b").selectAll(".cell").remove();
 		d3.select("#View2b").selectAll(".xAxis").remove();
 		d3.select("#View2b").selectAll(".yAxis").remove();
-		if(dayEnlarge == 1){draw("data/dfFri.csv",1);}
-		else if(dayEnlarge == 2){draw("data/dfSat.csv",2);}
-		else if(dayEnlarge == 3){draw("data/dfSun.csv",3);}
-		draw("data/dfFri.csv",0);
-		draw("data/dfSat.csv",0);
-		draw("data/dfSun.csv",0);		
+		if(dayEnlarge == 1){draw("Fri",1);}
+		else if(dayEnlarge == 2){draw("Sat",2);}
+		else if(dayEnlarge == 3){draw("Sun",3);}
+		draw("Fri",0);
+		draw("Sat",0);
+		draw("Sun",0);		
 
 
 		//d3.selectAll("circle").remove();
 	}
 
-	function draw(fileName,isEnlarge){
+	function draw(day,isEnlarge){
+
 		var svg;
-		var colorI,day;
+		var colorI;
 		if(isEnlarge==0){
 			size = sizeStandard;
 			padding = paddingStandard;
-			if(fileName=="data/dfFri.csv"){svg = svgFri; colorI=0; day = "Friday";}
-			else if(fileName=="data/dfSat.csv"){svg = svgSat; colorI=0; day = "Saturday";}
-			else {svg = svgSun; colorI=0; day = "Sunday";}
+			if(day=="Fri"){svg = svgFri; colorI=0;}
+			else if(day=="Sat"){svg = svgSat; colorI=0;}
+			else {svg = svgSun; colorI=0;}
 		}
 		else{
 			size = sizeEnlarge;
 			padding = paddingEnLarge;
 			svg = svgEnlarge; colorI = 0;
-			if(isEnlarge == 1){day = "Friday";}
-			else if(isEnlarge == 2){day = "Saturday"}
-			else if(isEnlarge == 3){day = "Sunday";}
+			if(isEnlarge == 1){day = "Fri";}
+			else if(isEnlarge == 2){day = "Sat"}
+			else if(isEnlarge == 3){day = "Sun";}
 		}
 		
 		var x = d3.scale.linear()
@@ -194,23 +215,23 @@ function View2(Observer){
 			.scale(y)
 			.orient("left")
 			.ticks(5);
+
+		getAttrValue(selectedX,selectedY,day);
+		console.log(attrJson[day]["id"]);
 		
-		d3.csv(fileName, function(error, data) {
-			if (error) throw error;
+
+
 			if(isEnlarge==0){size = sizeStandard; padding = paddingStandard;}
 			else{size = sizeEnlarge; padding = paddingEnLarge;}
-			//data[i]["num"]即可读取第i行num的值
-			//d3.keys(data[0])返回了csv的首行,加个filter滤除了不是数字格式列的最后一列
 			var domainByTrait = {},
 				//traits = d3.keys(data[0]).filter(function(d) { return d == selectedX || d == selectedY; }),
 				traits=[selectedX,selectedY],
 				n = traits.length;
-			traits.forEach(function(trait,i) {//确定真实值域
-				if(trait =="in"||trait =="out"){
-					domainByTrait[trait] = [d3.min(data, function(d) { /*每个d都是data的一行数据*/return parseInt(d[trait]); }),d3.max(data, function(d) { return parseInt(d[trait]); })];
-				}
-				else if(trait == "wayPercent")domainByTrait[trait] = [0,d3.max(data, function(d) { return parseInt(d[trait]*1000)/1000; })];
-				else domainByTrait[trait] = [0,d3.max(data, function(d) { return parseInt(d[trait]); })];
+			traits.forEach(function(trait,i) {//确定真实值域		
+				if(trait =="inin"||trait =="outout"){domainByTrait[trait] = [+d3.min(attrJson[day][trait]),+d3.max(attrJson[day][trait])];}
+				else if(trait == "wayPercent"){domainByTrait[trait] = [0,(d3.max(attrJson[day][trait]))*1000/1000];}
+				else {domainByTrait[trait] = [0,+d3.max(attrJson[day][trait])];}
+				//console.log(domainByTrait[trait]);
 			});
 			var traitsX=[selectedX],traitsY=[selectedY];
 
@@ -233,9 +254,9 @@ function View2(Observer){
 					d3.select("#View2b").selectAll(".cell").remove();
 					d3.select("#View2b").selectAll(".xAxis").remove();
 					d3.select("#View2b").selectAll(".yAxis").remove();
-					if(day == "Friday"){draw("data/dfFri.csv",1); dayEnlarge = 1;}
-					else if(day == "Saturday"){draw("data/dfSat.csv",2); dayEnlarge =2;}
-					else if(day == "Sunday"){draw("data/dfSun.csv",3); dayEnlarge =3;}
+					if(day == "Fri"){draw("Fri",1); dayEnlarge = 1;}
+					else if(day == "Sat"){draw("Sat",2); dayEnlarge =2;}
+					else if(day == "Sun"){draw("Sun",3); dayEnlarge =3;}
 					//d3.select("#View2b").style.display="block";
 					document.getElementById("View2b").style.display="block";
 				});	
@@ -284,11 +305,11 @@ function View2(Observer){
 					.attr("height", size - padding);
 				//描点d[p.x]--该点x属性值
 				cell.selectAll("circleId")
-					.data(data)
+					.data(attrJson[day]["id"])
 					.enter().append("circle")
-					.attr("class",function(d) {var id = +d[p.id];id="id"+id;return "circleId "+id; })
-					.attr("cx", function(d) {return x(d[p.x]); })
-					.attr("cy", function(d) {return y(d[p.y]); })
+					.attr("class",function(d,i) {var id = +d;id="id"+id;return "circleId "+id; })
+					.attr("cx", function(d,i) {return x(attrJson[day][selectedX][i]); })
+					.attr("cy", function(d,i) {return y(attrJson[day][selectedY][i]); })
 					.attr("r", 2)
 					.style("fill", function(d) { return colorList[colorI]; });
 			}
@@ -316,6 +337,7 @@ function View2(Observer){
 				});*/
 			}
 
+
 			// If the brush is empty, select all circles.
 			function brushend(p) {
 				
@@ -323,12 +345,13 @@ function View2(Observer){
 				else {
 				var e = brush.extent();
 				//console.log(e);
-				for(i=-1;++i<data.length;)
+				//console.log(attrJson[day]["id"].length);
+				//for(i=-1;++i<attrJson[day]["id"].length;)
+				for(i=0; i<attrJson[day]["id"].length; ++i)
 				{
-					//console.log(data[i][selectedX]);
-					if(e[0][0]<=data[i][selectedX]&&data[i][selectedX]<=e[1][0]
-						&&e[0][1]<=data[i][selectedY]&&data[i][selectedY]<=e[1][1]){
-						selectedId.push(parseInt(data[i]["id"]));
+					if(e[0][0]<=attrJson[day][selectedX][i]&&attrJson[day][selectedX][i]<=e[1][0]
+						&&e[0][1]<=attrJson[day][selectedY][i]&&attrJson[day][selectedY][i]<=e[1][1]){
+						selectedId.push(parseInt(attrJson[day]["id"][i]));
 					}
 				}
 				console.log("view2---");
@@ -345,9 +368,6 @@ function View2(Observer){
 				c.push({x:a[0],y:b[0],id:id});
 				return c;
 			}
-
-			//d3.select(self.frameElement).style("height", size * n + padding + 20 + "px");
-		});
 
 	};
 	return view;
