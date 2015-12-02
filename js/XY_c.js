@@ -227,8 +227,12 @@ function View2(Observer){
 			traits=[selectedX,selectedY],
 			n = traits.length;
 		traits.forEach(function(trait,i) {//确定真实值域		
-			if(trait =="inin"||trait =="outout"){domainByTrait[trait] = [d3.min(attrJson[day][trait]),d3.max(attrJson[day][trait])];}
-			else if(trait == "wayPercent"){domainByTrait[trait] = [0,(d3.max(attrJson[day][trait]))*1000/1000];}
+			if(trait =="inin"||trait =="outout"){
+				domainByTrait[trait] = [d3.min(attrJson[day][trait]),d3.max(attrJson[day][trait])];
+			}
+			else if(trait == "wayPercent"){
+				domainByTrait[trait] = [0,(d3.max(attrJson[day][trait]))*1000/1000];
+			}
 			else {domainByTrait[trait] = [0,d3.max(attrJson[day][trait])];}
 			//console.log(domainByTrait[trait]);
 		});
@@ -238,8 +242,14 @@ function View2(Observer){
 		xAxis.tickSize(size);//辅助线
 		yAxis.tickSize(-size);
 		if(isEnlarge==0){
-			svg.append("text").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
-			svg.append("text").attr("x",-15).attr("y",5).text(selectedY);
+			svg.append("text")
+				.attr("x",size-selectedX.length*12)
+				.attr("y",size)
+				.text(function(){return selectedX});
+			svg.append("text")
+				.attr("x",-15)
+				.attr("y",5)
+				.text(function(){return selectedY});
 		}
 		else{
 			svg.append("text").attr("x",size-25-selectedX.length*12).attr("y",size).text(selectedX);
@@ -247,7 +257,11 @@ function View2(Observer){
 		}
 			
 		svg.append("text").attr("x",size/2-30).attr("y",0)
-			.text(day)
+			.text(function(){
+				if(day=="Fri")return "Friday";
+				else if(day=="Sat")return "Saturday";
+				else return "Sunday";
+			})
 			.on("dblclick", function(){
 				d3.select("#View2b").selectAll("text").remove();
 				d3.select("#View2b").selectAll(".cell").remove();
@@ -272,7 +286,11 @@ function View2(Observer){
 			.enter().append("g")
 			.attr("class", "xAxis")
 			.attr("transform", function(d, i) { return "translate(" + (traitsX.length - i - 1) * size + ",0)"; })
-			.each(function(d) { x.domain(domainByTrait[d]); d3.select(this).call(xAxis); });
+			.each(function(d) {
+				x.domain([domainByTrait[d][0],domainByTrait[d][1]]);
+				d3.select(this).call(xAxis);
+			});
+
 
 		svg.selectAll(".yAxis")
 			.data(traitsY)

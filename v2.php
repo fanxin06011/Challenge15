@@ -51,6 +51,9 @@ while($row = mysql_fetch_array($res)){
 	//echo $idData[$index]." ";
 	for($i=0;$i<$arrayLength;++$i){
 		if($array[$i]=="wayPercent")$attrDataAll[$array[$i]][] = (double)($row[$array[$i]]);
+	if($array[$i]=="average"||$array[$i]=="outout"||$array[$i]=="stay"||$array[$i]=="average"||$array[$i]=="way"){
+			$attrDataAll[$array[$i]][] = (double)($row[$array[$i]])/3600;
+		}
 		else $attrDataAll[$array[$i]][] = (int)($row[$array[$i]]);
 		//echo $attrDataAll[$array[$i]][$index]." ";
 	}
