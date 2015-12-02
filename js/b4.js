@@ -26,11 +26,10 @@ $(document).ready(function(){
 	  $("div#viewb2outer").hide();
   });
 
-   $("button#View2bclose").click(function(){
-	  $("div#View2b").hide();
-  });
+
   $("#viewa2close").click(function(){
-	  $("div#va2outer").hide();
+	$("div#va2outer").hide();
   });
+
   
 });
