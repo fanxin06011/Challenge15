@@ -16,7 +16,8 @@ function View2(Observer){
 	document.getElementById("yAxisChoose").onchange=function(){
 		choose();
 	}
-
+    var iWidth = document.documentElement.clientWidth;  
+    var iHeight = document.documentElement.clientHeight; 
 	view.onMessage = function(message, data, from){
 		//console.log("view2---"+message);
 		if(message == "showPath"){
@@ -139,7 +140,7 @@ function View2(Observer){
 		 url = url + "?array=" + selectedX + "," + selectedY;
 		 url = url +"&day=" + day;
 
-		 $.ajax({ url:url, async:true,  cache:false, dataType:'json',
+		 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
 			 success:function(data){  
 				 //console.log(data);
 				 attrJson[day]=data;    
@@ -388,7 +389,8 @@ function View2(Observer){
 
 	};
 	
-    document.getElementById("View2b").onmousedown = function() { 
+    document.getElementById("View2b").onmousedown = function() {
+		msgObj = document.getElementById("View2b");
         var evt = getEvent(); 
         moveable = true;  
         moveX = evt.clientX; 
