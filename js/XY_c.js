@@ -387,5 +387,38 @@ function View2(Observer){
 		}
 
 	};
+	
+    document.getElementById("View2b").onmousedown = function() { 
+        var evt = getEvent(); 
+        moveable = true;  
+        moveX = evt.clientX; 
+        moveY = evt.clientY; 
+        moveTop = parseInt(msgObj.style.top); 
+        moveLeft = parseInt(msgObj.style.left); 
+         
+        document.onmousemove = function() { 
+            if (moveable) { 
+                var evt = getEvent(); 
+                var x = moveLeft + evt.clientX - moveX; 
+                var y = moveTop + evt.clientY - moveY; 
+                if ( x > 0 &&( x + w < iWidth) && y > 0 && (y + h < iHeight) ) { 
+                    msgObj.style.left = x + "px"; 
+                    msgObj.style.top = y + "px"; 
+                } 
+            }     
+        }; 
+        document.onmouseup = function () {  
+            if (moveable) {  
+                document.onmousemove = docMouseMoveEvent; 
+                document.onmouseup = docMouseUpEvent; 
+                moveable = false;  
+                moveX = 0; 
+                moveY = 0; 
+                moveTop = 0; 
+                moveLeft = 0; 
+            }  
+        }; 
+    } 
+
 	return view;
 };

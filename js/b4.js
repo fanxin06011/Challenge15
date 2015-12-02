@@ -7,6 +7,7 @@ $(document).ready(function(){
   $(function() {
     $( "div#view4" ).draggable();
   });
+
   $("div#view1a").hide();
   $("div#view1b2").hide();
   $("div#view1a2").hide();
