@@ -139,7 +139,7 @@ function View2(Observer){
 		 url = url + "?array=" + selectedX + "," + selectedY;
 		 url = url +"&day=" + day;
 
-		 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
+		 $.ajax({ url:url, async:true,  cache:false, dataType:'json',
 			 success:function(data){  
 				 //console.log(data);
 				 attrJson[day]=data;    
