@@ -104,9 +104,10 @@ function View2(Observer){
 		.attr("transform", "translate(" + (2.5 * padding) + "," + padding  + ")");
 		
 	var attrJson = [];
-	draw("Fri",0);
-	draw("Sat",0);
-	draw("Sun",0);
+	attrJson["Fri"] = {};
+	attrJson["Sat"] = {};
+	attrJson["Sun"] = {};
+	choose();
 
 	$(window).resize(function(){
 		var preWidth = width;
@@ -217,157 +218,155 @@ function View2(Observer){
 			.ticks(5);
 
 		getAttrValue(selectedX,selectedY,day);
-		console.log(attrJson[day]["id"]);
+		//console.log(attrJson[day]["id"]);
+
+		if(isEnlarge==0){size = sizeStandard; padding = paddingStandard;}
+		else{size = sizeEnlarge; padding = paddingEnLarge;}
+		var domainByTrait = {},
+			//traits = d3.keys(data[0]).filter(function(d) { return d == selectedX || d == selectedY; }),
+			traits=[selectedX,selectedY],
+			n = traits.length;
+		traits.forEach(function(trait,i) {//确定真实值域		
+			if(trait =="inin"||trait =="outout"){domainByTrait[trait] = [d3.min(attrJson[day][trait]),d3.max(attrJson[day][trait])];}
+			else if(trait == "wayPercent"){domainByTrait[trait] = [0,(d3.max(attrJson[day][trait]))*1000/1000];}
+			else {domainByTrait[trait] = [0,d3.max(attrJson[day][trait])];}
+			//console.log(domainByTrait[trait]);
+		});
+		var traitsX=[selectedX],traitsY=[selectedY];
+
 		
-
-
-			if(isEnlarge==0){size = sizeStandard; padding = paddingStandard;}
-			else{size = sizeEnlarge; padding = paddingEnLarge;}
-			var domainByTrait = {},
-				//traits = d3.keys(data[0]).filter(function(d) { return d == selectedX || d == selectedY; }),
-				traits=[selectedX,selectedY],
-				n = traits.length;
-			traits.forEach(function(trait,i) {//确定真实值域		
-				if(trait =="inin"||trait =="outout"){domainByTrait[trait] = [+d3.min(attrJson[day][trait]),+d3.max(attrJson[day][trait])];}
-				else if(trait == "wayPercent"){domainByTrait[trait] = [0,(d3.max(attrJson[day][trait]))*1000/1000];}
-				else {domainByTrait[trait] = [0,+d3.max(attrJson[day][trait])];}
-				//console.log(domainByTrait[trait]);
-			});
-			var traitsX=[selectedX],traitsY=[selectedY];
-
+		xAxis.tickSize(size);//辅助线
+		yAxis.tickSize(-size);
+		if(isEnlarge==0){
+			svg.append("text").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
+			svg.append("text").attr("x",-15).attr("y",5).text(selectedY);
+		}
+		else{
+			svg.append("text").attr("x",size-25-selectedX.length*12).attr("y",size).text(selectedX);
+			svg.append("text").attr("x",-15).attr("y",10).text(selectedY);
+		}
 			
-			xAxis.tickSize(size);//辅助线
-			yAxis.tickSize(-size);
-			if(isEnlarge==0){
-				svg.append("text").attr("x",size-selectedX.length*12).attr("y",size).text(selectedX);
-				svg.append("text").attr("x",-15).attr("y",5).text(selectedY);
+		svg.append("text").attr("x",size/2-30).attr("y",0)
+			.text(day)
+			.on("dblclick", function(){
+				d3.select("#View2b").selectAll("text").remove();
+				d3.select("#View2b").selectAll(".cell").remove();
+				d3.select("#View2b").selectAll(".xAxis").remove();
+				d3.select("#View2b").selectAll(".yAxis").remove();
+				if(day == "Fri"){draw("Fri",1); dayEnlarge = 1;}
+				else if(day == "Sat"){draw("Sat",2); dayEnlarge =2;}
+				else if(day == "Sun"){draw("Sun",3); dayEnlarge =3;}
+				//d3.select("#View2b").style.display="block";
+				document.getElementById("View2b").style.display="block";
+			});	
+
+		var brush = d3.svg.brush()
+			.x(x)
+			.y(y)
+			.on("brushstart", brushstart)
+			.on("brush", brushmove)
+			.on("brushend", brushend);
+
+		svg.selectAll(".xAxis")
+			.data(traitsX)
+			.enter().append("g")
+			.attr("class", "xAxis")
+			.attr("transform", function(d, i) { return "translate(" + (traitsX.length - i - 1) * size + ",0)"; })
+			.each(function(d) { x.domain(domainByTrait[d]); d3.select(this).call(xAxis); });
+
+		svg.selectAll(".yAxis")
+			.data(traitsY)
+			.enter().append("g")
+			.attr("class", "yAxis")
+			.attr("transform", function(d, i) { return "translate(0," + i * size + ")"; })
+			.each(function(d) { y.domain(domainByTrait[d]); d3.select(this).call(yAxis); });
+
+		var cell = svg.selectAll(".cell")
+			.data(cross(traitsX, traitsY,"id"))
+			.enter().append("g")
+			.attr("class", "cell")
+			//.attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
+			.each(plot);
+
+		cell.call(brush);
+
+		function plot(p) {
+		//p.x--traitsX, p.y--traitsY
+			var cell = d3.select(this);
+			//x.domain(domainByTrait[p.x]);
+			//y.domain(domainByTrait[p.y]);
+			//框的外部
+			cell.append("rect")
+				.attr("class", "frame")
+				.attr("x", function(){return padding / 2;})
+				.attr("y", padding / 2)
+				.attr("width", size - padding)
+				.attr("height", size - padding);
+			//描点d[p.x]--该点x属性值
+			cell.selectAll("circleId")
+				.data(attrJson[day]["id"])
+				.enter().append("circle")
+				.attr("class",function(d,i) {var id = +d;id="id"+id;return "circleId "+id; })
+				.attr("cx", function(d,i) {return x(attrJson[day][selectedX][i]); })
+				.attr("cy", function(d,i) {return y(attrJson[day][selectedY][i]); })
+				.attr("r", 2)
+				.style("fill", function(d) { return colorList[colorI]; });
+		}
+
+		var brushCell;
+		var selectedId = [];
+		
+		// Clear the previously-active brush, if any.
+		function brushstart(p) {
+			Observer.fireEvent("highlightend", selectedId, view);
+			selectedId=[];
+			if (brushCell !== this) {
+			d3.select(brushCell).call(brush.clear());
+			x.domain(domainByTrait[p.x]);
+			y.domain(domainByTrait[p.y]);
+			brushCell = this;
 			}
-			else{
-				svg.append("text").attr("x",size-25-selectedX.length*12).attr("y",size).text(selectedX);
-				svg.append("text").attr("x",-15).attr("y",10).text(selectedY);
-			}
-				
-			svg.append("text").attr("x",size/2-30).attr("y",0)
-				.text(day)
-				.on("dblclick", function(){
-					d3.select("#View2b").selectAll("text").remove();
-					d3.select("#View2b").selectAll(".cell").remove();
-					d3.select("#View2b").selectAll(".xAxis").remove();
-					d3.select("#View2b").selectAll(".yAxis").remove();
-					if(day == "Fri"){draw("Fri",1); dayEnlarge = 1;}
-					else if(day == "Sat"){draw("Sat",2); dayEnlarge =2;}
-					else if(day == "Sun"){draw("Sun",3); dayEnlarge =3;}
-					//d3.select("#View2b").style.display="block";
-					document.getElementById("View2b").style.display="block";
-				});	
+		}
 
-			var brush = d3.svg.brush()
-				.x(x)
-				.y(y)
-				.on("brushstart", brushstart)
-				.on("brush", brushmove)
-				.on("brushend", brushend);
+		// Highlight the selected circles.
+		function brushmove(p) {
+			var e = brush.extent();
+			/*svg.selectAll("circle").classed("hidden", function(d) {
+				return e[0][0] > d[p.x] || d[p.x] > e[1][0] || e[0][1] > d[p.y] || d[p.y] > e[1][1];
+			});*/
+		}
 
-			svg.selectAll(".xAxis")
-				.data(traitsX)
-				.enter().append("g")
-				.attr("class", "xAxis")
-				.attr("transform", function(d, i) { return "translate(" + (traitsX.length - i - 1) * size + ",0)"; })
-				.each(function(d) { x.domain(domainByTrait[d]); d3.select(this).call(xAxis); });
 
-			svg.selectAll(".yAxis")
-				.data(traitsY)
-				.enter().append("g")
-				.attr("class", "yAxis")
-				.attr("transform", function(d, i) { return "translate(0," + i * size + ")"; })
-				.each(function(d) { y.domain(domainByTrait[d]); d3.select(this).call(yAxis); });
-
-			var cell = svg.selectAll(".cell")
-				.data(cross(traitsX, traitsY,"id"))
-				.enter().append("g")
-				.attr("class", "cell")
-				//.attr("transform", function(d) { return "translate(" + (n - d.i - 1) * size + "," + d.j * size + ")"; })
-				.each(plot);
-
-			cell.call(brush);
-
-			function plot(p) {
-			//p.x--traitsX, p.y--traitsY
-				var cell = d3.select(this);
-				//x.domain(domainByTrait[p.x]);
-				//y.domain(domainByTrait[p.y]);
-				//框的外部
-				cell.append("rect")
-					.attr("class", "frame")
-					.attr("x", function(){return padding / 2;})
-					.attr("y", padding / 2)
-					.attr("width", size - padding)
-					.attr("height", size - padding);
-				//描点d[p.x]--该点x属性值
-				cell.selectAll("circleId")
-					.data(attrJson[day]["id"])
-					.enter().append("circle")
-					.attr("class",function(d,i) {var id = +d;id="id"+id;return "circleId "+id; })
-					.attr("cx", function(d,i) {return x(attrJson[day][selectedX][i]); })
-					.attr("cy", function(d,i) {return y(attrJson[day][selectedY][i]); })
-					.attr("r", 2)
-					.style("fill", function(d) { return colorList[colorI]; });
-			}
-
-			var brushCell;
-			var selectedId = [];
+		// If the brush is empty, select all circles.
+		function brushend(p) {
 			
-			// Clear the previously-active brush, if any.
-			function brushstart(p) {
-				Observer.fireEvent("highlightend", selectedId, view);
-				selectedId=[];
-				if (brushCell !== this) {
-				d3.select(brushCell).call(brush.clear());
-				x.domain(domainByTrait[p.x]);
-				y.domain(domainByTrait[p.y]);
-				brushCell = this;
+			if (brush.empty()) ;//svg.selectAll(".hidden").classed("hidden", false);
+			else {
+			var e = brush.extent();
+			//console.log(e);
+			//console.log(attrJson[day]["id"].length);
+			//for(i=-1;++i<attrJson[day]["id"].length;)
+			for(i=0; i<attrJson[day]["id"].length; ++i)
+			{
+				if(e[0][0]<=attrJson[day][selectedX][i]&&attrJson[day][selectedX][i]<=e[1][0]
+					&&e[0][1]<=attrJson[day][selectedY][i]&&attrJson[day][selectedY][i]<=e[1][1]){
+					selectedId.push(parseInt(attrJson[day]["id"][i]));
 				}
 			}
-
-			// Highlight the selected circles.
-			function brushmove(p) {
-				var e = brush.extent();
-				/*svg.selectAll("circle").classed("hidden", function(d) {
-					return e[0][0] > d[p.x] || d[p.x] > e[1][0] || e[0][1] > d[p.y] || d[p.y] > e[1][1];
-				});*/
+			console.log("view2---");
+			console.log(selectedId);//被选中的id列表
+			Observer.fireEvent("highlightstart", selectedId, view);
+			Observer.fireEvent("showPath", selectedId, view);////////////////////////////////
 			}
+		}
 
-
-			// If the brush is empty, select all circles.
-			function brushend(p) {
-				
-				if (brush.empty()) ;//svg.selectAll(".hidden").classed("hidden", false);
-				else {
-				var e = brush.extent();
-				//console.log(e);
-				//console.log(attrJson[day]["id"].length);
-				//for(i=-1;++i<attrJson[day]["id"].length;)
-				for(i=0; i<attrJson[day]["id"].length; ++i)
-				{
-					if(e[0][0]<=attrJson[day][selectedX][i]&&attrJson[day][selectedX][i]<=e[1][0]
-						&&e[0][1]<=attrJson[day][selectedY][i]&&attrJson[day][selectedY][i]<=e[1][1]){
-						selectedId.push(parseInt(attrJson[day]["id"][i]));
-					}
-				}
-				console.log("view2---");
-				console.log(selectedId);//被选中的id列表
-				Observer.fireEvent("highlightstart", selectedId, view);
-				Observer.fireEvent("showPath", selectedId, view);////////////////////////////////
-				}
-			}
-
-			function cross(a, b, id) {
-				//var c = [], n = a.length, m = b.length, i, j;
-				//for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
-				var c = [];
-				c.push({x:a[0],y:b[0],id:id});
-				return c;
-			}
+		function cross(a, b, id) {
+			//var c = [], n = a.length, m = b.length, i, j;
+			//for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({x: a[i], i: i, y: b[j], j: j});
+			var c = [];
+			c.push({x:a[0],y:b[0],id:id});
+			return c;
+		}
 
 	};
 	return view;
