@@ -5,7 +5,7 @@ function View1b(Observer){
 	
 
 	var width=$("div#view1b").width(); 
-	var height=$("div#view1b").width()*1.3;
+	var height=$("div#view1b").width()*1.1;
 	$("div#view1b").css("height",height);
 	
 	$("div#view1b").attr("height",height);
@@ -498,7 +498,8 @@ function View1b(Observer){
 	$(window).resize(function(){
 		var prewidth=width;
 		width=$("div#view1b").width(); 
-		height=$("div#view1b").width()*1.3;
+		height=$("div#view1b").width()*1.1;
+		$("div#view1b").css("height",height);
 		$("div#view1b").attr("height",height);
 		$("div#view1b2").attr("height",width*0.6);
 	

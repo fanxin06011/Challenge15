@@ -64,7 +64,8 @@ function View4(Observer){
 		  $("fieldset#list p:last").attr("id",+idlist[i]);
 		  $("fieldset#list p:last").css("background-color","white");
 		  $("fieldset#list p:last").addClass("idlistp");
-		  $("fieldset#list p:last").append('<input type="button" class="deleteid" value="delete">');
+		  //$("fieldset#list p:last").append('<input type="button" class="deleteid" value="delete">');
+		  $("fieldset#list p:last").append('<a><i class="fa fa-remove"></i></a>');
 		  $(".deleteid:last").click(function(){
 				var d=parseInt($(this).parent("p").attr("id"));
 				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], view4);
@@ -106,15 +107,17 @@ function View4(Observer){
 	
 	
 	$("#clear").click(function(){
-
+		//console.log("clear");
 	  idlist=[];
 	  $("fieldset#list").children("p").remove();
 	  Observer.fireEvent("highlightend", idhighlight, "view4");
 	});
-	$("#submit").click(function(){
-	  
+	$("#v4submit").click(function(){
+	  //console.log("aaaa");
+	  $("div#view1a2").show();
 	  Observer.fireEvent("showPath", idlist, "view4");
 	  $("#viewa2draw").click();
+	  
 	});
 	
 	

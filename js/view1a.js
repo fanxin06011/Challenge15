@@ -4,10 +4,11 @@
 	
 	function View1a(Observer){
 		var width=$("div#view1a").width();//1350*37%=499
-		var height=$("div#view1a").width()*1.3;
+		var height=$("div#view1a").width()*1.1;
 		$("div#view1a").css("height",height);
 		var width2=$("div#view1a2").width()-20;
 		var height2=$("div#view1a2").height()-20;//减掉按钮的长度
+		$("div#view1a2").css("top",height*1.05);
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
 					.append("svg")  
@@ -652,9 +653,11 @@
 			// resize the view
 			var prewidth=width;
 			width=$("div#view1a").width();
-			height=$("div#view1a").width()*1.3;
+			height=$("div#view1a").width()*1.1;
+			$("div#view1a").css("height",height);
 			width2=$("div#view1a2").width();
 			height2=$("div#view1a2").height()-20;
+			$("div#view1a2").css("top",height*1.05);
 			//console.log(width);
 			svg = svg.attr("width",width)  
 					.attr("height",height);
