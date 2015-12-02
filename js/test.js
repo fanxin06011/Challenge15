@@ -19,8 +19,8 @@ function View3(Observer){
 	function init(){
 		Observer.addView(view);
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
-		width = 600/1360*winWidth - margin.left - margin.right;
-		height = 200/386*winHeight - margin.top - margin.bottom;
+		width = 540/1360*winWidth - margin.left - margin.right;
+		height = 180/386*winHeight - margin.top - margin.bottom;
 
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};
