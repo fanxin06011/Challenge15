@@ -16,8 +16,7 @@ function View2(Observer){
 	document.getElementById("yAxisChoose").onchange=function(){
 		choose();
 	}
-    var iWidth = document.documentElement.clientWidth;  
-    var iHeight = document.documentElement.clientHeight; 
+	
 	view.onMessage = function(message, data, from){
 		//console.log("view2---"+message);
 		if(message == "showPath"){
@@ -63,60 +62,65 @@ function View2(Observer){
 	var height = $("div#View2").height() * 0.7;
 	
 	var sizeStandard = width/3;
-	var paddingStandard = sizeStandard/6;
+	var paddingStandard = sizeStandard/5.5;
 	var sizeEnlarge = sizeStandard * 1.95;
 	var paddingEnLarge = paddingStandard * 1.95;
 
 	var size = sizeStandard * 1;
 	var padding = paddingStandard *1;
+
+    var iWidth = document.documentElement.clientWidth;  
+    var iHeight = document.documentElement.clientHeight;	
+	var view2bDisplay = 0;
+	alertView2b(2*size+3*padding,2*size+4*padding);
+	
 		
-	//var color = d3.scale.category10();
 	var svgFri = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgFri")
-		.attr("width", size  + padding)
-		.attr("height", size  + padding)
+		.attr("width", size + padding)
+		.attr("height", size + padding)
 		.append("g")
-		.attr("transform", "translate(" + 1.5 * padding + "," + padding / 2 + ")");
-	//svgFri.attr("width", 30).attr("height", 30);
+		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		
 	var svgSat = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSat")
-		.attr("width", size  + padding)
-		.attr("height", size  + padding)
+		.attr("width", size + padding)
+		.attr("height", size + padding)
 		.append("g")
-		.attr("transform", "translate(" + 1.5 * padding + "," + padding / 2 + ")");
+		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
 	var svgSun = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSun")
-		.attr("width", size  + padding)
-		.attr("height", size  + padding)
+		.attr("width", size + padding)
+		.attr("height", size + padding)
 		.append("g")
-		.attr("transform", "translate(" + 1.5 * padding + "," + padding / 2 + ")");
+		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
 	var svgEnlarge = d3.select("#View2b").append("svg")  
-		.attr("class","svg")
+		.attr("class","svgEnlarge")
 		.attr("id","svgEnlarge")
 		.attr("width", sizeEnlarge + paddingEnLarge)  
-		.attr("height", sizeEnlarge + paddingEnLarge)
+		.attr("height", sizeEnlarge + 2*paddingEnLarge)
 		.append("g")
-		.attr("transform", "translate(" + (2.5 * padding) + "," + padding  + ")");
+		.attr("transform", "translate(" + (paddingEnLarge) + "," + paddingEnLarge/2  + ")");
 		
 	var attrJson = [];
 	attrJson["Fri"] = {};
 	attrJson["Sat"] = {};
 	attrJson["Sun"] = {};
 	choose();
-
+	
 	$(window).resize(function(){
+		
 		var preWidth = width;
 		var preHeight = height;
-		var width = $("div#View2").width() * 2/3;
-		var height = $("div#View2").width() * 2/3;
+		var width = $(window).width() * 0.43;
+		var height = $(window).width() * 0.43;
 		sizeStandard = width/3;
-		paddingStandard = sizeStandard/6;
+		paddingStandard = sizeStandard/5.5;
 		sizeEnlarge = sizeStandard * 1.95;
 		paddingEnLarge = paddingStandard * 1.95;
 
@@ -124,13 +128,17 @@ function View2(Observer){
 		padding = paddingStandard * 1;
 		
 		d3.select("#View2")
-			.selectAll("svg")
+			.selectAll(".svg")
 			.attr("width", size + padding)
-			.attr("height", size  + padding);
+			.attr("height", size  + padding)
+			.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		d3.select("#View2b")
 			.select("#svgEnlarge")
-			.attr("width", sizeEnlarge + 1 * paddingEnLarge)
-			.attr("height", sizeEnlarge + 1.5 * paddingEnLarge);		
+			.attr("width", sizeEnlarge + 1.5 * paddingEnLarge)
+			.attr("height", sizeEnlarge + 2 * paddingEnLarge)
+			.attr("transform", "translate(" + 2*paddingEnLarge + "," + paddingEnLarge/2  + ")");
+		
+		document.getElementById("View2b").style.cssText = "position:absolute;z-index:9999;font:11px '宋体';top:"+0+"px;width:"+(2*size+3*padding)+"px;height:"+(2*size+4*padding)+"px;";
 		choose();
 	});	
 
@@ -147,7 +155,6 @@ function View2(Observer){
 			 },
 			 error:function(xhr){console.log("error");} 
 		 })
-		 //console.log(datajson[0][0].time.length);
 	 }
 	 
 	
@@ -167,8 +174,6 @@ function View2(Observer){
 		d3.select("#View2").selectAll(".xAxis").remove();
 		d3.select("#View2").selectAll(".yAxis").remove();
 
-		//alert(dayEnlarge);
-
 		d3.select("#View2b").selectAll("text").remove();
 		d3.select("#View2b").selectAll(".cell").remove();
 		d3.select("#View2b").selectAll(".xAxis").remove();
@@ -179,13 +184,10 @@ function View2(Observer){
 		draw("Fri",0);
 		draw("Sat",0);
 		draw("Sun",0);		
-
-
-		//d3.selectAll("circle").remove();
+		if(view2bDisplay == 1)document.getElementById("View2b").style.display="block";
 	}
 
 	function draw(day,isEnlarge){
-
 		var svg;
 		var colorI;
 		if(isEnlarge==0){
@@ -272,7 +274,8 @@ function View2(Observer){
 				else if(day == "Sat"){draw("Sat",2); dayEnlarge =2;}
 				else if(day == "Sun"){draw("Sun",3); dayEnlarge =3;}
 				//d3.select("#View2b").style.display="block";
-				document.getElementById("View2b").style.display="block";
+				view2bDisplay = 1;
+				document.getElementById("View2b").style.display="block";			
 			});	
 
 		var brush = d3.svg.brush()
@@ -386,41 +389,83 @@ function View2(Observer){
 			c.push({x:a[0],y:b[0],id:id});
 			return c;
 		}
+		
 
 	};
-	
-    document.getElementById("View2b").onmousedown = function() {
-		msgObj = document.getElementById("View2b");
-        var evt = getEvent(); 
-        moveable = true;  
-        moveX = evt.clientX; 
-        moveY = evt.clientY; 
-        moveTop = parseInt(msgObj.style.top); 
-        moveLeft = parseInt(msgObj.style.left); 
-         
-        document.onmousemove = function() { 
-            if (moveable) { 
-                var evt = getEvent(); 
-                var x = moveLeft + evt.clientX - moveX; 
-                var y = moveTop + evt.clientY - moveY; 
-                if ( x > 0 &&( x + w < iWidth) && y > 0 && (y + h < iHeight) ) { 
-                    msgObj.style.left = x + "px"; 
-                    msgObj.style.top = y + "px"; 
-                } 
-            }     
-        }; 
-        document.onmouseup = function () {  
-            if (moveable) {  
-                document.onmousemove = docMouseMoveEvent; 
-                document.onmouseup = docMouseUpEvent; 
-                moveable = false;  
-                moveX = 0; 
-                moveY = 0; 
-                moveTop = 0; 
-                moveLeft = 0; 
-            }  
-        }; 
-    } 
 
+	
+	function alertView2b(w,h){
+		var titleheight = "22px"; // 提示窗口标题高度  
+		var bordercolor = "#666699"; // 提示窗口的边框颜色  
+		var titlecolor = "#FFFFFF"; // 提示窗口的标题颜色  
+		var titlebgcolor = "#666699"; // 提示窗口的标题背景色 
+		var bgcolor = "#FFFFFF"; // 提示内容的背景色 
+		var msgObj=document.getElementById("View2b"); 
+		//msgObj.style.display="block";
+		msgObj.style.cssText = "position:absolute;font:11px '宋体';top:"+0+"px;left:"+0+"px;width:"+(2*size+3*padding)+"px;height:"+(2*size+4*padding)+"px;text-align:center;border:1px solid "+bordercolor+";background-color:"+bgcolor+";padding:1px;line-height:22px;z-index:9999;"; 
+		//document.body.appendChild(msgObj); 
+				 
+		var table = document.createElement("table"); 
+		msgObj.appendChild(table); 
+		table.style.cssText = "margin:0px;border:0px;padding:0px;"; 
+		table.cellSpacing = 0; 
+		var tr = table.insertRow(-1); 
+		var titleBar = tr.insertCell(-1); 
+		titleBar.style.cssText = "width:100%;height:"+titleheight+"px;text-align:left;padding:3px;margin:0px;font:bold 13px '宋体';color:"+titlecolor+";border:1px solid " + bordercolor + ";cursor:move;background-color:" + titlebgcolor; 
+		titleBar.style.paddingLeft = "10px"; 
+		titleBar.innerHTML = "Enlarge"; 
+		var moveX = 0; 
+		var moveY = 0; 
+		var moveTop = 0; 
+		var moveLeft = 0; 
+		var moveable = false; 
+		var docMouseMoveEvent = document.onmousemove; 
+		var docMouseUpEvent = document.onmouseup; 
+		titleBar.onmousedown = function() { 
+			var evt = getEvent(); 
+			moveable = true;  
+			moveX = evt.clientX; 
+			moveY = evt.clientY; 
+			moveTop = parseInt(msgObj.style.top); 
+			moveLeft = parseInt(msgObj.style.left); 
+			 
+			document.onmousemove = function() { 
+				if (moveable) { 
+					var evt = getEvent(); 
+					var x = moveLeft + evt.clientX - moveX; 
+					var y = moveTop + evt.clientY - moveY; 
+					if ( x > 0 &&( x + w < iWidth) && y > 0 && (y + h < iHeight) ) { 
+						msgObj.style.left = x + "px"; 
+						msgObj.style.top = y + "px"; 
+					} 
+				}     
+			}; 
+			document.onmouseup = function () {  
+				if (moveable) {  
+					document.onmousemove = docMouseMoveEvent; 
+					document.onmouseup = docMouseUpEvent; 
+					moveable = false;  
+					moveX = 0; 
+					moveY = 0; 
+					moveTop = 0; 
+					moveLeft = 0; 
+				}  
+			}; 
+		} 
+		 
+		var closeBtn = tr.insertCell(-1); 
+		closeBtn.style.cssText = "cursor:pointer; padding:2px;background-color:" + titlebgcolor; 
+		closeBtn.innerHTML = "<span style='font-size:15pt; color:"+titlecolor+";'>×</span>"; 
+		closeBtn.onclick = function(){  
+			view2bDisplay = 0;
+			document.getElementById("View2b").style.display="none";  
+		}  
+		 
+		// 获得事件Event对象，用于兼容IE和FireFox 
+		function getEvent() { 
+		//console.log(window.event);
+			return window.event || arguments.callee.caller.arguments[0]; 
+		}
+	}		
 	return view;
 };

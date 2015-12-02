@@ -20,9 +20,6 @@ $(document).ready(function(){
 	  $("div#view1b2").hide();
   });
 
-   $("button#View2bclose").click(function(){
-	  $("div#View2b").hide();
-  });
   $("button#viewa2close").click(function(){
 	  $("div#view1a2").hide();
   });
