@@ -56,6 +56,17 @@ div#view1b {
 	float:left;
 	
 }
+#v1await{
+    position:absolute ;
+	//left: 37%;
+	//top: 43%;
+	width:100%;
+	height:300px;
+	//background-color:white;
+	//opacity:0.6;
+	z-index:5000;
+
+}
 div#view1b2 {
 
 	overflow-x:hidden;

@@ -9,7 +9,7 @@ $(document).ready(function(){
   });
 
   $("div#view1a").hide();
-  $("#v1await").hide();
+  //$("#v1await").hide();
   $("div#viewb2outer").hide();
   $("div#va2outer").hide();
   $("#view1change").click(function(){

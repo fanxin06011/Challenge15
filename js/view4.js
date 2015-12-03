@@ -118,10 +118,10 @@ function View4(Observer){
 	});
 	$("#v4submit").click(function(){
 	  //console.log("aaaa");
-	  $("div#va2outer").show();
+	  //$("div#va2outer").show();
 	  //$("#v1await").show();
 	  Observer.fireEvent("showPath", idlist, "view4");
-	  $("#viewa2draw").click();
+	  //$("#viewa2draw").click();
 	  
 	});
 	

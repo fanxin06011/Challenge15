@@ -6,9 +6,11 @@
 		var width=$("div#view1a").width();//1350*37%=499
 		var height=$("div#view1a").width()*1.1;
 		$("div#view1a").css("height",height);
+		$("div#v1await").css("height",height);
 		var width2=$("div#view1a2").width()-20;
-		var height2=$("div#view1a2").height();
-		//$("div#view1a2").css("top",height*1.05);
+		//var height2=$("div#view1a2").height();
+		var height2=width2*0.37;
+		$("div#view1a2").css("height",width2*0.4);
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
 					.append("svg")  
@@ -90,7 +92,26 @@
 			
 		}
 
-		
+		var opts = {            
+            lines: 13, // 花瓣数目
+            length: 20, // 花瓣长度
+            width: 10, // 花瓣宽度
+            radius: 30, // 花瓣距中心半径
+            corners: 1, // 花瓣圆滑度 (0-1)
+            rotate: 0, // 花瓣旋转角度
+            direction: 1, // 花瓣旋转方向 1: 顺时针, -1: 逆时针
+            color: '#999999', // 花瓣颜色
+			opacity: 0.65,
+            speed: 1, // 花瓣旋转速度
+            trail: 60, // 花瓣旋转时的拖影(百分比)
+            shadow: false, // 花瓣是否显示阴影
+            hwaccel: false, //spinner 是否启用硬件加速及高速旋转            
+            className: 'spinner', // spinner css 样式名称
+            zIndex: 2e9, // spinner的z轴 (默认是2000000000)
+            top: '50%', // spinner 相对父容器Top定位 单位 px
+            left: '50%'// spinner 相对父容器Left定位 单位 px
+        };
+		var spinner = new Spinner(opts);
 		function showUser(idlist,day){ 
 			 
 			 //document.getElementById("judge").innerHTML='0';
@@ -104,31 +125,29 @@
 			 url=url+"?id="+id;
 			 url=url+"&day="+day;
 			 url=url+"&sid="+Math.random();
-			 var v1await=document.getElementById("v1await");
-			 $("body").showLoading({text: "图表数据正在努力加载...",
-				x: "center",
-				y: "center",
-				textStyle: {
-				color:"red",
-				fontSize:14
-				},
-				effect:"spin"
-				});
+			 
 
-			 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
-				 //beforeSend: function(XMLHttpRequest){
-					//$("#v1await").showLoading();
-				//},
+			 $.ajax({ url:url, 
+				//async:false,  
+				cache:false, dataType:'json',
+				 beforeSend: function () {
+                    var target= document.getElementById('v1await');
+                    spinner.spin(target);                    
+                 },
 				 success:function(data){  
 					 //console.log(data);
 					 datajson[day]=data;  
-					 //$("#v1await").hideLoading();
+					 spinner.spin();
+					 $("#viewa2draw").click();
+					 $("div#va2outer").show();
 				 },
 
-				 error:function(xhr){console.log("error");} 
+				 error:function(xhr){
+					 spinner.spin(target); 
+					 console.log("error");
+					 } 
 			 })
-			 //$("#v1await").hide();
-			 //console.log("find");
+
 		 }
 
 		////////////////////////////////////////////////////////////
@@ -183,9 +202,9 @@
 						.enter()
 						.append("rect")
 						.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2-50)/540*width2)  
+						.attr("y",(height2)-45)  
 						.attr("width",function(d,i){return (width2/typenum-25);})
-						.attr("height",10/540*width2)
+						.attr("height",10)
 						.attr("fill",function(d,i){return color(d);});
 
 		var va2labelg =d3.select("#va2svg")
@@ -194,14 +213,14 @@
 						.data(loctype2)
 						.enter()
 						.append("g")
-						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-27)/540*width2+")";}); 
+						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-30)+")";}); 
 		var va2labelText=va2labelg.selectAll("g")
 								.data(function(d) { return d; })
 								.enter()
 								.append("text")
 								.attr("dx",10)
-								.attr("dy",function(d,i){return 11*i+"px";})
-								.attr("font-size", 10/540*width2+"px")
+								.attr("dy",function(d,i){return (10+11*i)+"px";})
+								.attr("font-size", 10+"px")
 								.text(function(d){return d;});
 		
 		var destable=[];
@@ -426,7 +445,18 @@
 					.attr("class","axisx")
 					.attr("transform", "translate("+15/500*width+","+510/500*width+")")
 					.call(xAxis);
+		///////////////////////////////////////
+		//view1a2数轴
+		var va2x2 = d3.time.scale().range([0,width2]);
+		va2x2.domain(d3.extent(datax.map(function(d) { return d; })));
+		var xAxis2 = d3.svg.axis().scale(x).orient("bottom").ticks(10);
+		var via2xis=d3.select("#va2svg")
+					.append("g")
+					.attr("class","axisx")
+					.attr("transform", "translate(10,"+(height2-70)+")")
+					.call(xAxis2);
 		////////////////////////////
+		
 		//拖动的方块
 		var data4=[0];
 		var rects2=svg.append("g")
@@ -501,15 +531,12 @@
 			if(message == "showPath"){
 				
 				if(from == "view4"){
-					
 					console.log("view4 select");
 					onSelectPeople(data);
 					circles.data(id)
 							.exit()  
 							.remove();
 					showUser(id,daynum);
-
-					//$("div#view1a2").show();
 				}
 			}
 			if(message == "highlightstart"){
@@ -667,12 +694,13 @@
 			var prewidth=width;
 			width=$("div#view1a").width();
 			height=$("div#view1a").width()*1.1;
+			$("div#v1await").css("height",height);
 			$("div#view1a").css("height",height);
 			width2=$("div#view1a2").width();
 			//var preheight=$("div#view1a2").height();
 			$("div#view1a2").css("height",180/460*width2);
-			height2=160/460*width2;
-			//$("div#view1a2").css("top",height*1.05);
+			var height2=width2*0.37;
+			$("div#view1a2").css("height",width2*0.4);
 			//console.log(width);
 			svg = svg.attr("width",width)  
 					.attr("height",height);
@@ -715,12 +743,10 @@
 
 			
 			va2label=va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-							.attr("y",height2-50/460*width2)  
-							.attr("width",function(d,i){return (width2/typenum-25);})
-							.attr("height",10/460*width2);
-			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-27/460*width2)+")";}); 
-			va2labelText=va2labelText.attr("dy",function(d,i){return 11*i/460*width2+"px";})
-									.attr("font-size", 10/460*width2+"px");
+						.attr("y",(height2-45)/460*width2)  
+						.attr("width",function(d,i){return (width2/typenum-25);})
+						.attr("height",10/460*width2);
+			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-30)/460*width2+")";}); 
 			$("#viewa2draw").click();
 			
 		});
