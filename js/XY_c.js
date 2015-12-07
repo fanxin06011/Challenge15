@@ -114,14 +114,14 @@ function View2(Observer){
 	attrJson["Sun"] = {};
 	choose();
 	
-	$("div#View2").resize(function(){
+	$(window).resize(function(){
 		var prePadding = padding;
 		var preWidth = width;
 		var preHeight = height;
 		var width = $(window).width() * 0.35;
 		var height =$(window).width() * 0.35;
 		//console.log($(window).width());
-		console.log($("div#View2").width());
+		//console.log($("div#View2").width());
 		sizeStandard = width/3;
 		paddingStandard = sizeStandard/5;
 		sizeEnlarge = sizeStandard * 1.95;
