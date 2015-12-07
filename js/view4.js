@@ -21,7 +21,7 @@ function View4(Observer){
 			if(message == "highlightstart"){
 				if(from != view4){
 					console.log("view4 highlightstart "+data);
-					$("#view4 p").css("background-color","#999999");
+					$("#view4 p").css("background-color","white");
 					for(var i=0;i<data.length;i++){
 						$("#view4 p").filter("#"+data[i]).css("background-color","yellow");
 					}

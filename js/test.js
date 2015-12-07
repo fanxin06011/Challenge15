@@ -1,8 +1,19 @@
 function View3(Observer){
 	var view={};
-	var margin,width,height;
+	var margin;
 	var x,y,dradding,line,axis,background,foreground;
 	var svg1;
+	
+	$(window).resize(function(){
+		
+		var width = $(window).width() * 0.43;
+		var height = $(window).width() * 0.43;
+		d3.select("#View3")
+			.selectAll(".svg1")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	});
 	
 	var winWidth;
 	var winHeight;
@@ -16,12 +27,12 @@ function View3(Observer){
 	winHeight = document.body.clientHeight;
 
 	init();
-	window.onresize=function()
+	/*window.onresize=function()
 	{
 		location.reload();
-	}
-	
-	function init(){
+	}*/
+	function init()
+	{
 		Observer.addView(view);
 		margin = {top: 30, right: 10, bottom: 10, left: 10};
 		width = 540/1360*winWidth - margin.left - margin.right;
@@ -30,7 +41,6 @@ function View3(Observer){
 		x = d3.scale.ordinal().rangePoints([0, width], 1);
 		y = {};
 		dragging = {};
-
 		line = d3.svg.line();
 		axis = d3.svg.axis().orient("left");
 		background;

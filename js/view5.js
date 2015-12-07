@@ -14,9 +14,9 @@ function View5(Observer){
 	$("button#inputNum").click(function num2group(){
 		groupId.innerHTML="<option value = 'none'>leader's id</option>";
 		minNum = document.getElementById("minNum").value;
-		if(minNum=""){minNum=0;}
+		if(minNum==""){minNum=0;}
 		maxNum = document.getElementById("maxNum").value;
-		if(maxNum=""){maxNum=1000;}
+		if(maxNum==""){maxNum=1000;}
 		d3.json(file,function(data){
 			//console.log(data);
 			for (leader in data){

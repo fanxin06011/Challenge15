@@ -7,11 +7,12 @@
 		var height=$("div#view1a").width()*1.1;
 		$("div#view1a").css("height",height);
 		$("div#v1await").css("height",height);
-		var width2=$("div#view1a2").width()-20;
-		//var height2=$("div#view1a2").height();
-		var height2=width2*0.37;
+		var width2=$(window).width()*0.5;
+		var height3=width2*0.4;
+		var height2=width2*0.4*0.8;
+		$("div#view1a2").css("width",width2);
 		$("div#view1a2").css("height",width2*0.4);
-		//$("div#va2outer").css("height",width2*0.4+28);
+
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
 					.append("svg")  
@@ -189,7 +190,7 @@
 		}
 		////////////////////////////////////////////////
 		//view1a2
-		var labelheight=50;
+		//var labelheight=50;
 		var loctype=["gate","Rides For Everyone","Thrill Rides","Shows & Entertainment","unknown","Information & Assistance","Kiddie Rides"];
 		var typenum=loctype.length;
 		var loctype2=[];
@@ -206,7 +207,7 @@
 						.enter()
 						.append("rect")
 						.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2)-45)  
+						.attr("y",(height3*0.9))  
 						.attr("width",function(d,i){return (width2/typenum-25);})
 						.attr("height",10)
 						.attr("fill",function(d,i){return color(d);});
@@ -217,7 +218,7 @@
 						.data(loctype2)
 						.enter()
 						.append("g")
-						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-30)+")";}); 
+						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
 		var va2labelText=va2labelg.selectAll("g")
 								.data(function(d) { return d; })
 								.enter()
@@ -239,7 +240,7 @@
 				destable.push([L1,L2,L3,L4,L5]);
 			}
 		});
-		var recth=(height2-labelheight)/idnum-2;
+		var recth=(height3*0.8)/idnum-2;
 		function isdes(x,y){
 			for(var i=0;i<totalloc;i++){
 				if((destable[i][0]==+x)&&(destable[i][1]==+y)){ return i; }
@@ -260,13 +261,13 @@
 				$scope.Properties=[];
 				for(var i=0;i<idnum;i++){
 					count=count+1;
-					$scope.Properties.push({"x":10, "y": i*(recth+2)/540*width2, "width": width2, "height": recth/540*width2, "fill": "#EEEFED","idnum":"-2,"+count+","+i});
+					$scope.Properties.push({"x":10, "y": i*(recth+2), "width": width2, "height": recth, "fill": "#EEEFED","idnum":"-2,"+count+","+i});
 					for(var j=0;j<datajson[daynum][i].x.length-1;j++){
 						var typeid=isdes(datajson[daynum][i].x[j],datajson[daynum][i].y[j]);
 						if(typeid!=-1){
 							//console.log(destable[typeid][4]);
 							count=count+1;
-							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2)/540*width2, "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth/540*width2, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
+							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2), "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
 						}
 					}
 				
@@ -340,26 +341,29 @@
 		//////////////////////////////////////////////////////////
 		//view1a2 resize
 		$(function() {
-			$( "#va2outer" ).resizable({
-				aspectRatio: 460 / 174
+			$( "#view1a2" ).resizable({
+				//aspectRatio: 460 / 174
+				aspectRatio: 5 / 2
 			});
 
 			var rt;
-			$("#va2outer").resize(function() {
+			$("#view1a2").resize(function() {
 				clearTimeout(rt);
 				rt = setTimeout(function(){
-					console.log("ddd");
+					//console.log("ddd");
 					width2=$("div#view1a2").width();
-					height2=width2*0.37;
-					$("div#va2outer").css("height",width2*0.4+28);
+					height3=width2*0.4;
+					height2=width2*0.4*0.8;
 					va2x2 =va2x2.range([0,width2]);
 					xAxis2 = xAxis2.scale(va2x2);
-					via2xis=via2xis.attr("transform", "translate(10,"+(height2-60/500*width)+")").call(xAxis2);
-					va2label=va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2)-30)  
-						.attr("width",function(d,i){return (width2/typenum-25);})
-						.attr("height",10/460*width2);
-					va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-20)+")";}); 
+					va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
+						.attr("y",(height3*0.9))  
+						.attr("width",function(d,i){return (width2/typenum-25);});
+
+					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
+					va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
+					via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
+					recth=(width2*0.4*0.8)/idnum-2;
 					$("#viewa2draw").click();
 				},500);
 			});
@@ -440,7 +444,7 @@
 						if(daynum==1){return "Sat";}
 						if(daynum==2){return "Sun";}
 					});
-			$("#viewa2draw").click();
+			//$("#viewa2draw").click();
 
 		}
 		/////////////////////////////////////
@@ -482,7 +486,7 @@
 		var via2xis=d3.select("#va2svg")
 					.append("g")
 					.attr("class","axisx")
-					.attr("transform", "translate(10,"+(height2-70/460*width)+")")
+					.attr("transform", "translate(10,"+(height3*0.8)+")")
 					.call(xAxis2);
 		////////////////////////////
 		
@@ -671,7 +675,8 @@
 			idnum=data.length;
 			if(idnum>idnumlimit){idnum=idnumlimit;}
 			id=data;
-			recth=(height2-labelheight)/idnum-2;
+			width2=$("div#view1a2").width();
+			recth=(width2*0.4*0.8)/idnum-2;
 			sunloc=[];satloc=[];friloc=[];
 			datajson=[0,0,0];
 			for(var i=0;i<idnum;i++){
@@ -727,10 +732,12 @@
 			$("div#view1a").css("height",height);
 			width2=$("div#view1a2").width();
 			//var preheight=$("div#view1a2").height();
-			$("div#view1a2").css("height",180/460*width2);
-			height2=width2*0.37;
+			$("div#view1a2").css("height",0.4*width2);
+			height3=width2*0.4;
+			height2=width2*0.4*0.8;
 			$("div#view1a2").css("height",width2*0.4);
 			//console.log(width);
+			recth=(width2*0.4*0.8)/idnum-2;
 			svg = svg.attr("width",width)  
 					.attr("height",height);
 
@@ -760,7 +767,7 @@
 			
 			va2x2 =va2x2.range([0,width2]);
 			xAxis2 = xAxis2.scale(va2x2);
-			via2xis=via2xis.attr("transform", "translate(10,"+(height2-60/500*width)+")").call(xAxis2);
+			//via2xis=via2xis.attr("transform", "translate(10,"+(height2*0.68)+")").call(xAxis2);
 			
 			var prex=(rects2.attr("x"))/prewidth*500;
 			rects2=rects2.attr("x",prex/500*width)
@@ -774,13 +781,16 @@
 				lineGraph[i]=lineGraph[i].attr("stroke-width", 1/500*width);
 			}
 			circles.attr("r",3/500*width);
+			va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
+				.attr("y",(height3*0.9))  
+				.attr("width",function(d,i){return (width2/typenum-25);});
+
+			va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
+			va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
+			via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
 
 			
-			va2label=va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2-30))  
-						.attr("width",function(d,i){return (width2/typenum-25);})
-						.attr("height",10/460*width2);
-			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-20)+")";}); 
+			
 			$("#viewa2draw").click();
 			
 		});

@@ -58,11 +58,13 @@ function View2(Observer){
 		}
 	}
 
-	var width = $("div#View2").width() * 0.7;
-	var height = $("div#View2").height() * 0.7;
-	
+	var width = $(window).width() * 0.35;
+	var height = $(window).height() * 0.35;
+		//console.log($(window).width());
+		//console.log($("div#View2").width());
+		//console.log(width);	
 	var sizeStandard = width/3;
-	var paddingStandard = sizeStandard/5.5;
+	var paddingStandard = sizeStandard/5;
 	var sizeEnlarge = sizeStandard * 1.95;
 	var paddingEnLarge = paddingStandard * 1.95;
 
@@ -74,28 +76,27 @@ function View2(Observer){
 	var view2bDisplay = 0;
 	alertView2b(2*size+3*padding,2*size+4*padding);
 	
-		
 	var svgFri = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgFri")
-		.attr("width", size + padding)
-		.attr("height", size + padding)
+		.attr("width", size + padding*1.2)
+		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
-		
+
 	var svgSat = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSat")
-		.attr("width", size + padding)
-		.attr("height", size + padding)
+		.attr("width", size + padding*1.2)
+		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
 	var svgSun = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSun")
-		.attr("width", size + padding)
-		.attr("height", size + padding)
+		.attr("width", size + padding*1.2)
+		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -114,30 +115,34 @@ function View2(Observer){
 	choose();
 	
 	$(window).resize(function(){
-		
+		var prePadding = padding;
 		var preWidth = width;
 		var preHeight = height;
-		var width = $(window).width() * 0.43;
-		var height = $(window).width() * 0.43;
+		var width = $(window).width() * 0.35;
+		var height =$(window).width() * 0.35;
+		//console.log($(window).width());
+		//console.log($("div#View2").width());
+		//console.log(width);
 		sizeStandard = width/3;
-		paddingStandard = sizeStandard/5.5;
+		paddingStandard = sizeStandard/5;
 		sizeEnlarge = sizeStandard * 1.95;
 		paddingEnLarge = paddingStandard * 1.95;
 
 		size = sizeStandard * 1;
 		padding = paddingStandard * 1;
-		
 		d3.select("#View2")
 			.selectAll(".svg")
-			.attr("width", size + padding)
-			.attr("height", size  + padding)
-			.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
+			.attr("width", size + padding*1.2)
+			.attr("height", size  + padding*2);
+		svgFri.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");	
+		svgSat.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
+		svgSun.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		d3.select("#View2b")
 			.select("#svgEnlarge")
 			.attr("width", sizeEnlarge + 1.5 * paddingEnLarge)
 			.attr("height", sizeEnlarge + 2 * paddingEnLarge)
 			.attr("transform", "translate(" + 2*paddingEnLarge + "," + paddingEnLarge/2  + ")");
-		
+		svgEnlarge.attr("transform", "translate(" + (paddingEnLarge) + "," + paddingEnLarge/2  + ")");
 		document.getElementById("View2b").style.cssText = "position:absolute;z-index:9999;font:11px '宋体';top:"+0+"px;width:"+(2*size+3*padding)+"px;height:"+(2*size+4*padding)+"px;";
 		choose();
 	});	
@@ -184,7 +189,10 @@ function View2(Observer){
 		draw("Fri",0);
 		draw("Sat",0);
 		draw("Sun",0);		
-		if(view2bDisplay == 1)document.getElementById("View2b").style.display="block";
+		if(view2bDisplay == 1){	
+			alertView2b(2*size+3*padding,2*size+4*padding);
+			document.getElementById("View2b").style.display="block";
+		}
 	}
 
 	function draw(day,isEnlarge){
@@ -245,20 +253,26 @@ function View2(Observer){
 		xAxis.tickSize(size);//辅助线
 		yAxis.tickSize(-size);
 		if(isEnlarge==0){
-			svg.append("text")
-				.attr("x",size-selectedX.length*12)
-				.attr("y",size)
-				.text(function(){return selectedX});
-			svg.append("text")
-				.attr("x",-15)
-				.attr("y",5)
-				.text(function(){return selectedY});
+
 		}
 		else{
-			svg.append("text").attr("x",size-25-selectedX.length*12).attr("y",size).text(selectedX);
-			svg.append("text").attr("x",-15).attr("y",10).text(selectedY);
+			svg.append("text")
+				.attr("x",size-25-axisName(selectedX).length*12)
+				.attr("y",size-padding/8)
+				.text(function(){return axisName(selectedX)});
+			svg.append("text")
+				.attr("x",-15)
+				.attr("y",10)
+				.text(function(){return axisName(selectedY)});
 		}
-			
+		function axisName(selected){
+			if(selected=="inin")return "in";
+			else if(selected=="outout")return "out";
+			else if(selected=="fromfrom")return "from";
+			else if(selected=="toto")return "to";
+			else if(selected=="allall")return "all";
+			else return selected;
+		}			
 		svg.append("text").attr("x",size/2-30).attr("y",0)
 			.text(function(){
 				if(day=="Fri")return "Friday";
