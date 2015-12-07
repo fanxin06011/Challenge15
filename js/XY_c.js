@@ -58,8 +58,8 @@ function View2(Observer){
 		}
 	}
 
-	var width = $("div#View2").width() * 0.7;
-	var height = $("div#View2").height() * 0.7;
+	var width = $(window).width() * 0.35;
+	var height = $(window).width() * 0.35;
 	
 	var sizeStandard = width/3;
 	var paddingStandard = sizeStandard/5.5;
@@ -79,7 +79,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgFri")
 		.attr("width", size + padding)
-		.attr("height", size + padding)
+		.attr("height", size + padding*3/2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		
@@ -87,7 +87,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgSat")
 		.attr("width", size + padding)
-		.attr("height", size + padding)
+		.attr("height", size + padding*3/2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -95,7 +95,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgSun")
 		.attr("width", size + padding)
-		.attr("height", size + padding)
+		.attr("height", size + padding*3/2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -117,8 +117,8 @@ function View2(Observer){
 		
 		var preWidth = width;
 		var preHeight = height;
-		var width = $(window).width() * 0.43;
-		var height = $(window).width() * 0.43;
+		var width = $(window).width() * 0.35;
+		var height = $(window).width() * 0.35;
 		sizeStandard = width/3;
 		paddingStandard = sizeStandard/5.5;
 		sizeEnlarge = sizeStandard * 1.95;
@@ -130,7 +130,7 @@ function View2(Observer){
 		d3.select("#View2")
 			.selectAll(".svg")
 			.attr("width", size + padding)
-			.attr("height", size  + padding)
+			.attr("height", size  + padding*3/2)
 			.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		d3.select("#View2b")
 			.select("#svgEnlarge")
