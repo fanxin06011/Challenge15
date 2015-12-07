@@ -5,7 +5,7 @@
   width:35%;
   top: 0%;
   height: 100%;
-  background-color: #333333;
+  /*background-color: #333333;*/
 }
 
 .middle-top{
@@ -14,7 +14,7 @@
   width:40%;
   top: 0%;
   height: 50%;
-  background-color: #666666;
+  /*background-color: #666666;*/
 }
 
 .middle-bottom{
@@ -23,7 +23,7 @@
   width:40%;
   top: 50%;
   height: 50%;
-  background-color: #555555;
+  /*background-color: #555555;*/
 }
 
 .right-top{
@@ -32,7 +32,7 @@
   width: 20%;
   top: 0%;
   height: 50%;
-  background-color: #888888;
+  /*background-color: #888888;*/
 }
 
 .right-bottom{
@@ -41,5 +41,5 @@
   width:20%;
   top: 50%;
   height: 50%;
-  background-color: #999999;
+  /*background-color: #999999;*/
 }
