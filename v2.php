@@ -6,7 +6,7 @@ header("Cache-Control: no-cache, must-revalidate");//当前页面不进行缓存
 //A date in the past
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");//内容过期时间,故意写一个过期时间目的也是让浏览器去重新读取页面内容
 
-$con = mysql_connect('localhost', 'root', 'gpc');
+$con = mysql_connect('localhost', 'root', 'root');
 if (!$con)
  {
  die('Could not connect: ' . mysql_error());
@@ -40,8 +40,8 @@ for($i=0;$i<$arrayLength;++$i){
 	$sql = $sql.",".$attrData;
 }
 if($day=="Fri")$sql = $sql." from userFeatureFri";
-elseif($day=="Sat")$sql = $sql." from userFeatureFri";
-elseif($day=="Sun")$sql = $sql." from userFeatureFri";
+elseif($day=="Sat")$sql = $sql." from userFeatureSat";
+elseif($day=="Sun")$sql = $sql." from userFeatureSun";
 //echo $sql;
 
 $res = mysql_query($sql,$con);
