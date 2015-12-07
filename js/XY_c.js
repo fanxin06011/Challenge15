@@ -79,7 +79,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgFri")
 		.attr("width", size + padding)
-		.attr("height", size + padding*3/2)
+		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		
@@ -87,7 +87,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgSat")
 		.attr("width", size + padding)
-		.attr("height", size + padding*3/2)
+		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -95,7 +95,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgSun")
 		.attr("width", size + padding)
-		.attr("height", size + padding*3/2)
+		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -130,7 +130,7 @@ function View2(Observer){
 		d3.select("#View2")
 			.selectAll(".svg")
 			.attr("width", size + padding)
-			.attr("height", size  + padding*3/2)
+			.attr("height", size  + padding*2)
 			.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		d3.select("#View2b")
 			.select("#svgEnlarge")
