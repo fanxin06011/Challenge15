@@ -59,10 +59,12 @@ function View2(Observer){
 	}
 
 	var width = $(window).width() * 0.35;
-	var height = $(window).width() * 0.35;
-	
+	var height = $(window).height() * 0.35;
+		//console.log($(window).width());
+		//console.log($("div#View2").width());
+		//console.log(width);	
 	var sizeStandard = width/3;
-	var paddingStandard = sizeStandard/5.5;
+	var paddingStandard = sizeStandard/5;
 	var sizeEnlarge = sizeStandard * 1.95;
 	var paddingEnLarge = paddingStandard * 1.95;
 
@@ -74,19 +76,18 @@ function View2(Observer){
 	var view2bDisplay = 0;
 	alertView2b(2*size+3*padding,2*size+4*padding);
 	
-		
 	var svgFri = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgFri")
-		.attr("width", size + padding)
+		.attr("width", size + padding*1.2)
 		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
-		
+
 	var svgSat = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSat")
-		.attr("width", size + padding)
+		.attr("width", size + padding*1.2)
 		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
@@ -94,7 +95,7 @@ function View2(Observer){
 	var svgSun = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgSun")
-		.attr("width", size + padding)
+		.attr("width", size + padding*1.2)
 		.attr("height", size + padding*2)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
@@ -114,30 +115,34 @@ function View2(Observer){
 	choose();
 	
 	$(window).resize(function(){
-		
+		var prePadding = padding;
 		var preWidth = width;
 		var preHeight = height;
 		var width = $(window).width() * 0.35;
-		var height = $(window).width() * 0.35;
+		var height =$(window).width() * 0.35;
+		//console.log($(window).width());
+		//console.log($("div#View2").width());
+		//console.log(width);
 		sizeStandard = width/3;
-		paddingStandard = sizeStandard/5.5;
+		paddingStandard = sizeStandard/5;
 		sizeEnlarge = sizeStandard * 1.95;
 		paddingEnLarge = paddingStandard * 1.95;
 
 		size = sizeStandard * 1;
 		padding = paddingStandard * 1;
-		
 		d3.select("#View2")
 			.selectAll(".svg")
-			.attr("width", size + padding)
-			.attr("height", size  + padding*2)
-			.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
+			.attr("width", size + padding*1.2)
+			.attr("height", size  + padding*2);
+		svgFri.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");	
+		svgSat.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
+		svgSun.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		d3.select("#View2b")
 			.select("#svgEnlarge")
 			.attr("width", sizeEnlarge + 1.5 * paddingEnLarge)
 			.attr("height", sizeEnlarge + 2 * paddingEnLarge)
 			.attr("transform", "translate(" + 2*paddingEnLarge + "," + paddingEnLarge/2  + ")");
-		
+		svgEnlarge.attr("transform", "translate(" + (paddingEnLarge) + "," + paddingEnLarge/2  + ")");
 		document.getElementById("View2b").style.cssText = "position:absolute;z-index:9999;font:11px '宋体';top:"+0+"px;width:"+(2*size+3*padding)+"px;height:"+(2*size+4*padding)+"px;";
 		choose();
 	});	
