@@ -7,11 +7,12 @@
 		var height=$("div#view1a").width()*1.1;
 		$("div#view1a").css("height",height);
 		$("div#v1await").css("height",height);
-		var width2=$("div#view1a2").width()-20;
-		//var height2=$("div#view1a2").height();
-		var height2=width2*0.4;
+		var width2=$(window).width()*0.5;
+		var height3=width2*0.4;
+		var height2=width2*0.4*0.8;
+		$("div#view1a2").css("width",width2);
 		$("div#view1a2").css("height",width2*0.4);
-		//$("div#va2outer").css("height",width2*0.4+28);
+
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
 					.append("svg")  
@@ -206,7 +207,7 @@
 						.enter()
 						.append("rect")
 						.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2*0.8))  
+						.attr("y",(height3*0.9))  
 						.attr("width",function(d,i){return (width2/typenum-25);})
 						.attr("height",10)
 						.attr("fill",function(d,i){return color(d);});
@@ -217,7 +218,7 @@
 						.data(loctype2)
 						.enter()
 						.append("g")
-						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2*0.8)+")";}); 
+						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
 		var va2labelText=va2labelg.selectAll("g")
 								.data(function(d) { return d; })
 								.enter()
@@ -340,27 +341,28 @@
 		//////////////////////////////////////////////////////////
 		//view1a2 resize
 		$(function() {
-			$( "#va2outer" ).resizable({
-				aspectRatio: 460 / 174
+			$( "#view1a2" ).resizable({
+				//aspectRatio: 460 / 174
+				aspectRatio: 5 / 2
 			});
 
 			var rt;
-			$("#va2outer").resize(function() {
+			$("#view1a2").resize(function() {
 				clearTimeout(rt);
 				rt = setTimeout(function(){
-					console.log("ddd");
+					//console.log("ddd");
 					width2=$("div#view1a2").width();
-					height2=width2*0.37;
-					$("div#va2outer").css("height",width2*0.4+28);
+					height3=width2*0.4;
+					height2=width2*0.4*0.8;
 					va2x2 =va2x2.range([0,width2]);
 					xAxis2 = xAxis2.scale(va2x2);
 					va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2*0.8))  
+						.attr("y",(height3*0.9))  
 						.attr("width",function(d,i){return (width2/typenum-25);});
 
-					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2*0.8)+")";}); 
+					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
 					va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
-					via2xis=via2xis.attr("transform", "translate(10,"+(height2*0.68)+")").call(xAxis2);
+					via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
 					$("#viewa2draw").click();
 				},500);
 			});
@@ -483,7 +485,7 @@
 		var via2xis=d3.select("#va2svg")
 					.append("g")
 					.attr("class","axisx")
-					.attr("transform", "translate(10,"+(height2*0.68)+")")
+					.attr("transform", "translate(10,"+(height3*0.8)+")")
 					.call(xAxis2);
 		////////////////////////////
 		
@@ -728,8 +730,9 @@
 			$("div#view1a").css("height",height);
 			width2=$("div#view1a2").width();
 			//var preheight=$("div#view1a2").height();
-			$("div#view1a2").css("height",180/460*width2);
-			height2=width2*0.37;
+			$("div#view1a2").css("height",0.4*width2);
+			height3=width2*0.4;
+			height2=width2*0.4*0.8;
 			$("div#view1a2").css("height",width2*0.4);
 			//console.log(width);
 			svg = svg.attr("width",width)  
@@ -761,7 +764,7 @@
 			
 			va2x2 =va2x2.range([0,width2]);
 			xAxis2 = xAxis2.scale(va2x2);
-			via2xis=via2xis.attr("transform", "translate(10,"+(height2*0.68)+")").call(xAxis2);
+			//via2xis=via2xis.attr("transform", "translate(10,"+(height2*0.68)+")").call(xAxis2);
 			
 			var prex=(rects2.attr("x"))/prewidth*500;
 			rects2=rects2.attr("x",prex/500*width)
@@ -776,11 +779,12 @@
 			}
 			circles.attr("r",3/500*width);
 			va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2*0.8))  
-						.attr("width",function(d,i){return (width2/typenum-25);});
-			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2*0.8)+")";}); 
+				.attr("y",(height3*0.9))  
+				.attr("width",function(d,i){return (width2/typenum-25);});
+
+			va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
 			va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
-			
+			via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
 
 			
 			
