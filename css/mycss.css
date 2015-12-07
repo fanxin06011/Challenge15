@@ -96,7 +96,7 @@ div#viewb2outer{
 }
 div#view4 {
 	/*-webkit-box-shadow:3px 3px 3px #292929;*/
-	background-color: #EEEFED;
+	/*background-color: #EEEFED;*/
 	position:absolute;
 	//left: 38%;
 	//top: 50%;
@@ -208,7 +208,7 @@ div#view1a2{
 	border-radius: 6px;
 }
 .fa-remove{
-	color:white;
+	color:#999999;
 }
 .v4btn{
 	font:4px "Trebuchet MS", Helvetica, "Helvetica Neue", Arial, sans-serif;
@@ -223,7 +223,13 @@ div#view1a2{
 	background-color:white;
 	opacity:0.6;
 }
-.fa-spinner{
+#viewa2close i{
+	color: white;
+}
+#viewb2close i{
+	color: white;
+}
+#view4.fa-spinner{
 	color: #999999;
 }
 .view1asvg,.view1bsvg {
