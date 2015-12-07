@@ -114,15 +114,14 @@ function View2(Observer){
 	attrJson["Sun"] = {};
 	choose();
 	
-	$(window).resize(function(){
+	$("div#View2").resize(function(){
 		var prePadding = padding;
 		var preWidth = width;
 		var preHeight = height;
 		var width = $(window).width() * 0.35;
 		var height =$(window).width() * 0.35;
 		//console.log($(window).width());
-		//console.log($("div#View2").width());
-		//console.log(width);
+		console.log($("div#View2").width());
 		sizeStandard = width/3;
 		paddingStandard = sizeStandard/5;
 		sizeEnlarge = sizeStandard * 1.95;
@@ -253,20 +252,26 @@ function View2(Observer){
 		xAxis.tickSize(size);//辅助线
 		yAxis.tickSize(-size);
 		if(isEnlarge==0){
-			svg.append("text")
-				.attr("x",size-selectedX.length*12)
-				.attr("y",size)
-				.text(function(){return selectedX});
-			svg.append("text")
-				.attr("x",-15)
-				.attr("y",5)
-				.text(function(){return selectedY});
+
 		}
 		else{
-			svg.append("text").attr("x",size-25-selectedX.length*12).attr("y",size).text(selectedX);
-			svg.append("text").attr("x",-15).attr("y",10).text(selectedY);
+			svg.append("text")
+				.attr("x",size-25-axisName(selectedX).length*12)
+				.attr("y",size-padding/8)
+				.text(function(){return axisName(selectedX)});
+			svg.append("text")
+				.attr("x",-15)
+				.attr("y",10)
+				.text(function(){return axisName(selectedY)});
 		}
-			
+		function axisName(selected){
+			if(selected=="inin")return "in";
+			else if(selected=="outout")return "out";
+			else if(selected=="fromfrom")return "from";
+			else if(selected=="toto")return "to";
+			else if(selected=="allall")return "all";
+			else return selected;
+		}			
 		svg.append("text").attr("x",size/2-30).attr("y",0)
 			.text(function(){
 				if(day=="Fri")return "Friday";

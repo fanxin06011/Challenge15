@@ -80,52 +80,57 @@
 	</div>
 	</div>
   </div>
-  <div id="View2" class="middle-top">
-    <!-- scatter plot view put here -->
-		<form>
-		xAxis
-		<select id = "xAxisChoose">
-			<option value = "num">Times to any attraction</option>
-			<option value = "stay">Total time in dinofun world(hour)</option>
-			<option value = "inin">Entry time(hour)</option>
-			<option value = "outout">Leaving time(hour)</option>
-			<option value = "average">Average time at one attraction(hour)</option>
-			<option value = "fromfrom">Number of calls from to the id</option>
-			<option value = "toto">Number of calls to the id</option>
-			<option value = "allall">Number of calls</option>
-			<option value = "comm">Number of contacts</option>
-			<option value = "way">Total time on the road(hour)</option>
-			<option value = "wayPercent">Percentage of time spend on the road(%)</option>
-			<option value = "numPlaceChoosen" id = "numPlaceX">Times to the selected attraction</option>
-			<option value = "stayPlaceChoosen">Total time at the selected attraction(second)</option>
-		</select>
-		yAxis
-		<select id = "yAxisChoose">
-			<option value = "num">Times to any attraction</option>
-			<option value = "stay" selected = "selected">Total time in dinofun world(hour)</option>
-			<option value = "inin">Entry time(hour)</option>
-			<option value = "outout">Leaving time(hour)</option>
-			<option value = "average">Average time at one attraction(hour)</option>
-			<option value = "fromfrom">Number of calls from to the id</option>
-			<option value = "toto">Number of calls to the id</option>
-			<option value = "allall">Number of calls</option>
-			<option value = "comm">Number of contacts</option>
-			<option value = "way">Total time on the road(hour)</option>
-			<option value = "wayPercent">Percentage of time spend on the road(%)</option>
-			<option value = "numPlaceChoosen">Times to the selected attraction</option>
-			<option value = "stayPlaceChoosen" id = "stayPlaceY">total time at the selected attraction(second)</option>
-		</select>
-		</form>
-  </div>
-  <div class="middle-bottom">
+  <div class="middle">
     <!-- parallel coordinate view put here --> 
 	<div id="View3">
-		<input type="button"  value="Fri" id="frinum">
-		<input type="button"  value="Sat" id="satnum">
-		<input type="button"  value="Sun" id="sunnum">
+		<div>
+			<input type="button"  value="Fri" id="frinum">
+			<input type="button"  value="Sat" id="satnum">
+			<input type="button"  value="Sun" id="sunnum">
+		</div>
 	</div>
+	<div id="View2">
+		<!-- scatter plot view put here -->
+			<form>
+			<font>xAxis</font>
+			<select id = "xAxisChoose">
+				<option value = "num">Times to any attraction</option>
+				<option value = "stay">Total time in dinofun world(hour)</option>
+				<option value = "inin">Entry time(hour)</option>
+				<option value = "outout">Leaving time(hour)</option>
+				<option value = "average">Average time at one attraction(hour)</option>
+				<option value = "fromfrom">Number of calls from to the id</option>
+				<option value = "toto">Number of calls to the id</option>
+				<option value = "allall">Number of calls</option>
+				<option value = "comm">Number of contacts</option>
+				<option value = "way">Total time on the road(hour)</option>
+				<option value = "wayPercent">Percentage of time spend on the road(%)</option>
+				<option value = "numPlaceChoosen" id = "numPlaceX">Times to the selected attraction</option>
+				<option value = "stayPlaceChoosen">Total time at the selected attraction(second)</option>
+			</select>
+			<br>
+			<font>yAxis</font>
+			<select id = "yAxisChoose">
+				<option value = "num">Times to any attraction</option>
+				<option value = "stay" selected = "selected">Total time in dinofun world(hour)</option>
+				<option value = "inin">Entry time(hour)</option>
+				<option value = "outout">Leaving time(hour)</option>
+				<option value = "average">Average time at one attraction(hour)</option>
+				<option value = "fromfrom">Number of calls from to the id</option>
+				<option value = "toto">Number of calls to the id</option>
+				<option value = "allall">Number of calls</option>
+				<option value = "comm">Number of contacts</option>
+				<option value = "way">Total time on the road(hour)</option>
+				<option value = "wayPercent">Percentage of time spend on the road(%)</option>
+				<option value = "numPlaceChoosen">Times to the selected attraction</option>
+				<option value = "stayPlaceChoosen" id = "stayPlaceY">Total time at the selected attraction(second)</option>
+			</select>
+			</form>
+	  </div>
   </div>
-  <div id="View5" class="right-top">
+
+  <div class="right-bottom">
+    <div id="View5">
     <!-- group select put here -->
 		<font>Please input the range of id's number in a group:</font>
 		<br>
@@ -140,10 +145,9 @@
 			<option value = "none">leader's id</option>
 		</select>
 		<font></font>
-  </div>
-  <div class="right-bottom">
+	</div>
     <!-- id list put here --> 
-	
+	<div>
 	<form id="view4form">
 	  <fieldset id="list" >
 	    <div id="listbtn" >
@@ -168,7 +172,7 @@
 	</form>
 	
 	<iframe src="" width="0" height="0" id="imgFrame" name="imgFrame"></iframe>
-	
+	</div>
   </div>
   <script type="text/javascript" charset="utf-8">
   </script>

@@ -1,7 +1,4 @@
-#View2{
-	width:62%;
-	float:right;
-}
+
 
 #View2 svg {
 	font: 10px sans-serif;
@@ -56,4 +53,7 @@
 #View2 text{
 	font-family:Calibri,sans-serif;
 	font-size:7px;
+}
+#View2 font{
+	margin-left:20px;
 }
