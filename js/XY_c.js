@@ -184,7 +184,10 @@ function View2(Observer){
 		draw("Fri",0);
 		draw("Sat",0);
 		draw("Sun",0);		
-		if(view2bDisplay == 1)document.getElementById("View2b").style.display="block";
+		if(view2bDisplay == 1){	
+			alertView2b(2*size+3*padding,2*size+4*padding);
+			document.getElementById("View2b").style.display="block";
+		}
 	}
 
 	function draw(day,isEnlarge){
