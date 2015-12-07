@@ -240,7 +240,7 @@
 				destable.push([L1,L2,L3,L4,L5]);
 			}
 		});
-		var recth=(height2*0.8)/idnum-2;
+		var recth=(height3*0.8)/idnum-2;
 		function isdes(x,y){
 			for(var i=0;i<totalloc;i++){
 				if((destable[i][0]==+x)&&(destable[i][1]==+y)){ return i; }
@@ -261,13 +261,13 @@
 				$scope.Properties=[];
 				for(var i=0;i<idnum;i++){
 					count=count+1;
-					$scope.Properties.push({"x":10, "y": i*(recth+2)/540*width2, "width": width2, "height": recth/540*width2, "fill": "#EEEFED","idnum":"-2,"+count+","+i});
+					$scope.Properties.push({"x":10, "y": i*(recth+2), "width": width2, "height": recth, "fill": "#EEEFED","idnum":"-2,"+count+","+i});
 					for(var j=0;j<datajson[daynum][i].x.length-1;j++){
 						var typeid=isdes(datajson[daynum][i].x[j],datajson[daynum][i].y[j]);
 						if(typeid!=-1){
 							//console.log(destable[typeid][4]);
 							count=count+1;
-							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2)/540*width2, "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth/540*width2, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
+							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2), "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
 						}
 					}
 				
@@ -363,6 +363,7 @@
 					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
 					va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
 					via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
+					recth=(width2*0.4*0.8)/idnum-2;
 					$("#viewa2draw").click();
 				},500);
 			});
@@ -443,7 +444,7 @@
 						if(daynum==1){return "Sat";}
 						if(daynum==2){return "Sun";}
 					});
-			$("#viewa2draw").click();
+			//$("#viewa2draw").click();
 
 		}
 		/////////////////////////////////////
@@ -674,7 +675,8 @@
 			idnum=data.length;
 			if(idnum>idnumlimit){idnum=idnumlimit;}
 			id=data;
-			recth=(height2*0.8)/idnum-2;
+			width2=$("div#view1a2").width();
+			recth=(width2*0.4*0.8)/idnum-2;
 			sunloc=[];satloc=[];friloc=[];
 			datajson=[0,0,0];
 			for(var i=0;i<idnum;i++){
@@ -735,6 +737,7 @@
 			height2=width2*0.4*0.8;
 			$("div#view1a2").css("height",width2*0.4);
 			//console.log(width);
+			recth=(width2*0.4*0.8)/idnum-2;
 			svg = svg.attr("width",width)  
 					.attr("height",height);
 
