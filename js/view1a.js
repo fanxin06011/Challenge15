@@ -9,7 +9,7 @@
 		$("div#v1await").css("height",height);
 		var width2=$("div#view1a2").width()-20;
 		//var height2=$("div#view1a2").height();
-		var height2=width2*0.4;
+		var height2=width2*0.37;
 		$("div#view1a2").css("height",width2*0.4);
 		//$("div#va2outer").css("height",width2*0.4+28);
 		var color = d3.scale.category20();  			  
@@ -189,7 +189,7 @@
 		}
 		////////////////////////////////////////////////
 		//view1a2
-		//var labelheight=50;
+		var labelheight=50;
 		var loctype=["gate","Rides For Everyone","Thrill Rides","Shows & Entertainment","unknown","Information & Assistance","Kiddie Rides"];
 		var typenum=loctype.length;
 		var loctype2=[];
@@ -206,7 +206,7 @@
 						.enter()
 						.append("rect")
 						.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2*0.8))  
+						.attr("y",(height2)-45)  
 						.attr("width",function(d,i){return (width2/typenum-25);})
 						.attr("height",10)
 						.attr("fill",function(d,i){return color(d);});
@@ -217,7 +217,7 @@
 						.data(loctype2)
 						.enter()
 						.append("g")
-						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2*0.8)+")";}); 
+						.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-30)+")";}); 
 		var va2labelText=va2labelg.selectAll("g")
 								.data(function(d) { return d; })
 								.enter()
@@ -239,7 +239,7 @@
 				destable.push([L1,L2,L3,L4,L5]);
 			}
 		});
-		var recth=(height2*0.8)/idnum-2;
+		var recth=(height2-labelheight)/idnum-2;
 		function isdes(x,y){
 			for(var i=0;i<totalloc;i++){
 				if((destable[i][0]==+x)&&(destable[i][1]==+y)){ return i; }
@@ -354,13 +354,12 @@
 					$("div#va2outer").css("height",width2*0.4+28);
 					va2x2 =va2x2.range([0,width2]);
 					xAxis2 = xAxis2.scale(va2x2);
-					va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2*0.8))  
-						.attr("width",function(d,i){return (width2/typenum-25);});
-
-					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2*0.8)+")";}); 
-					va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
-					via2xis=via2xis.attr("transform", "translate(10,"+(height2*0.68)+")").call(xAxis2);
+					via2xis=via2xis.attr("transform", "translate(10,"+(height2-60/500*width)+")").call(xAxis2);
+					va2label=va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
+						.attr("y",(height2)-30)  
+						.attr("width",function(d,i){return (width2/typenum-25);})
+						.attr("height",10/460*width2);
+					va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-20)+")";}); 
 					$("#viewa2draw").click();
 				},500);
 			});
@@ -483,7 +482,7 @@
 		var via2xis=d3.select("#va2svg")
 					.append("g")
 					.attr("class","axisx")
-					.attr("transform", "translate(10,"+(height2*0.68)+")")
+					.attr("transform", "translate(10,"+(height2-70/460*width)+")")
 					.call(xAxis2);
 		////////////////////////////
 		
@@ -672,7 +671,7 @@
 			idnum=data.length;
 			if(idnum>idnumlimit){idnum=idnumlimit;}
 			id=data;
-			recth=(height2*0.8)/idnum-2;
+			recth=(height2-labelheight)/idnum-2;
 			sunloc=[];satloc=[];friloc=[];
 			datajson=[0,0,0];
 			for(var i=0;i<idnum;i++){
@@ -761,7 +760,7 @@
 			
 			va2x2 =va2x2.range([0,width2]);
 			xAxis2 = xAxis2.scale(va2x2);
-			via2xis=via2xis.attr("transform", "translate(10,"+(height2*0.68)+")").call(xAxis2);
+			via2xis=via2xis.attr("transform", "translate(10,"+(height2-60/500*width)+")").call(xAxis2);
 			
 			var prex=(rects2.attr("x"))/prewidth*500;
 			rects2=rects2.attr("x",prex/500*width)
@@ -775,15 +774,13 @@
 				lineGraph[i]=lineGraph[i].attr("stroke-width", 1/500*width);
 			}
 			circles.attr("r",3/500*width);
-			va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
-						.attr("y",(height2*0.8))  
-						.attr("width",function(d,i){return (width2/typenum-25);});
-			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2*0.8)+")";}); 
-			va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
-			
 
 			
-			
+			va2label=va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
+						.attr("y",(height2-30))  
+						.attr("width",function(d,i){return (width2/typenum-25);})
+						.attr("height",10/460*width2);
+			va2labelg =va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height2-20)+")";}); 
 			$("#viewa2draw").click();
 			
 		});
