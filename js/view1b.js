@@ -359,7 +359,7 @@ function View1b(Observer){
 					});	
 
 
-	},1000); 
+	},1500); 
 	
 		
 					   
