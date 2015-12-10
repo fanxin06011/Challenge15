@@ -89,6 +89,7 @@ div#viewb2outer{
 	box-shadow: 0 2px 16px #000, 0 0 1px #000, 0 0 1px #000; 
 	text-shadow: 0 0 15px #fff, 0 0 15px #fff;
 	background-color: #999999;
+	display: none;
 }
 #v1bp{
 	padding:2px 0px 0px 0px;
@@ -100,7 +101,7 @@ div#view4 {
 	position:absolute;
 	//left: 38%;
 	//top: 50%;
-	//height:200px;
+	height:200px;
 	width:100%;
 	overflow-x:hidden;
 	overflow-y:auto;
@@ -122,6 +123,7 @@ div#listbtn{
 	padding: 3px 5px;
 }
 div#va2outer{
+	display: none;
 	position:absolute ;
 	left: 37%;
 	top: 10%;

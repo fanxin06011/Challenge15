@@ -6,7 +6,7 @@ function View4(Observer){
 	//var idlist=[629048, 1486047, 1690685, 1797150] 
 	var idlisttmp=[];
 	var idhighlight=[];
-	var preheight=$(".right-bottom").height();
+	var preheight=$(window).height() - $("#View5").height();
 	//console.log(preheight);
 	$("div#view4").css("height",preheight-94);
 	view4.onMessage = function(message, data, from){
