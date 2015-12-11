@@ -65,8 +65,8 @@ function View2(Observer){
 		//console.log(width);	
 	var sizeStandard = width/3;
 	var paddingStandard = sizeStandard/5;
-	var sizeEnlarge = sizeStandard * 1.95;
-	var paddingEnLarge = paddingStandard * 1.95;
+	var sizeEnlarge = sizeStandard * 2.25;
+	var paddingEnLarge = paddingStandard * 2.25;
 
 	var size = sizeStandard * 1;
 	var padding = paddingStandard *1;
@@ -74,13 +74,13 @@ function View2(Observer){
     var iWidth = document.documentElement.clientWidth;  
     var iHeight = document.documentElement.clientHeight;	
 	var view2bDisplay = 0;
-	alertView2b(2*size+3*padding,2*size+4*padding);
+	alertView2b(2.35*size+3*padding,2.35*size+4*padding);
 	
 	var svgFri = d3.select("#View2").append("svg")
 		.attr("class","svg")
 		.attr("id","svgFri")
 		.attr("width", size + padding*1.2)
-		.attr("height", size + padding*2)
+		.attr("height", size + padding*3)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -88,7 +88,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgSat")
 		.attr("width", size + padding*1.2)
-		.attr("height", size + padding*2)
+		.attr("height", size + padding*3)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -96,7 +96,7 @@ function View2(Observer){
 		.attr("class","svg")
 		.attr("id","svgSun")
 		.attr("width", size + padding*1.2)
-		.attr("height", size + padding*2)
+		.attr("height", size + padding*3)
 		.append("g")
 		.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 
@@ -124,15 +124,15 @@ function View2(Observer){
 		//console.log($("div#View2").width());
 		sizeStandard = width/3;
 		paddingStandard = sizeStandard/5;
-		sizeEnlarge = sizeStandard * 1.95;
-		paddingEnLarge = paddingStandard * 1.95;
+		sizeEnlarge = sizeStandard * 2.25;
+		paddingEnLarge = paddingStandard * 2.25;
 
 		size = sizeStandard * 1;
 		padding = paddingStandard * 1;
 		d3.select("#View2")
 			.selectAll(".svg")
 			.attr("width", size + padding*1.2)
-			.attr("height", size  + padding*2);
+			.attr("height", size  + padding*3);
 		svgFri.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");	
 		svgSat.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
 		svgSun.attr("transform", "translate(" + 1 * padding + "," + padding / 2 + ")");
@@ -189,7 +189,7 @@ function View2(Observer){
 		draw("Sat",0);
 		draw("Sun",0);		
 		if(view2bDisplay == 1){	
-			alertView2b(2*size+3*padding,2*size+4*padding);
+			alertView2b(2.35*size+3*padding,2.35*size+4*padding);
 			document.getElementById("View2b").style.display="block";
 		}
 	}
@@ -272,13 +272,34 @@ function View2(Observer){
 			else if(selected=="allall")return "all";
 			else return selected;
 		}			
-		svg.append("text").attr("x",size/2-30).attr("y",0)
+		svg.append("text")
+			.attr("x",function(){if(isEnlarge==0)return size/2-25;else return size/2-40;})
+			.attr("y",0)
 			.text(function(){
 				if(day=="Fri")return "Friday";
 				else if(day=="Sat")return "Saturday";
 				else return "Sunday";
 			})
-			.on("dblclick", function(){
+			.style({
+				stroke: "black", 
+				"stroke-width": "0.5px",
+				"font-size":function(){if(isEnlarge==0)return "15px";else return "25px";}
+			});
+		svg.append("text").attr("x",size/2-45).attr("y",size+padding*1)
+			.text(function(){
+				if(isEnlarge==0){
+					return "Click to zoom in."
+				}
+				else return;
+			})
+			.style({stroke: "black", "stroke-width": "0.5px"})
+			.on("mouseover",function(){
+				d3.select(this).style({stroke: "blue", "stroke-width": "1px"});
+			})
+			.on("mouseout",function(){
+				d3.select(this).style({stroke: "black", "stroke-width": "0.5px"});
+			})
+			.on("click", function(){
 				d3.select("#View2b").selectAll("text").remove();
 				d3.select("#View2b").selectAll(".cell").remove();
 				d3.select("#View2b").selectAll(".xAxis").remove();
@@ -415,7 +436,7 @@ function View2(Observer){
 		var bgcolor = "#FFFFFF"; // 提示内容的背景色 
 		var msgObj=document.getElementById("View2b"); 
 		//msgObj.style.display="block";
-		msgObj.style.cssText = "position:absolute;font:11px '宋体';top:"+0+"px;left:"+0+"px;width:"+(2*size+3*padding)+"px;height:"+(2*size+4*padding)+"px;text-align:center;border:1px solid "+bordercolor+";background-color:"+bgcolor+";padding:1px;line-height:22px;z-index:9999;"; 
+		msgObj.style.cssText = "position:absolute;font:11px '宋体';top:"+0+"px;left:"+0+"px;width:"+(size*2.35+3*padding)+"px;height:"+(size*2.35+4*padding)+"px;text-align:center;border:1px solid "+bordercolor+";background-color:"+bgcolor+";padding:1px;line-height:22px;z-index:9999;"; 
 		//document.body.appendChild(msgObj); 
 				 
 		var table = document.createElement("table"); 
