@@ -9,9 +9,11 @@ function View5(Observer){
 		//}
 	}		
 	var groupId = document.getElementById("groupId");
+	var resultOfGroup = document.getElementById("resultOfGroup");
 	
 	var file = "data/leader2id-100.json";
 	$("button#inputNum").click(function num2group(){
+		var numAll=0;
 		groupId.innerHTML="<option value = 'none'>leader's id</option>";
 		minNum = document.getElementById("minNum").value;
 		if(minNum==""){minNum=0;}
@@ -20,10 +22,13 @@ function View5(Observer){
 		d3.json(file,function(data){
 			//console.log(data);
 			for (leader in data){
-				if(data[leader]["num"]>=minNum && data[leader]["num"]<maxNum){
+				if(data[leader]["num"]>=minNum && data[leader]["num"]<=maxNum){
 					groupId.options.add(new Option(leader,leader));
+					++numAll;
 				}			
 			}
+			if(numAll==1)resultOfGroup.innerHTML="Find "+numAll+" group!";
+			else resultOfGroup.innerHTML="Find "+numAll+" groups!";
 		});
 	});
 	groupId.onchange=function(){
