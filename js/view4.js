@@ -75,6 +75,7 @@ function View4(Observer){
 				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], "view4");
 				$(this).parent("p").remove();
 				idlist=_.without(idlist,d);
+				idhighlight=_.without(idhighlight,d);
 				console.log(idlist);
 			});
 			/*
