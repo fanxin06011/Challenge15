@@ -155,8 +155,8 @@ function View2(Observer){
 		var url = "wang.php";
 		url = url + "?fields=" + selectedX + "," + selectedY;
 		url = url + "&days=" + dayFull;
-		console.log("hhh");
-		attrRange=[["stay",1,0,1200],["toto",1,0,400]];
+		
+		attrRange=[["stay",1,10000,20000],["average",1,1000,2000]];
 		attrLength = attrRange.length;
 		for(i=0;i<attrLength;++i){
 			attrThis = attrRange[i];
