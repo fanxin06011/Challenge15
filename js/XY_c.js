@@ -156,7 +156,7 @@ function View2(Observer){
 		url = url + "?fields=" + selectedX + "," + selectedY;
 		url = url + "&days=" + dayFull;
 		
-		attrRange=[["from",1,0,1200],["to",1,0,400]];
+		attrRange=[["fromfrom",1,0,1200],["toto",1,0,400]];
 		attrLenth = attrRange.length;
 		for(i=0;i<attrLength;++i){
 			attrThis = attrRange[i];
