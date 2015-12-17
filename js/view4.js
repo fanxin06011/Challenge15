@@ -11,7 +11,7 @@ function View4(Observer){
 	$("div#view4").css("height",preheight-94);
 	view4.onMessage = function(message, data, from){
 			if(message == "showPath"){
-				if(from != view4){
+				if(from != "view4"){
 					//changelist(data);
 					idlisttmp=data;
 					$("input#file").attr("flag","0");
@@ -19,7 +19,7 @@ function View4(Observer){
 				}
 			}
 			if(message == "highlightstart"){
-				if(from != view4){
+				if(from != "view4"){
 					console.log("view4 highlightstart "+data);
 					$("#view4 p").css("background-color","white");
 					for(var i=0;i<data.length;i++){
@@ -33,7 +33,7 @@ function View4(Observer){
 					console.log("view4 highlightend "+data);
 					for(var i=0;i<data.length;i++){
 						//$("#view4 p").filter("#"+data[i]).removeAttr("background-color");
-						$("#view4 p").filter("#"+data[i]).css("background-color","#999999");
+						$("#view4 p").filter("#"+data[i]).css("background-color","white");
 					}
 				}
 			}
@@ -72,7 +72,7 @@ function View4(Observer){
 		  $("#view4 p:last").append('<a class="deleteid"><i class="fa fa-remove "></i></a>');
 		  $(".deleteid:last").click(function(){
 				var d=parseInt($(this).parent("p").attr("id"));
-				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], view4);
+				Observer.fireEvent("highlightend", [+$(this).parent("p").attr("id")], "view4");
 				$(this).parent("p").remove();
 				idlist=_.without(idlist,d);
 				console.log(idlist);
@@ -96,13 +96,13 @@ function View4(Observer){
 				  idhighlight=_.without(idhighlight,parseInt($(this).attr("id")));
 				  //console.log("idhighlight  "+idhighlight);
 				  Observer.fireEvent("highlightstart", idhighlight, "view4");
-				  console.log("view4 highlight");
+				  console.log("view4 highlight "+idhighlight);
 			  }else{
 				  $(this).css("background-color","yellow");
 				  idhighlight.push(parseInt($(this).attr("id")));
 				  //console.log("idhighlight  "+idhighlight);
 				  Observer.fireEvent("highlightstart", idhighlight, "view4");
-				  console.log("view4 highlight");
+				  console.log("view4 highlight "+idhighlight);
 			  }
 		  });
 	  }

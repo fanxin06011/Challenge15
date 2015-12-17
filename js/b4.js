@@ -4,9 +4,9 @@ $(document).ready(function(){
 	$( "div#va2outer" ).draggable();
   });
 
-  $(function() {
-    $( "div#view4" ).draggable();
-  });
+  //$(function() {
+    //$( "div#view4" ).draggable();
+  //});
 
   $("div#view1a").hide();
   $("#v1await").hide();
