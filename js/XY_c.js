@@ -112,6 +112,7 @@ function View2(Observer){
 	attrJson["Fri"] = {};
 	attrJson["Sat"] = {};
 	attrJson["Sun"] = {};
+	var attrRange=[["from",0,0,0],["to",0,0,0]];
 	choose();
 	
 	$(window).resize(function(){
@@ -147,15 +148,27 @@ function View2(Observer){
 	});	
 
 
-	function getAttrValue(selectedX,selectedY,day){ 
-		 var url = "v2.php";
-		 url = url + "?array=" + selectedX + "," + selectedY;
-		 url = url +"&day=" + day;
+	function getAttrValue(selectedX,selectedY,day,attrRange){
+		if(day == "Fri")dayFull = "friday";
+		else if(day == "Sat")dayFull = "saturday";
+		else if(day == "Sun")dayFull = "sunday";
+		var url = "wang.php";
+		url = url + "?fields=" + selectedX + "," + selectedY;
+		url = url + "&days=" + dayFull;
+		
+		attrRange=[["from",1,0,1200],["to",1,0,400]];
+		attrLenth = attrRange.length;
+		for(i=0;i<attrLength;++i){
+			attrThis = attrRange[i];
+			if(attrThis[1]==1){
+				url = url + "&" + attrThis[0] + "=" + attrThis[2] + "," + attrThis[3];
+			}				
+		}
 
 		 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
 			 success:function(data){  
 				 //console.log(data);
-				 attrJson[day]=data;    
+				 attrJson[day]=data[dayFull];    
 			 },
 			 error:function(xhr){console.log("error");} 
 		 })
@@ -227,7 +240,7 @@ function View2(Observer){
 			.orient("left")
 			.ticks(5);
 
-		getAttrValue(selectedX,selectedY,day);
+		getAttrValue(selectedX,selectedY,day,attrRange);
 		//console.log(attrJson[day]["id"]);
 
 		if(isEnlarge==0){size = sizeStandard; padding = paddingStandard;}
