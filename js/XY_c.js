@@ -157,7 +157,7 @@ function View2(Observer){
 		url = url + "&days=" + dayFull;
 		
 		attrRange=[["fromfrom",1,0,1200],["toto",1,0,400]];
-		attrLenth = attrRange.length;
+		attrLength = attrRange.length;
 		for(i=0;i<attrLength;++i){
 			attrThis = attrRange[i];
 			if(attrThis[1]==1){
