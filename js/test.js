@@ -98,6 +98,7 @@ function View3(Observer){
 	}
 	
 	var array=[];
+	var state=[];
 	// Handles a brush event, toggling the display of foreground lines.
 	function brush() {
 		var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
@@ -118,8 +119,9 @@ function View3(Observer){
 	}
 	function brushend()
 	{
-		console.log("aaaaa");
-		console.log(array);
+		//console.log("aaaaa");
+		//console.log(array);
+		console.log(this);
 		Observer.fireEvent("showPath",array,view);
 	}
 function fri()
