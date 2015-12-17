@@ -156,7 +156,7 @@ function View2(Observer){
 		url = url + "?fields=" + selectedX + "," + selectedY;
 		url = url + "&days=" + dayFull;
 		
-		attrRange=[["fromfrom",1,0,1200],["toto",1,0,400]];
+		attrRange=[["stay",1,0,1200],["toto",1,0,400]];
 		attrLength = attrRange.length;
 		for(i=0;i<attrLength;++i){
 			attrThis = attrRange[i];
@@ -164,6 +164,7 @@ function View2(Observer){
 				url = url + "&" + attrThis[0] + "=" + attrThis[2] + "," + attrThis[3];
 			}				
 		}
+		console.log(url);
 
 		 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
 			 success:function(data){  
