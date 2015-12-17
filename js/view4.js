@@ -116,6 +116,7 @@ function View4(Observer){
 	  idlist=[];
 	  $("#view4").children("p").remove();
 	  Observer.fireEvent("highlightend", idhighlight, "view4");
+	  idhighlight=[];
 	});
 	$("#v4submit").click(function(){
 	  //console.log("aaaa");
