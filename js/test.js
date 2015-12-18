@@ -110,65 +110,78 @@ function View3(Observer){
 	//var changeList = state.filter(function(d){
 	//		return d.state == 1;
 	//	});
+	var tmpname=[];
+	var tmpfrom=[];
+	var tmpto=[];
 	var lowerbound;
 	var higherbound;
 	var type;
 	var now; 
+	var special;
+	var count; 
 	
 	// Handles a brush event, toggling the display of foreground lines.
 	function brush() {
 		var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
-		extents = actives.map(function(p) { return y[p].brush.extent(); });
+			extents = actives.map(function(p) { return y[p].brush.extent(); });
 		array=[];
 		foreground.style("display", function(d) {
-		return actives.every(function(p, i) {
-		if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
-		{
-			array.push(d.id);
+			return actives.every(function(p, i) {
+			if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
+			{
+				array.push(d.id);
+				now=1;
+				lowerbound=extents[i][0];   //lower bound
+				higherbound=extents[i][1];   //higher bound
+				type=p;              //string!!!
 		
-			//console.log(d[p]);
-			now=1;
-			lowerbound=extents[i][0];   //lower bound
-			higherbound=extents[i][1];   //higher bound
-			type=p;              //string!!!
-		
-				
-		}
-		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-	  
-		}) ? null : "none";
-		});
+				for(count=0;count<tmpname.length;++count)
+				{
+					if(type==tmpname[count])break;
+				}
+				if(count==tmpname.length)special=type;
+			
+				tmpname.push(type);
+				tmpfrom.push(lowerbound);
+				tmpto.push(higherbound);
+			}
+			return extents[i][0] <= d[p] && d[p] <= extents[i][1]; 
+			}) ? null : "none";
+		});  
 	}
+	
+	//brushend to get the final changeList and array
 	function brushend()
 	{
 		for(var i=0;i<10;++i)
+		{
+			for(var j=0;j<tmpname.length;++j)
+			if(tmpname[j]==state[i].name)
 			{
-				if(type==state[i].name)
-				{
-					//console.log("true");
-					state[i].zero=1;
-					state[i].from=lowerbound;
-					state[i].to=higherbound;
-				}
+				//console.log("true");
+				state[i].zero=1;
+				state[i].from=tmpfrom[j];
+				state[i].to=tmpto[j];
 			}
-			if(array.length==0)
+		}
+		if(array.length==0)
+		{
+			for(var i=0;i<10;++i)
 			{
-				for(var i=0;i<10;++i)
-				{
-					if(type==state[i].name)state[i].zero=0;
-				}
+				state[i].zero=0;
 			}
-			else
+		}
+		else
+		{
+			for(var i=0;i<10;++i)
 			{
-				for(var i=0;i<10;++i)
-				{
-					if(type==state[i].name)state[i].zero=1;
-				}
+				if(type==state[i].name)state[i].zero=1;
 			}
+		}
 		
-			var changeList = state.filter(function(d){
-				return d.zero == 1;
-				});
+		var changeList = state.filter(function(d){
+			return d.zero == 1;
+			});
 			
 		console.log("View3--");
 		console.log(changeList);
