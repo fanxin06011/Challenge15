@@ -53,6 +53,10 @@ function View2(Observer){
 				.attr("r",2)
 				.style("fill",colorList[0])
 				.style("fill-opacity",0.4);
+		}else if(message == "attrRanges"){
+			console.log("view2---"+"attrRanges!");
+			//attrRanges = [{"attr":"stay","isChange":1,"min":0,"max":20000},{"attr":"num","isChange":0,"min":0,"max":20000}];
+			choose();
 		}
 		else{
 		}
@@ -112,7 +116,8 @@ function View2(Observer){
 	attrJson["Fri"] = {};
 	attrJson["Sat"] = {};
 	attrJson["Sun"] = {};
-	var attrRange=[["from",0,0,0],["to",0,0,0]];
+	var attrRanges = [];
+	
 	choose();
 	
 	$(window).resize(function(){
@@ -147,34 +152,6 @@ function View2(Observer){
 		choose();
 	});	
 
-
-	function getAttrValue(selectedX,selectedY,day,attrRange){
-		if(day == "Fri")dayFull = "friday";
-		else if(day == "Sat")dayFull = "saturday";
-		else if(day == "Sun")dayFull = "sunday";
-		var url = "wang.php";
-		url = url + "?fields=" + selectedX + "," + selectedY;
-		url = url + "&days=" + dayFull;
-		
-		attrRange=[["stay",1,10000,20000],["average",1,1000,2000]];
-		attrLength = attrRange.length;
-		for(i=0;i<attrLength;++i){
-			attrThis = attrRange[i];
-			if(attrThis[1]==1){
-				url = url + "&" + attrThis[0] + "=" + attrThis[2] + "," + attrThis[3];
-			}				
-		}
-		console.log(url);
-
-		 $.ajax({ url:url, async:false,  cache:false, dataType:'json',
-			 success:function(data){  
-				 //console.log(data);
-				 attrJson[day]=data[dayFull];    
-			 },
-			 error:function(xhr){console.log("error");} 
-		 })
-	 }
-	 
 	
 	function choose(){
 		d3.select("#View2b").style.height=d3.select("#View2b").style.width*1.05;
@@ -196,18 +173,38 @@ function View2(Observer){
 		d3.select("#View2b").selectAll(".cell").remove();
 		d3.select("#View2b").selectAll(".xAxis").remove();
 		d3.select("#View2b").selectAll(".yAxis").remove();
-		if(dayEnlarge == 1){draw("Fri",1);}
-		else if(dayEnlarge == 2){draw("Sat",2);}
-		else if(dayEnlarge == 3){draw("Sun",3);}
-		draw("Fri",0);
-		draw("Sat",0);
-		draw("Sun",0);		
+		if(dayEnlarge == 1){getAttrValueDraw(selectedX,selectedY,"Fri",attrRanges,1);}
+		else if(dayEnlarge == 2){getAttrValueDraw(selectedX,selectedY,"Sat",attrRanges,2);}
+		else if(dayEnlarge == 3){getAttrValueDraw(selectedX,selectedY,"Sun",attrRanges,3);}
+		getAttrValueDraw(selectedX,selectedY,"Fri",attrRanges,0);
+		getAttrValueDraw(selectedX,selectedY,"Sat",attrRanges,0);
+		getAttrValueDraw(selectedX,selectedY,"Sun",attrRanges,0);	
 		if(view2bDisplay == 1){	
 			alertView2b(2.35*size+3*padding,2.35*size+4*padding);
 			document.getElementById("View2b").style.display="block";
 		}
 	}
 
+	function getAttrValueDraw(selectedX,selectedY,day,attrRanges,isEnlarge){ 
+		var url = "v2.php";
+		url = url + "?array=" + selectedX + "," + selectedY;
+		url = url + "&day=" + day;
+		console.log(attrRanges);
+		for(attrRangeIndex in attrRanges){
+			attrRange = attrRanges[attrRangeIndex];
+			if(attrRange["isChange"]==1){
+				url = url + "&" + attrRange["attr"] + "=" + attrRange["min"] + "," + attrRange["max"];
+			}
+		}
+		console.log(url);
+		//url = "v2.php?array=num,stay&day=Fri";
+		d3.json(url, function(data){
+			console.log(data);
+			attrJson[day]=data; 
+			draw(day,isEnlarge);
+		});
+	 }	
+	
 	function draw(day,isEnlarge){
 		var svg;
 		var colorI;
@@ -241,7 +238,6 @@ function View2(Observer){
 			.orient("left")
 			.ticks(5);
 
-		getAttrValue(selectedX,selectedY,day,attrRange);
 		//console.log(attrJson[day]["id"]);
 
 		if(isEnlarge==0){size = sizeStandard; padding = paddingStandard;}
@@ -318,9 +314,9 @@ function View2(Observer){
 				d3.select("#View2b").selectAll(".cell").remove();
 				d3.select("#View2b").selectAll(".xAxis").remove();
 				d3.select("#View2b").selectAll(".yAxis").remove();
-				if(day == "Fri"){draw("Fri",1); dayEnlarge = 1;}
-				else if(day == "Sat"){draw("Sat",2); dayEnlarge =2;}
-				else if(day == "Sun"){draw("Sun",3); dayEnlarge =3;}
+				if(day == "Fri"){getAttrValueDraw(selectedX,selectedY,"Fri",attrRanges,1); dayEnlarge = 1;}
+				else if(day == "Sat"){getAttrValueDraw(selectedX,selectedY,"Sat",attrRanges,2); dayEnlarge =2;}
+				else if(day == "Sun"){getAttrValueDraw(selectedX,selectedY,"Sun",attrRanges,3); dayEnlarge =3;}
 				//d3.select("#View2b").style.display="block";
 				view2bDisplay = 1;
 				document.getElementById("View2b").style.display="block";			
