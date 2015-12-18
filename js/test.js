@@ -132,7 +132,16 @@ function View3(Observer){
 			higherbound=extents[i][1];   //higher bound
 			type=p;              //string!!!
 		
-			for(var i=0;i<10;++i)
+				
+		}
+		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
+	  
+		}) ? null : "none";
+		});
+	}
+	function brushend()
+	{
+		for(var i=0;i<10;++i)
 			{
 				if(type==state[i].name)
 				{
@@ -161,22 +170,13 @@ function View3(Observer){
 				return d.zero == 1;
 				});
 			
-			//console.log("aaaaa");
-			console.log(changeList);	
-		}
-		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-	  
-		}) ? null : "none";
-		});
-	}
-	function brushend()
-	{
 		console.log("View3--");
 		console.log(changeList);
 		
 		Observer.fireEvent("showElement",changeList,view);
 		Observer.fireEvent("showPath",array,view);
 	}
+	
 function fri()
 {
 svg1.selectAll("g").remove();
