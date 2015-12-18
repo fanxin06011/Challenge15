@@ -98,7 +98,23 @@ function View3(Observer){
 	}
 	
 	var array=[];
-	var state=[];
+	var dimens = ["in","out","stay","average","from","to","all","comm","way","wayPercent"];
+	var state = dimens.map(function(attr){
+		return {
+			name: attr,
+			zero:0,
+			from:0,
+			to:0
+		}
+	});
+	//var changeList = state.filter(function(d){
+	//		return d.state == 1;
+	//	});
+	var lowerbound;
+	var higherbound;
+	var type;
+	var now; 
+	
 	// Handles a brush event, toggling the display of foreground lines.
 	function brush() {
 		var actives = dimensions.filter(function(p) { return !y[p].brush.empty(); }),
@@ -108,10 +124,46 @@ function View3(Observer){
 		return actives.every(function(p, i) {
 		if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
 		{
-			array.push(parseInt(d.id));
-			
-		}
+			array.push(d.id);
 		
+			//console.log(d[p]);
+			now=1;
+			lowerbound=extents[i][0];   //lower bound
+			higherbound=extents[i][1];   //higher bound
+			type=p;              //string!!!
+		
+			for(var i=0;i<10;++i)
+			{
+				if(type==state[i].name)
+				{
+					//console.log("true");
+					state[i].zero=1;
+					state[i].from=lowerbound;
+					state[i].to=higherbound;
+				}
+			}
+			if(array.length==0)
+			{
+				for(var i=0;i<10;++i)
+				{
+					if(type==state[i].name)state[i].zero=0;
+				}
+			}
+			else
+			{
+				for(var i=0;i<10;++i)
+				{
+					if(type==state[i].name)state[i].zero=1;
+				}
+			}
+		
+			var changeList = state.filter(function(d){
+				return d.zero == 1;
+				});
+			
+			//console.log("aaaaa");
+			console.log(changeList);	
+		}
 		return extents[i][0] <= d[p] && d[p] <= extents[i][1];
 	  
 		}) ? null : "none";
@@ -119,9 +171,10 @@ function View3(Observer){
 	}
 	function brushend()
 	{
-		//console.log("aaaaa");
-		//console.log(array);
-		console.log(this);
+		console.log("View3--");
+		console.log(changeList);
+		
+		Observer.fireEvent("showElement",changeList,view);
 		Observer.fireEvent("showPath",array,view);
 	}
 function fri()
