@@ -13,31 +13,13 @@ if (!$con)
  }
 mysql_select_db("vc2015", $con);
 
-
 $arraystr=$_GET["array"];
 $day=$_GET["day"];
-$attrRange=array();
-foreach ($_GET as $key=>$value) {
-  if($key == "array"){
-    $arraystr = $value; 
-  }else if($key == "day"){
-    $day = $value;
-  }else{
-    $attrRange[$key] = explode(',', $value);
-  }
-}
+//echo "haha";
+
 $array=explode(',',$arraystr);
 $arrayLength = count($array);
-$attrRangeLength = count($attrRange);
-
-function getConstransPart($constrans){
-  $items = array(); 
-  foreach ($constrans as $attr => $vals) {
-    $str = $attr . " between " . $vals[0] . " and " . $vals[1] . " ";
-    array_push($items, $str);
-  }
-  return join(' and ', $items);
-}
+//echo $arrayLength."  ";
 
 /*
 $thInfo = mysql_query("DESC userFeatureFri");
@@ -60,7 +42,7 @@ for($i=0;$i<$arrayLength;++$i){
 if($day=="Fri")$sql = $sql." from userFeatureFri";
 elseif($day=="Sat")$sql = $sql." from userFeatureSat";
 elseif($day=="Sun")$sql = $sql." from userFeatureSun";
-if($attrRangeLength!=0)$sql = $sql." where ".getConstransPart($attrRange);
+//echo $sql;
 
 $res = mysql_query($sql,$con);
 $index = 0;
