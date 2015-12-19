@@ -14,6 +14,7 @@ function View4(Observer){
 				if(from != "view4"){
 					//changelist(data);
 					idlisttmp=data;
+					//console.log(typeof data[0]);
 					$("input#file").attr("flag","0");
 					//$("button#add").click();
 				}
@@ -48,7 +49,7 @@ function View4(Observer){
 		  idlist=[];
 		  aaa=$("input#file").attr("ls").split(",");
 		  for(var i=0;i<aaa.length;i++){
-			  idlist.push(+aaa[i]);
+			  idlist.push(parseInt(aaa[i]));
 		  }
 		  idlisttmp=[];
 		  //console.log(idlist);
@@ -76,7 +77,7 @@ function View4(Observer){
 				$(this).parent("p").remove();
 				idlist=_.without(idlist,d);
 				idhighlight=_.without(idhighlight,d);
-				console.log(idlist);
+				//console.log(idlist);
 			});
 			/*
 		  $("#view4 p:last").mouseover(function(){
@@ -117,14 +118,13 @@ function View4(Observer){
 	  $("#view4").children("p").remove();
 	  Observer.fireEvent("highlightend", idhighlight, "view4");
 	  idhighlight=[];
+	  Observer.fireEvent("highlightstart", idhighlight, "view4");
 	});
 	$("#v4submit").click(function(){
-	  //console.log("aaaa");
-	  //$("div#va2outer").show();
-	  //$("#v1await").show();
+	  //Observer.fireEvent("highlightstart", [], "view4");
+	  Observer.fireEvent("showPath", [], "view4");
 	  Observer.fireEvent("showPath", idlist, "view4");
-	  //$("#viewa2draw").click();
-	  
+
 	});
 	
 	

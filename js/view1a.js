@@ -7,12 +7,15 @@
 		var height=$("div#view1a").width()*1.1;
 		$("div#view1a").css("height",height);
 		$("div#v1await").css("height",height);
+		
 		var width2=$(window).width()*0.5;
 		var height3=width2*0.4;
 		var height2=width2*0.4*0.8;
 		$("div#view1a2").css("width",width2);
 		$("div#view1a2").css("height",width2*0.4);
-
+		$("#va2zoom").css("width",width2);
+		$("#va2zoom").css("height",width2*0.4);
+		
 		var color = d3.scale.category20();  			  
 		var svg = d3.select("#view1a")
 					.append("svg")  
@@ -115,7 +118,7 @@
         };
 		var spinner = new Spinner(opts);
 		function showUser(idlist,day){ 
-			 
+			 //console.log(idlist.length);
 			 //document.getElementById("judge").innerHTML='0';
 			 var idstr="";
 			 for(var i=0;i<idlist.length;i++){
@@ -141,8 +144,12 @@
 					 //console.log(data);
 					 datajson[day]=data;  
 					 spinner.spin();
-					 $("#viewa2draw").click();
-					 $("div#va2outer").show();
+					 if(idlist.length==0){console.log("empty");}
+					 else{
+						 $("#viewa2draw").click();
+						 $("div#va2outer").show();
+						 }
+					 
 					 $("#v1await").hide();
 				 },
 
@@ -275,11 +282,10 @@
 				//console.log($scope.Properties);
 			}
 			$scope.hlspot=function(d){
-				//console.log(d);
+				
 				var ds=d.split(",")
 				var counttmp=ds[1];
-				
-				if(ds[0]!="-2"){
+				if(ds[0]!="-2"){//click的是景点
 					if($scope.Properties[counttmp].fill=="yellow"){
 						$scope.Properties[counttmp].fill=color(destable[ds[2]][4]);
 						//spothl=_.without(spothl,ds[0]);
@@ -293,14 +299,15 @@
 						//console.log(spothl);
 						Observer.fireEvent("spothighlightstart", spothl, "view1a2");
 					}else{
-						console.log($scope.Properties[counttmp].fill);
+						//console.log($scope.Properties[counttmp].fill);
 						$scope.Properties[counttmp].fill="yellow";
 						spothl.push(ds[2]);
 						Observer.fireEvent("spothighlightstart", spothl, "view1a2");
 					}
-				}else{
+				}else{//click的是id
 					if($scope.Properties[counttmp].fill=="yellow"){
 						$scope.Properties[counttmp].fill="#EEEFED";
+						//console.log(datajson[daynum][parseInt(ds[2])]);
 						idhl=_.without(idhl,parseInt(datajson[daynum][parseInt(ds[2])].id));
 						Observer.fireEvent("highlightstart", idhl, "view1a2");
 					}else{
@@ -312,7 +319,9 @@
 				}
 			}
 			$scope.hlid=function(){
+				//console.log(recidhl);
 				for(var i=0;i<count+1;i++){
+					//console.log(i);
 					var dtmp=$scope.Properties[i].idnum.split(",");
 					if(dtmp[0]=="-2"){
 						var idtmp=parseInt(datajson[daynum][+dtmp[2]].id);
@@ -327,7 +336,8 @@
 			$scope.rcvhlspot=function(){
 				for(var i=0;i<count+1;i++){
 					var dtmp=$scope.Properties[i].idnum.split(",")[2];
-					if(parseInt(dtmp)==receiveD[0]){
+					var isid=$scope.Properties[i].idnum.split(",")[0];
+					if(parseInt(dtmp)==receiveD[0]&&(isid!="-2")){
 						if(hlflag==0){$scope.Properties[i].fill=color(destable[receiveD[0]][4]);}
 						else{
 							$scope.Properties[i].fill="yellow";
@@ -350,26 +360,31 @@
 			$("#view1a2").resize(function() {
 				clearTimeout(rt);
 				rt = setTimeout(function(){
-					//console.log("ddd");
-					width2=$("div#view1a2").width();
-					height3=width2*0.4;
-					height2=width2*0.4*0.8;
+					//console.log("view1a2 resize");
+					var width0=$("div#view1a2").width();
+					width2=width0*zoomscale;
+					height3=width0*0.4;
+					height2=width0*0.4*0.8;
+					$("#va2zoom").css("width",width2);
+					$("#va2zoom").css("height",height3);
+					
 					va2x2 =va2x2.range([0,width2]);
+					va2x3 =va2x3.range([0,width2]);
+					zoom.x(va2x3);
 					xAxis2 = xAxis2.scale(va2x2);
-					va2label= va2label.attr("x",function(d,i){return 10+(width2/typenum)*i ;})  
+					va2label= va2label.attr("x",function(d,i){return 10+(width0/typenum)*i ;})  
 						.attr("y",(height3*0.9))  
-						.attr("width",function(d,i){return (width2/typenum-25);});
-
-					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width2/typenum)*i+","+(height3*0.9)+")";}); 
+						.attr("width",function(d,i){return (width0/typenum-25);});
+					
+					va2labelg=va2labelg.attr("transform",function(d,i){return "translate("+(width0/typenum)*i+","+(height3*0.9)+")";}); 
 					va2labelText=va2labelText.attr("dy",function(d,i){return (10+11*i)+"px";});
 					via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
-					recth=(width2*0.4*0.8)/idnum-2;
+					recth=(height2)/idnum-2;
 					$("#viewa2draw").click();
 				},500);
 			});
 		});
-		
-		
+
 		///////////////////////////////////////////////////////
 		//鼠标放在点上，显示id
 		var circlelag=circles.append("title")
@@ -482,12 +497,37 @@
 		//view1a2数轴
 		var va2x2 = d3.time.scale().range([0,width2]);
 		va2x2.domain(d3.extent(datax.map(function(d) { return d; })));
+		var va2x3= d3.time.scale().range([0,width2]);
+		va2x3.domain(d3.extent(datax.map(function(d) { return d; })));
 		var xAxis2 = d3.svg.axis().scale(va2x2).orient("bottom").ticks(10);
 		var via2xis=d3.select("#va2svg")
 					.append("g")
 					.attr("class","axisx")
 					.attr("transform", "translate(10,"+(height3*0.8)+")")
 					.call(xAxis2);
+		////////////////////////////////////////////////////////////
+		//view1a2 zoom
+		var zoomscale;
+		var zoom = d3.behavior.zoom()
+					.on("zoom", draw)
+					.center([0,0])
+					.x(va2x3)
+					.scaleExtent([1, Infinity]);
+
+		 d3.select("#va2zoom").call(zoom);
+		 function draw(){
+			  //console.log(d3.event.translate);
+			 // d3.select(this).attr("transform", "translate(" + d3.event.translate[0] + ",0)");
+			  zoomscale=d3.event.scale;
+			  width2=$("div#view1a2").width()*zoomscale;
+			  va2x2=va2x2.range([0,width2]);
+			  xAxis2.scale(va2x2);
+			  via2xis.call(xAxis2);
+			  $("#va2svg").css("width",width2);
+			  $("#va2zoom").css("width",width2);
+			  $("#viewa2draw").click();
+			  //zoom.x(va2x2);
+		 }
 		////////////////////////////
 		
 		//拖动的方块
@@ -560,25 +600,30 @@
 		var view1a={};
 		var tmpi=[];//需要高亮的id的序号i
 		view1a.onMessage = function(message, data, from){
-			console.log(message+"  "+data);
+			console.log("view1a received message "+message+"  "+data);
 			if(message == "showPath"){
 				
 				if(from == "view4"){
-					console.log("view4 select");
-					onSelectPeople(data);
-					circles.data(id)
+					//console.log("view4 select");
+					//if(data==[]){}
+					//else{
+						onSelectPeople(data);
+						circles.data(id)
 							.exit()  
 							.remove();
-					showUser(id,daynum);
+						showUser(id,daynum);
+					//}
+					
 				}
 			}
 			if(message == "highlightstart"){
-				
+				console.log("data  "+data)
 				if(from != "view1a1"){
 					circles.transition()
 							.duration(1)
 							.attr("fill","red")
 							.attr("r",3);
+					//console.log(tmpi);
 					for(var i=0;i<tmpi.length;i++){
 						loctmp[i]=[{x:0,y:0}];
 						lineGraph[i].transition()
@@ -600,7 +645,7 @@
 							.attr("r",function(d,i){
 								if(_.indexOf(data, d)>=0){return 6/500*width;}else{return 3/500*width;}
 							});
-					
+					console.log("tmpi  "+tmpi);
 					for(var k=0;k<tmpi.length;k++){
 						loctmp[k]=[];
 						var len=datajson[daynum][tmpi[k]].x.length;
@@ -640,6 +685,7 @@
 				}
 				if(from != "view1a2"){
 						recidhl=[];
+						idhl=[];
 						setTimeout(function(){
 							$("#viewa2hlid").click();
 						},100);
@@ -671,7 +717,7 @@
 		
 		
 		function onSelectPeople(data){
-			console.log("view1a data: "+data);
+			//console.log("view1a data: "+data);
 			idnum=data.length;
 			if(idnum>idnumlimit){idnum=idnumlimit;}
 			id=data;

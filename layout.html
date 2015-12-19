@@ -57,6 +57,7 @@
 	<button type="button" id="viewa2rcvhl" ng-hide="true" ng-click="rcvhlspot()"></button>
 	<button type="button" id="viewa2hlid" ng-hide="true" ng-click="hlid()"></button>
 	<svg id="va2svg" width="100%" height="500" > 
+	<rect id="va2zoom" style="fill:white"></rect>
 	<g ng-repeat="idl in Properties ">
 		<rect lid="{{idl.idnum}}" ng-attr-x="{{idl.x}}" ng-attr-y="{{idl.y}}" ng-attr-width="{{idl.width}}" ng-attr-height="{{idl.height}}" ng-attr-fill={{idl.fill}} ng-click="hlspot(idl.idnum)"/>
 	</g>

@@ -185,11 +185,11 @@ function View1b(Observer){
 			.attr("height", 520/500*width)
 			.attr("width", 2/500*width);					
 			
-	var x2 = d3.time.scale().domain([8,24]).range([0,318/500*width]);
-	
-	var xAxisb1 = d3.svg.axis().scale(x2).orient("bottom");
-	var xAxisb2 = d3.svg.axis().scale(x2).orient("bottom");
-	var xAxisb3 = d3.svg.axis().scale(x2).orient("bottom");
+	var x2 = d3.time.scale().domain(d3.extent(datax.map(function(d) { return d; }))).range([0,318/500*width]);
+	//x2.domain(d3.extent(datax.map(function(d) { return d; })));
+	var xAxisb1 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
+	var xAxisb2 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
+	var xAxisb3 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
 	var xax1=svg2.append("g")
 				.attr("class","axisx")
 				.attr("transform", "translate("+15/500*width+","+83/500*width+")")
