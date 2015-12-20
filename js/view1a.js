@@ -274,7 +274,7 @@
 						if(typeid!=-1){
 							//console.log(destable[typeid][4]);
 							count=count+1;
-							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2), "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth, "fill": color(destable[typeid][4]) , "idnum":destable[typeid][2]+","+count+","+typeid});
+							$scope.Properties.push({"x": 10+(datajson[daynum][i].time[j]-28800)*width2/(86340-28800), "y": i*(recth+2), "width": ((datajson[daynum][i].time[j+1]-(datajson[daynum][i].time[j]))*width/(86340-28800)), "height": recth, "fill": color(destable[typeid][4]),"type": destable[typeid][4], "idnum":destable[typeid][2]+","+count+","+typeid});
 						}
 					}
 				
@@ -347,7 +347,7 @@
 			}
 
 		}]);
-		
+
 		//////////////////////////////////////////////////////////
 		//view1a2 resize
 		$(function() {
@@ -645,7 +645,7 @@
 							.attr("r",function(d,i){
 								if(_.indexOf(data, d)>=0){return 6/500*width;}else{return 3/500*width;}
 							});
-					console.log("tmpi  "+tmpi);
+					//console.log("tmpi  "+tmpi);
 					for(var k=0;k<tmpi.length;k++){
 						loctmp[k]=[];
 						var len=datajson[daynum][tmpi[k]].x.length;
