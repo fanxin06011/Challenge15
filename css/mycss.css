@@ -56,6 +56,15 @@ div#view1b {
 	float:left;
 	
 }
+div#view1{
+	padding: 0px 0px 0px 10px;
+	//height:600px;
+	width:100%;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	float:left;
+	
+}
 #v1await{
     position:absolute ;
 	//left: 37%;
@@ -256,11 +265,19 @@ div#view1a2{
 #view4.fa-spinner{
 	color: #999999;
 }
-.view1asvg,.view1bsvg {
+/*
+.view1asvg,.view1bsvg ,.view1svg{
+	background-image:url(../image/1.jpg);
+	background-size:100% ;
+	background-repeat:no-repeat;
+	background-attachment:scroll;
+}	*/
+#view1svg{
 	background-image:url(../image/1.jpg);
 	background-size:100% ;
 	background-repeat:no-repeat;
 	background-attachment:scroll;
 }	
+
 
 

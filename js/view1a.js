@@ -3,9 +3,13 @@
 	
 	
 	function View1a(Observer){
-		var width=$("div#view1a").width();//1350*37%=499
-		var height=$("div#view1a").width()*1.1;
-		$("div#view1a").css("height",height);
+		//var width=$("div#view1a").width();//1350*37%=499
+		//var height=$("div#view1a").width()*1.1;
+		//$("div#view1a").css("height",height);
+		var width=$("div#view1").width();//1350*37%=499
+		var height=$("div#view1").width()*1.1;
+		$("div#view1").css("height",height);
+		
 		$("div#v1await").css("height",height);
 		
 		var width2=$(window).width()*0.5;
@@ -16,14 +20,17 @@
 		$("#va2zoom").css("width",width2);
 		$("#va2zoom").css("height",width2*0.4);
 		
-		var color = d3.scale.category20();  			  
+		var color = d3.scale.category20();  			
+/*		
 		var svg = d3.select("#view1a")
 					.append("svg")  
 					.attr("class","view1asvg")
 					.attr("width",width)  
 					.attr("height",height);
-					
-
+					*/
+		var svg=d3.select("#view1svg").append("g").attr("id","view1bg");
+		$("#view1svg").css("width",width);
+		$("#view1svg").css("height",height);
 		//var idnum=2;
 		//var id=["577530","1204869"];
 		var id=[];
@@ -94,7 +101,8 @@
 			if(ttime<=86400){
 			sto=setTimeout(function(){autop();},100);
 			}
-			
+			abtilinear
+			Observer.fireEvent("timedrag", abtilinear(ttime), "view1a");
 		}
 
 		var opts = {            
@@ -144,7 +152,10 @@
 					 //console.log(data);
 					 datajson[day]=data;  
 					 spinner.spin();
-					 if(idlist.length==0){console.log("empty");}
+					 if(idlist.length==0){
+						 $("#viewa2draw").click();
+						 console.log("empty");
+						 }
 					 else{
 						 $("#viewa2draw").click();
 						 $("div#va2outer").show();
@@ -166,6 +177,7 @@
 		
 		function findtime(i,time){
 			var k=0;
+			//console.log(datajson[daynum][i].length);
 			var limit=datajson[daynum][i].time.length;
 			//var limit=xmlDoc[daynum][i].getElementsByTagName("time").length;
 			if(datajson[daynum][i].time[0]>=time){
@@ -396,6 +408,9 @@
 		var linear = d3.scale.linear()
 				   .domain([0, lengthlimit])
 				   .rangeRound([28800,86340]);		//08:00:00~23:59:00
+		var abtilinear = d3.scale.linear()
+					.domain([28800,86340])
+				   .range([0, lengthlimit]);
 		/////////////////////////////////////////////////////
 		//时间 标签
 		var ddx=linear(0);
@@ -459,8 +474,8 @@
 						if(daynum==1){return "Sat";}
 						if(daynum==2){return "Sun";}
 					});
-			//$("#viewa2draw").click();
-
+			$("#v4submit").click();
+			
 		}
 		/////////////////////////////////////
 		//时间上方日期的显示
@@ -540,6 +555,7 @@
 				.attr("fill","red" )
 				.attr("y",510/500*width)
 				.attr("x",10/500*width)
+				.attr("id","view1dragrect")
 				.attr("height", 20/500*width)
 				.attr("width", 7/500*width)
 				.call(d3.behavior.drag()
@@ -565,7 +581,8 @@
 		//////////////////////////////
 		function dragmove(){
 			//console.log(id);
-			var scroll=document.getElementById("view1a").scrollLeft;
+			//var scroll=document.getElementById("view1a").scrollLeft;
+			var scroll=document.getElementById("view1").scrollLeft;
 			var newx=event.clientX+scroll-10;
 			//console.log(newx);
 
@@ -587,6 +604,7 @@
 			for(var i=0;i<idnum;i++){
 					findtime(i,ttime);
 			}
+			Observer.fireEvent("timedrag", newx, "view1a");
 
 		}
 
@@ -767,15 +785,31 @@
 					return d;
 				});
 		}
-		
+		$("#trackcheck").click(function(){
+			  if(!document.getElementById("trackcheck").checked){
+				circles.attr("opacity",0);
+				for(var i=0;i<lineGraph.length;i++){
+					lineGraph[i].attr("opacity",0);
+				}
+				
+			  }else{
+				circles.attr("opacity",1);
+				for(var i=0;i<lineGraph.length;i++){
+					lineGraph[i].attr("opacity",1);
+				}
+			  }
+		  });
 
 		$(window).resize(function(){
 			// resize the view
 			var prewidth=width;
-			width=$("div#view1a").width();
-			height=$("div#view1a").width()*1.1;
+			//width=$("div#view1a").width();
+			//height=$("div#view1a").width()*1.1;
+			width=$("div#view1").width();
+			height=$("div#view1").width()*1.1;
 			$("div#v1await").css("height",height);
-			$("div#view1a").css("height",height);
+			//$("div#view1a").css("height",height);
+			$("div#view1").css("height",height);
 			width2=$("div#view1a2").width();
 			//var preheight=$("div#view1a2").height();
 			$("div#view1a2").css("height",0.4*width2);
@@ -784,9 +818,10 @@
 			$("div#view1a2").css("height",width2*0.4);
 			//console.log(width);
 			recth=(width2*0.4*0.8)/idnum-2;
-			svg = svg.attr("width",width)  
-					.attr("height",height);
-
+			//svg = svg.attr("width",width)  
+			//		.attr("height",height);
+			$("#view1svg").css("width",width)  
+					.css("height",height);
 			for(var i=0;i<idnum;i++){
 					findtime(i,ttime);
 			}
@@ -820,7 +855,7 @@
 						.attr("y",510/500*width)
 						.attr("height", 20/500*width)
 						.attr("width", 7/500*width);	
-				
+			//Observer.fireEvent("timedrag", prex, "view1a");
 			lineFunction = lineFunction.x(function(d) { return (d.x*5)/500*width; })
 										 .y(function(d) { return (500-5*d.y)/500*width; });
 			for(var i=0;i<idnumlimit;i++){

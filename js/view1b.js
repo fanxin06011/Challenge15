@@ -4,23 +4,28 @@ function View1b(Observer){
 	var view1b={};
 	
 
-	var width=$("div#view1b").width(); 
-	var height=$("div#view1b").width()*1.1;
-	$("div#view1b").css("height",height);
+	//var width=$("div#view1b").width(); 
+	//var height=$("div#view1b").width()*1.1;
+	//$("div#view1b").css("height",height);
 	
-	$("div#view1b").attr("height",height);
+	//$("div#view1b").attr("height",height);
+	var width=$("div#view1").width(); 
+	var height=$("div#view1").width()*1.1;
+	$("div#view1").css("height",height);
+	
+	$("div#view1").attr("height",height);
 	$("div#view1b2").attr("height",width*0.6);
 	
 	var vb2top=$("div#view1b2").css("top");
 	//$("div#viewb2outer").css("top",vb2top);
 	//$("div#viewb2outer").css("height",width*0.6+25);
 	var color = d3.scale.category20();  			  
-	var svg = d3.select("#view1b")
+	/*var svg = d3.select("#view1b")
 				.append("svg")  
 				.attr("class","view1bsvg")
 				.attr("width",width)  
-				.attr("height",height);
-				
+				.attr("height",height);*/
+	var svg=d3.select("#view1svg").append("g").attr("id","view1bg");
 	var svg2 = d3.select("#view1b2")
 				.append("svg")  
 				.attr("class","view1b2svg")
@@ -79,7 +84,8 @@ function View1b(Observer){
 			var L41=data[i].L41-'0';var L42=data[i].L42-'0';
 			dataloc.push([L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,L31,L32,L33,L34,L35,L36,L37,L38,L39,L40,L41,L42]);
 		}
-		initial();
+		setTimeout(function(){initial();},1000);
+		
 	});
 	var loctotal=42;
 	var locidnum=new Array();
@@ -107,7 +113,8 @@ function View1b(Observer){
 	if(minuterelative<10){minuterelative="0"+minuterelative;}
 	
 			
-	var dd=[1];		
+	var dd=[1];	
+/*	
 	var timetag=svg.append("g")
 				.selectAll("text")
 				.data(dd)  
@@ -117,7 +124,7 @@ function View1b(Observer){
 				.text(function(d,i){return (hourrelative)+":"+minuterelative;})
 				.attr("font-size", 30/500*width+"px")
 				.attr("font-family", "Georgia");
-	
+	*/
 	var timeindex1=0;
 	var circles;
 	var dfri=[];var dsat=[];var dsun=[];		
@@ -153,13 +160,15 @@ function View1b(Observer){
 	datax.push(datax1);datax.push(datax2);
 	x.domain(d3.extent(datax.map(function(d) { return d; })));
 	var xAxis = d3.svg.axis().scale(x).orient("bottom");
-
+/*
 	var v2axis=svg.append("g")
 				.attr("class","axisx")
 				.attr("transform", "translate("+15/500*width+","+510/500*width+")")
 				.call(xAxis);
-	
+	*/
 	var data4=[0];
+	var rect2xnewx=10/500*width;
+	/*
 	var rects2=svg.append("g")
 			.selectAll("rect")
 			.data(data4)
@@ -173,6 +182,7 @@ function View1b(Observer){
 			.call(d3.behavior.drag()
 				.on("drag", dragmove)
 			);	
+			*/
 	var data5=[0];
 	var rects3=svg2.append("g")
 			.selectAll("rect")
@@ -215,6 +225,7 @@ function View1b(Observer){
 					.attr("font-size", 10/500*width+"px")								
 					.text(function(d,i){return d;}); 
 					*/
+					/*
 	var y2=svg.append("g");
 	var label=["steelblue","yellowgreen","grey"];
 	var labelRect = y2.append("g")
@@ -239,10 +250,10 @@ function View1b(Observer){
 					.attr("dx",35/500*width)
 					.attr("font-size", 15/500*width+"px")								
 					.text(function(d,i){return d;}); 
-
+*/
 	var timeindex1=0;
 	var daynum=0;
-	
+	/*
 	var d2=[1];		
 	var timetag2=svg.append("g")
 				.selectAll("text")
@@ -257,7 +268,7 @@ function View1b(Observer){
 				})
 				.attr("font-size", 30/500*width+"px")
 				.attr("font-family", "Georgia");
-	
+	*/
 	
 	
 	
@@ -284,7 +295,8 @@ function View1b(Observer){
                             .enter()  
                             .append("circle")  
                             .attr("r",2.5/500*width)  
-                            .attr("fill","red")  
+                            .attr("fill","steelblue")  
+							.attr("opacity",0.6)
                             .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
 							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;})
 							.on("mouseover",function(d,i){
@@ -292,7 +304,7 @@ function View1b(Observer){
 								d3.select(this).attr("fill","yellow");
 							})
 							.on("mouseout",function(d,i){
-								d3.select(this).attr("fill", "red");
+								d3.select(this).attr("fill", "steelblue");
 								Observer.fireEvent("spothighlightend", [i], "view1b");
 							})
 							.on("dblclick",function(d,i){dblclick(i);});
@@ -420,11 +432,13 @@ function View1b(Observer){
 	
 	function click(m){
 		daynum=m;
+		/*
 		timetag2.text(function(d,i){
 					if(daynum==0){return "Fri";}
 					if(daynum==1){return "Sat";}
 					if(daynum==2){return "Sun";}
 				});
+				*/
 		if(m==0){
 			circles.data(dataloc[timeindex1])  
 							.transition()
@@ -451,7 +465,7 @@ function View1b(Observer){
 								})  ;
 			}
 		}
-
+		//Observer.fireEvent("changeday",m, "view1b");
 	}
 							
 	function dragmove() {		
@@ -499,16 +513,53 @@ function View1b(Observer){
 				
 	}
 	
+	function dragmove2(newx){
+			var dataloctmp=[];
+			if(daynum==0){
+				dataloctmp=dataloc;
+				//console.log(dataloctmp[10][10]);
+			}
+			else{
+				if(daynum==1){
+					dataloctmp=datalocSat;
+				}
+				else{
+					dataloctmp=datalocSun;
+				}
+			}
+			timeindex1=numberindata(linear(newx));
+			circles.data(dataloc[timeindex1])  
+						.transition()
+						.duration(0) 
+						.attr("r",function(d,i){
+							return linear2(dataloctmp[timeindex1][i]);
+							})  ;
+
+			circlelag.text(function(d,i){
+					return dataloctmp[timeindex1][i]+" people in "+locidnum[i]+":"+locname[i];
+				});
+			var newx2=(linear(newx)-28800)/60
+			rects3.attr("x",(12.5+newx2/3)/500*width);	
+			rect2xnewx=(10+newx2/2)/500*width;
+	}
 	
 	
-	
+	$("#descheck").click(function(){
+			  if(!document.getElementById("descheck").checked){
+				circles.attr("opacity",0);
+			  }else{
+				circles.attr("opacity",1);
+			  }
+		  });
 	$(window).resize(function(){
 		var prewidth=width;
-		width=$("div#view1b").width(); 
-		height=$("div#view1b").width()*1.1;
-		$("div#view1b").css("height",height);
-		$("div#view1b").attr("height",height);
-		$("div#view1b2").attr("height",width*0.);
+		//width=$("div#view1b").width(); 
+		//height=$("div#view1b").width()*1.1;
+		width=$("div#view1").width(); 
+		height=$("div#view1").width()*1.1;
+		//$("div#view1b").css("height",height);
+		//$("div#view1b").attr("height",height);
+		//$("div#view1b2").attr("height",width*0.);
 	
 		svg =svg.attr("width",width)  
 				.attr("height",height);
@@ -518,19 +569,22 @@ function View1b(Observer){
 		lengthlimit=480/500*width;
 		linear =linear.domain([0, lengthlimit]);
 		
-		timetag=timetag.attr("transform","translate("+10/500*width+","+80/500*width+")")
+		/*timetag=timetag.attr("transform","translate("+10/500*width+","+80/500*width+")")
 						.attr("font-size", 30/500*width+"px");
-						
+						*/
 		x = x.range([0,width-20]);
-		xAxis = xAxis.scale(x);
-		v2axis=v2axis.attr("transform", "translate("+15/500*width+","+510/500*width+")")
-				.call(xAxis);				
-		preR2x=rects2.attr("x")*500/prewidth;
+		//xAxis = xAxis.scale(x);
+		//v2axis=v2axis.attr("transform", "translate("+15/500*width+","+510/500*width+")")
+				//.call(xAxis);				
+		//preR2x=$("#view1dragrect").attr("x")*500/prewidth;
+		preR2x=rect2xnewx*500/prewidth;
+		//console.log($("#view1dragrect").attr("x"));
 		preR3x=rects3.attr("x")*500/prewidth;
+		/*
 		rects2=rects2.attr("y",510/500*width)
 					.attr("x",preR2x/500*width)
 					.attr("height", 20/500*width)
-					.attr("width", 7/500*width);	
+					.attr("width", 7/500*width);*/	
 	    rects3=rects3.attr("x",preR3x/500*width)
 					.attr("height", 520/500*width)
 					.attr("width", 2/500*width);					
@@ -546,12 +600,13 @@ function View1b(Observer){
 				.call(xAxisb2);
 		xax3=xax3.attr("transform", "translate("+15/500*width+","+247/500*width+")")
 				.call(xAxisb3);
+				
 /*
 		view1b2=view1b2.attr("transform","translate("+30/500*width+","+3/500*width+")")
 					.attr("dy",10/500*width) 
 					.attr("dx",35/500*width)
 					.attr("font-size", 10/500*width+"px"); 
-*/
+*//*
 		labelRect = labelRect.attr("x",10/500*width)  
 							.attr("y",function(d,i){return (450+15 * i)/500*width;})  
 							.attr("width",25/500*width)
@@ -564,7 +619,7 @@ function View1b(Observer){
 	
 		timetag2=timetag2.attr("transform","translate("+10/500*width+","+45/500*width+")")
 						.attr("font-size", 30/500*width+"px");				
-				
+				*/
 		linear2 = linear2.rangeRound([2.5/500*width,17.5/500*width]);
 		var dataloctmp=[];
 		if(daynum==0){
@@ -579,6 +634,7 @@ function View1b(Observer){
 			}
 		}
 		timeindex1=numberindata((preR2x-10)*2*60+28800);
+		console.log(rect2xnewx);
 		circles = circles.attr("r",function(d,i){return linear2(dataloctmp[timeindex1][i]);})
                             .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
 							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;});				
@@ -630,6 +686,17 @@ function View1b(Observer){
 				if(from != "view1b"){
 					circles.attr("fill","red")
 							.attr("r",3/500*width);
+				}
+			}
+			if(message=="changeday"){
+				console.log("change day");
+				if(from=="view1a"){
+					click(datal);
+				}
+			}
+			if(message=="timedrag"){
+				if(from=="view1a"){
+					dragmove2(datal);
 				}
 			}
 		}
