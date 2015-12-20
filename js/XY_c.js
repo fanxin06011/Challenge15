@@ -192,8 +192,8 @@ function View2(Observer){
 		console.log(attrRanges);
 		for(attrRangeIndex in attrRanges){
 			attrRange = attrRanges[attrRangeIndex];
-			if(attrRange["isChange"]==1){
-				url = url + "&" + attrRange["attr"] + "=" + attrRange["min"] + "," + attrRange["max"];
+			if(attrRange["zero"]==1){
+				url = url + "&" + attrRange["name"] + "=" + attrRange["from"] + "," + attrRange["to"];
 			}
 		}
 		console.log(url);
