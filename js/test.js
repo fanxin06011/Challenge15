@@ -186,7 +186,7 @@ function View3(Observer){
 		console.log("View3--");
 		console.log(changeList);
 		
-		Observer.fireEvent("showElement",changeList,view);
+		Observer.fireEvent("attrRanges",changeList,view);
 		Observer.fireEvent("showPath",array,view);
 	}
 	
