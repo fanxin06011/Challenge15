@@ -54,7 +54,8 @@ function View2(Observer){
 				.style("fill",colorList[0])
 				.style("fill-opacity",0.4);
 		}else if(message == "attrRanges"){
-			console.log("view2---"+"attrRanges!");
+			console.log("view2---"+"get attrRanges!");
+			attrRanges = data;
 			//attrRanges = [{"attr":"stay","isChange":1,"min":0,"max":20000},{"attr":"num","isChange":0,"min":0,"max":20000}];
 			choose();
 		}
