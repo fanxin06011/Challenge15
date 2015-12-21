@@ -14,6 +14,7 @@ function View4(Observer){
 				if(from != "view4"){
 					//changelist(data);
 					idlisttmp=data;
+					for(var i=0;i<idlisttmp.length;i++){idlisttmp[i]=parseInt(idlisttmp[i]);}
 					//console.log(typeof data[0]);
 					$("input#file").attr("flag","0");
 					//$("button#add").click();
@@ -22,6 +23,7 @@ function View4(Observer){
 			if(message == "highlightstart"){
 				if(from != "view4"){
 					console.log("view4 highlightstart "+data);
+					idhighlight=data;
 					$("#view4 p").css("background-color","white");
 					for(var i=0;i<data.length;i++){
 						$("#view4 p").filter("#"+data[i]).css("background-color","yellow");

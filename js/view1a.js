@@ -153,7 +153,7 @@
 					 datajson[day]=data;  
 					 spinner.spin();
 					 if(idlist.length==0){
-						 $("#viewa2draw").click();
+						 //$("#viewa2draw").click();
 						 console.log("empty");
 						 }
 					 else{
@@ -474,6 +474,7 @@
 						if(daynum==1){return "Sat";}
 						if(daynum==2){return "Sun";}
 					});
+			Observer.fireEvent("changeday", m, "view1a");
 			$("#v4submit").click();
 			
 		}
@@ -618,7 +619,7 @@
 		var view1a={};
 		var tmpi=[];//需要高亮的id的序号i
 		view1a.onMessage = function(message, data, from){
-			console.log("view1a received message "+message+"  "+data);
+			console.log("view1a received message "+message+"  "+data+" from "+from );
 			if(message == "showPath"){
 				
 				if(from == "view4"){
@@ -635,7 +636,7 @@
 				}
 			}
 			if(message == "highlightstart"){
-				console.log("data  "+data)
+				//console.log("data  "+data)
 				if(from != "view1a1"){
 					circles.transition()
 							.duration(1)
@@ -652,7 +653,7 @@
 					circles.transition()
 							.duration(1)
 							.attr("fill",function(d,i){
-								if(_.indexOf(data, d)>=0){
+								if(_.indexOf(data, d)>=0||_.indexOf(data, parseInt(d))>=0){
 									//console.log("exist "+d);
 									tmpi.push(i);
 									return "yellow";
@@ -769,7 +770,7 @@
 							lineGraph[0].transition()
 									.duration(0)
 									.attr("d", lineFunction(loctmp[0]));				   
-							Observer.fireEvent("highlightstart", [d], "view1a1");
+							Observer.fireEvent("highlightstart", [parseInt(d)], "view1a1");
 							d3.select(this).attr("fill","yellow").attr("r",6/500*width);
 						})
 						.on("mouseout",function(d,i){

@@ -76,6 +76,17 @@ div#view1{
 	z-index:5000;
 
 }
+div#view1b3{
+	padding: 0px 0px 0px 10px;
+	//height:600px;
+	width:100%;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	float:left;
+	
+}
+
+
 div#view1b2 {
 
 	overflow-x:hidden;

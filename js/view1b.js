@@ -14,9 +14,9 @@ function View1b(Observer){
 	$("div#view1").css("height",height);
 	
 	$("div#view1").attr("height",height);
-	$("div#view1b2").attr("height",width*0.6);
+	$("div#view1b3").attr("height",width*0.25);
 	
-	var vb2top=$("div#view1b2").css("top");
+	var vb2top=$("div#view1b3").css("top");
 	//$("div#viewb2outer").css("top",vb2top);
 	//$("div#viewb2outer").css("height",width*0.6+25);
 	var color = d3.scale.category20();  			  
@@ -26,11 +26,11 @@ function View1b(Observer){
 				.attr("width",width)  
 				.attr("height",height);*/
 	var svg=d3.select("#view1svg").append("g").attr("id","view1bg");
-	var svg2 = d3.select("#view1b2")
+	var svg2 = d3.select("#view1b3")
 				.append("svg")  
 				.attr("class","view1b2svg")
 				.attr("width",width)  
-				.attr("height",width*0.6);
+				.attr("height",width*0.25);
 
 	var destable=[[0,67],[6,43],[16,49],[16,66],[17,43],[17,67],[23,54],[26,59],[27,15],[28,66]
 		,[32,33],[34,68],[38,90],[42,37],[43,56],[43,78],[45,24],[47,11],[48,87],[50,57],[60,37],
@@ -192,18 +192,19 @@ function View1b(Observer){
 			.attr("fill","red" )
 			.attr("y",0)
 			.attr("x",12.5/500*width)
-			.attr("height", 520/500*width)
+			.attr("height", 120/500*width)
 			.attr("width", 2/500*width);					
 			
 	var x2 = d3.time.scale().domain(d3.extent(datax.map(function(d) { return d; }))).range([0,318/500*width]);
 	//x2.domain(d3.extent(datax.map(function(d) { return d; })));
-	var xAxisb1 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
-	var xAxisb2 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
-	var xAxisb3 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
+	var xAxisb1 = d3.svg.axis().scale(x).orient("bottom");
+	//var xAxisb2 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
+	//var xAxisb3 = d3.svg.axis().scale(x2).orient("bottom").ticks(5);
 	var xax1=svg2.append("g")
 				.attr("class","axisx")
 				.attr("transform", "translate("+15/500*width+","+83/500*width+")")
 				.call(xAxisb1);
+				/*
 	var xax2=svg2.append("g")
 				.attr("class","axisx")
 				.attr("transform", "translate("+15/500*width+","+165/500*width+")")
@@ -212,9 +213,10 @@ function View1b(Observer){
 				.attr("class","axisx")
 				.attr("transform", "translate("+15/500*width+","+247/500*width+")")
 				.call(xAxisb3);
+				*/
 	var circlelag;
 	/*
-	var view1b2=  svg2.append("g")
+	var view1b3=  svg2.append("g")
 					.selectAll("text")	
 					.data(["num in selected attraction time profile"])
 					.enter()
@@ -329,21 +331,23 @@ function View1b(Observer){
 					   .range([83/500*width,6/500*width]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([165/500*width,88/500*width]);
+				   //.range([165/500*width,88/500*width]);
+				   .range([83/500*width,6/500*width]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([247/500*width,170/500*width]);
+				   //.range([247/500*width,170/500*width]);
+				   .range([83/500*width,6/500*width]);
 		
 		lineFunctionfri = d3.svg.line()
-								 .x(function(d) { return (15+d.x/3)/500*width; })
+								 .x(function(d) { return (15+d.x/2)/500*width; })
 								 .y(function(d) { return linearfri(d.y); })
 								 .interpolate("linear");
 		lineFunctionsat = d3.svg.line()
-								 .x(function(d) { return (15+d.x/3)/500*width; })
+								 .x(function(d) { return (15+d.x/2)/500*width; })
 								 .y(function(d) { return linearsat(d.y); })
 								 .interpolate("linear");
 		lineFunctionsun = d3.svg.line()
-								 .x(function(d) { return (15+d.x/3)/500*width; })
+								 .x(function(d) { return (15+d.x/2)/500*width; })
 								 .y(function(d) { return linearsun(d.y); })
 								 .interpolate("linear");						 
 		var pfri=svg2.append("g");			
@@ -405,10 +409,12 @@ function View1b(Observer){
 				   .range([83/500*width,6/500*width]);
 		linearsat = d3.scale.linear()
 				   .domain([0, satmax])
-				   .range([165/500*width,88/500*width]);
+				   //.range([165/500*width,88/500*width]);
+				   .range([83/500*width,6/500*width]);
 		linearsun = d3.scale.linear()
 				   .domain([0, sunmax])
-				   .range([247/500*width,170/500*width]);			
+				   //.range([247/500*width,170/500*width]);	
+				   .range([83/500*width,6/500*width]);
 		
 		
 		lineGraphfri.transition()
@@ -422,7 +428,7 @@ function View1b(Observer){
 					  .duration(1000)
 					  .attr("d", lineFunctionsun(dsun));						   
 		Observer.fireEvent("chooseSpot", destable[locnum], "view1b");
-		document.getElementById("viewb2outer").style.display = "block";
+		//document.getElementById("viewb2outer").style.display = "block";
 	}
 	
 	
@@ -501,7 +507,8 @@ function View1b(Observer){
 			
 			var newx2=(linear(newx)-28800)/60
 			rects2.attr("x",(10+newx2/2)/500*width);
-			rects3.attr("x",(12.5+newx2/3)/500*width);					
+			rects3.attr("x",(12.5+newx2/3)/500*width);
+			//rects3.attr("x",(10+newx2/2)/500*width);			
 			ddx=linear(newx);
 
 			hourrelative=Math.floor(ddx/3600);
@@ -539,7 +546,8 @@ function View1b(Observer){
 					return dataloctmp[timeindex1][i]+" people in "+locidnum[i]+":"+locname[i];
 				});
 			var newx2=(linear(newx)-28800)/60
-			rects3.attr("x",(12.5+newx2/3)/500*width);	
+			//rects3.attr("x",(12.5+newx2/3)/500*width);	
+			rects3.attr("x",(10+newx2/2)/500*width);	
 			rect2xnewx=(10+newx2/2)/500*width;
 	}
 	
@@ -559,12 +567,12 @@ function View1b(Observer){
 		height=$("div#view1").width()*1.1;
 		//$("div#view1b").css("height",height);
 		//$("div#view1b").attr("height",height);
-		//$("div#view1b2").attr("height",width*0.);
+		//$("div#view1b3").attr("height",width*0.);
 	
 		svg =svg.attr("width",width)  
 				.attr("height",height);
 		svg2 =svg2.attr("width",width)  
-				.attr("height",width*0.6);
+				.attr("height",width*0.25);
 				
 		lengthlimit=480/500*width;
 		linear =linear.domain([0, lengthlimit]);
@@ -586,23 +594,24 @@ function View1b(Observer){
 					.attr("height", 20/500*width)
 					.attr("width", 7/500*width);*/	
 	    rects3=rects3.attr("x",preR3x/500*width)
-					.attr("height", 520/500*width)
+					.attr("height", 120/500*width)
 					.attr("width", 2/500*width);					
 			
 	    x2 = x2.range([0,318/500*width]);
 	
-		xAxisb1 = xAxisb1.scale(x2);
-		xAxisb2 = xAxisb2.scale(x2);
-		xAxisb3 = xAxisb3.scale(x2);
+		xAxisb1 = xAxisb1.scale(x);
+		//xAxisb2 = xAxisb2.scale(x2);
+		//xAxisb3 = xAxisb3.scale(x2);
 		xax1=xax1.attr("transform", "translate("+15/500*width+","+83/500*width+")")
 				.call(xAxisb1);
+				/*
 		xax2=xax2.attr("transform", "translate("+15/500*width+","+165/500*width+")")
 				.call(xAxisb2);
 		xax3=xax3.attr("transform", "translate("+15/500*width+","+247/500*width+")")
-				.call(xAxisb3);
+				.call(xAxisb3);*/
 				
 /*
-		view1b2=view1b2.attr("transform","translate("+30/500*width+","+3/500*width+")")
+		view1b3=view1b3.attr("transform","translate("+30/500*width+","+3/500*width+")")
 					.attr("dy",10/500*width) 
 					.attr("dx",35/500*width)
 					.attr("font-size", 10/500*width+"px"); 
@@ -634,25 +643,27 @@ function View1b(Observer){
 			}
 		}
 		timeindex1=numberindata((preR2x-10)*2*60+28800);
-		console.log(rect2xnewx);
+		//console.log(rect2xnewx);
 		circles = circles.attr("r",function(d,i){return linear2(dataloctmp[timeindex1][i]);})
                             .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
 							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;});				
 				
 		linearfri = linearfri.range([83/500*width,6/500*width]);
-		linearsat =linearsat.range([165/500*width,88/500*width]);
-		linearsun =linearsun.range([247/500*width,170/500*width]);
+		linearsat = linearsat.range([83/500*width,6/500*width]);
+		linearsun = linearsun.range([83/500*width,6/500*width]);
+		//linearsat =linearsat.range([165/500*width,88/500*width]);
+		//linearsun =linearsun.range([247/500*width,170/500*width]);
 		
-		lineFunctionfri = lineFunctionfri.x(function(d) { return (15+d.x/3)/500*width; });
-		lineFunctionsat = lineFunctionsat.x(function(d) { return (15+d.x/3)/500*width; });
-		lineFunctionsun = lineFunctionsun.x(function(d) { return (15+d.x/3)/500*width; });						 
+		lineFunctionfri = lineFunctionfri.x(function(d) { return (15+d.x/2)/500*width; });
+		lineFunctionsat = lineFunctionsat.x(function(d) { return (15+d.x/2)/500*width; });
+		lineFunctionsun = lineFunctionsun.x(function(d) { return (15+d.x/2)/500*width; });						 
 		
 		lineGraphfri = lineGraphfri.attr("stroke-width", 2/500*width) ;		
 		lineGraphsat = lineGraphsat.attr("stroke-width", 2/500*width);		
 		lineGraphsun = lineGraphsun.attr("stroke-width", 2/500*width);				
-		linearfri =linearfri.range([83/500*width,6/500*width]);
-		linearsat =linearsat.range([165/500*width,88/500*width]);
-		linearsun =linearsun.range([247/500*width,170/500*width]);					
+		//linearfri =linearfri.range([83/500*width,6/500*width]);
+		//linearsat =linearsat.range([165/500*width,88/500*width]);
+		//linearsun =linearsun.range([247/500*width,170/500*width]);					
 				
 		lineGraphfri.attr("d", lineFunctionfri(dfri)); 
 		lineGraphsat.attr("d", lineFunctionsat(dsat));
@@ -673,7 +684,7 @@ function View1b(Observer){
 								if(_.indexOf(datal,""+i)>=0){
 									return "yellow";
 									}
-								else{return "red";}
+								else{return "steelblue";}
 							})
 							.attr("r",function(d,i){
 								if(_.indexOf(datal, ""+i)>=0){return 6/500*width;}
@@ -684,7 +695,7 @@ function View1b(Observer){
 			if(message == "spothighlightend"){
 				console.log("view1b spothighlightend "+datal);
 				if(from != "view1b"){
-					circles.attr("fill","red")
+					circles.attr("fill","steelblue")
 							.attr("r",3/500*width);
 				}
 			}
