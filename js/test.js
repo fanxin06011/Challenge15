@@ -98,7 +98,7 @@ function View3(Observer){
 	}
 	
 	var array=[];
-	var dimens = ["in","out","stay","average","from","to","all","comm","way","wayPercent"];
+	var dimens = ["inin","outout","stay","average","fromfrom","toto","allall","comm","way","wayPercent"];
 	var state = dimens.map(function(attr){
 		return {
 			name: attr,

@@ -54,7 +54,8 @@ function View2(Observer){
 				.style("fill",colorList[0])
 				.style("fill-opacity",0.4);
 		}else if(message == "attrRanges"){
-			console.log("view2---"+"attrRanges!");
+			console.log("view2---"+"get attrRanges!");
+			attrRanges = data;
 			//attrRanges = [{"attr":"stay","isChange":1,"min":0,"max":20000},{"attr":"num","isChange":0,"min":0,"max":20000}];
 			choose();
 		}
@@ -192,8 +193,8 @@ function View2(Observer){
 		console.log(attrRanges);
 		for(attrRangeIndex in attrRanges){
 			attrRange = attrRanges[attrRangeIndex];
-			if(attrRange["isChange"]==1){
-				url = url + "&" + attrRange["attr"] + "=" + attrRange["min"] + "," + attrRange["max"];
+			if(attrRange["zero"]==1){
+				url = url + "&" + attrRange["name"] + "=" + attrRange["from"] + "," + attrRange["to"];
 			}
 		}
 		console.log(url);
