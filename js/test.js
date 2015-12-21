@@ -110,15 +110,7 @@ function View3(Observer){
 	//var changeList = state.filter(function(d){
 	//		return d.state == 1;
 	//	});
-	var tmpname=[];
-	var tmpfrom=[];
-	var tmpto=[];
-	var lowerbound;
-	var higherbound;
-	var type;
-	var now; 
-	var special;
-	var count; 
+	
 	
 	// Handles a brush event, toggling the display of foreground lines.
 	function brush() {
@@ -129,21 +121,9 @@ function View3(Observer){
 			return actives.every(function(p, i) {
 			if(extents[i][0] <= d[p] && d[p] <= extents[i][1])
 			{
-				array.push(d.id);
-				now=1;
-				lowerbound=extents[i][0];   //lower bound
-				higherbound=extents[i][1];   //higher bound
+				array.push(d.id);	
 				type=p;              //string!!!
 		
-				for(count=0;count<tmpname.length;++count)
-				{
-					if(type==tmpname[count])break;
-				}
-				if(count==tmpname.length)special=type;
-			
-				tmpname.push(type);
-				tmpfrom.push(lowerbound);
-				tmpto.push(higherbound);
 			}
 			return extents[i][0] <= d[p] && d[p] <= extents[i][1]; 
 			}) ? null : "none";
@@ -153,18 +133,27 @@ function View3(Observer){
 	//brushend to get the final changeList and array
 	function brushend()
 	{
-		for(var i=0;i<10;++i)
+		console.log("end");
+	//console.log(array.length)
+	//console.log(y[t].brush.extent())
+	t = d3.select(this).data()[0]
+	//console.log(t)
+	for(var i=0;i<10;++i)
+	{
+		if(t==state[i].name)
 		{
-			for(var j=0;j<tmpname.length;++j)
-			if(tmpname[j]==state[i].name)
-			{
-				//console.log("true");
+			//console.log("true");
+			if(!y[t].brush.empty()){
 				state[i].zero=1;
-				state[i].from=tmpfrom[j];
-				state[i].to=tmpto[j];
+				state[i].from=y[t].brush.extent()[0]
+				state[i].to=y[t].brush.extent()[1]
 			}
+			else 
+				state[i].zero=0;
+			break;
 		}
-		if(array.length==0)
+	}
+		/*if(array.length==0)
 		{
 			for(var i=0;i<10;++i)
 			{
@@ -177,14 +166,15 @@ function View3(Observer){
 			{
 				if(type==state[i].name)state[i].zero=1;
 			}
-		}
+		}*/
 		
-		var changeList = state.filter(function(d){
-			return d.zero == 1;
-			});
-			
-		console.log("View3--");
-		console.log(changeList);
+	var changeList = state.filter(function(d){
+		return d.zero == 1;
+		});
+	
+	console.log("View3--")
+	console.log(changeList);
+	//console.log(array.length);
 		
 		Observer.fireEvent("attrRanges",changeList,view);
 		Observer.fireEvent("showPath",array,view);
