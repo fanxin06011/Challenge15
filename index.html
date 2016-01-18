@@ -39,13 +39,15 @@
 	<div id="view1btn">
 	<!--<button type="button" id="view1change">change function</button>-->
 	<!--<input type="button" value="show track" id="view1change" />-->
-	<input type="button" value="autoplay" id="view1autoplay" />
 	
 	<input type="checkbox" id="descheck" checked="checked"/>
 	destinations
 	<input type="checkbox" id="trackcheck" checked="checked"/>
 	track
-
+	<input type="checkbox" id="commcheck" checked="checked"/>
+	communication
+	<input type="button" value="autoplay" id="view1autoplay" />
+	
 	</div >
 	<div id="view1" >
 	<svg id="view1svg" >
@@ -61,16 +63,17 @@
 	</div>
 	<div id="view1a2" ng-app="svg" ng-controller="SvgHistogram">
 	
-	<button type="button" id="viewa2draw" ng-hide="true" ng-click="showrects()"></button>
-	<button type="button" id="viewa2rcvhl" ng-hide="true" ng-click="rcvhlspot()"></button>
-	<button type="button" id="viewa2hlid" ng-hide="true" ng-click="hlid()"></button>
+	<button type="button" id="viewa2draw" ng-hide="true" ng-click="showrects($event)"></button>
+	<button type="button" id="viewa2rcvhl" ng-hide="true" ng-click="rcvhlspot($event)"></button>
+	<button type="button" id="viewa2hlid" ng-hide="true" ng-click="hlid($event)"></button>
 	<svg id="va2svg" width="100%" height="500" > 
 	<rect id="va2zoom" style="fill:white"></rect>
 	<g class="va2rect" ng-repeat="idl in Properties ">
-		<rect lid="{{idl.idnum}}" ng-attr-x="{{idl.x}}" ng-attr-y="{{idl.y}}" ng-attr-width="{{idl.width}}" ng-attr-height="{{idl.height}}" ng-attr-fill={{idl.fill}} ng-click="hlspot(idl.idnum)">
+		<rect lid="{{idl.idnum}}" ng-attr-x="{{idl.x}}" ng-attr-y="{{idl.y}}" ng-attr-width="{{idl.width}}" ng-attr-height="{{idl.height}}" ng-attr-fill={{idl.fill}} ng-click="hlspot(idl.idnum,$event);$event.stopPropagation();">
 		<title>{{idl.type}}</title>
 		</rect>
 	</g>
+	
 	</svg>
 	</div>	
 	</div>
@@ -88,10 +91,30 @@
 	<a id="viewb2close"><i class="fa fa-remove "></i></a>
 	</div>
 	<div id="view1b2" >
+	
 	</div>
 	</div>
 	<div id="view1b3" >
+	<input type="checkbox" id="desnumcheck" checked="checked"/>
+	destination
+	<input type="checkbox" id="commnumcheck" checked="checked"/>
+	communication
+	<select id = "vb2Choose">
+		<option value = "loc" selected="selected">choose id by loc and time</option>
+		<option value = "comm">choose id by comm and time</option>
+	</select>
 	</div>
+	
+	<div id="v6outer">
+	<div id="v6p">communication data</div>
+	<div id="v6closediv">
+		<a id="view6close"><i class="fa fa-remove "></i></a>
+	</div>
+	<div id="view6">
+	</div>	
+	</div>
+	
+	
   </div>
 
   <div class="middle">
@@ -201,6 +224,7 @@
   <script type="text/javascript" src="js/view4.js"></script>
   <script type="text/javascript" src="js/XY_c.js"></script>
   <script type="text/javascript" src="js/view5.js"></script>
+  <script type="text/javascript" src="js/view6.js"></script>
   <script type="text/javascript" src="main.js"></script>
 </body>
 
