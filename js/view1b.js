@@ -9,7 +9,8 @@ function View1b(Observer){
 	//$("div#view1b").css("height",height);
 	
 	//$("div#view1b").attr("height",height);
-	var width=$("div#view1").width(); 
+	var width=$("#view1svg").width(); 
+	//console.log(width);
 	var height=$("div#view1").width()*1.1;
 	$("div#view1").css("height",height);
 	
@@ -100,8 +101,44 @@ function View1b(Observer){
 		
 	});
 	
+	
+	//////////////////////////////////////////////////////
+	//communication
+	var commmax=6307;
+	var linear1 = d3.scale.linear()
+			   .domain([0, commmax])
+			   .range([83/500*width,6/500*width]);
+	var commlineFunction = d3.svg.line()
+					 .x(function(d) { return (15+d.x/2)/500*width; })
+					 .y(function(d) { return linear1(d.y); })
+					 .interpolate("linear");
+	var comm=svg2.append("g");
+	var linefricomm;var linesatcomm;var linesuncomm;
+	var comdatafri=[];var comdatasat=[];var comdatasun=[];
+	d3.csv("data/FriTime.csv",function(error,data){
+			for(var i=0;i<data.length;i++){
+				comdatafri.push({"x":data[i].num,"y":data[i].count});
+			}
+
+		});
+	d3.csv("data/SatTime.csv",function(error,data){
+			for(var i=0;i<data.length;i++){
+				comdatasat.push({"x":data[i].num,"y":data[i].count});
+			}
+
+		});
+	d3.csv("data/SunTime.csv",function(error,data){
+			for(var i=0;i<data.length;i++){
+				comdatasun.push({"x":data[i].num,"y":data[i].count});
+			}
+
+		});
+	
+	////////////////////////////////////////////////////////
+	
+	
 	var lengthlimit=480/500*width;
-		
+	//console.log(width);
 	var linear = d3.scale.linear()
 			   .domain([0, lengthlimit])
 			   .rangeRound([28800,86340]);		//08:00:00~23:59:00
@@ -136,6 +173,8 @@ function View1b(Observer){
 	var satmax;
 	var sun2;
 	var sunmax;
+	
+	var linear0;
 	
 	var linearfri;
 	var linearsat;
@@ -204,6 +243,7 @@ function View1b(Observer){
 				.attr("class","axisx")
 				.attr("transform", "translate("+15/500*width+","+83/500*width+")")
 				.call(xAxisb1);
+	
 				/*
 	var xax2=svg2.append("g")
 				.attr("class","axisx")
@@ -275,8 +315,12 @@ function View1b(Observer){
 	
 	
 	
-	
-	
+	var brush = d3.svg.brush()
+						.x(x)
+						.on("brushend", brushed);
+	var brushg;
+	var brushrect;
+	var pfri=svg2.append("g");
 	function initial(){
 		
 		
@@ -312,7 +356,31 @@ function View1b(Observer){
 							.on("dblclick",function(d,i){dblclick(i);});
 
 
+							
+		////////////////////////////////////////////////////////
+		//communication lines
+		
+		linefricomm = comm.append("path")
+						   .attr("d", commlineFunction(comdatafri))
+						   .attr("stroke", "steelblue")
+						   .attr("stroke-width", 0.5/500*width) 
+						   .attr("opacity","0.5")
+						   .attr("fill", "none");						
 
+		linesatcomm = comm.append("path")
+						   .attr("d", commlineFunction(comdatasat))
+						   .attr("stroke", "yellowgreen")
+						   .attr("stroke-width", 0.5/500*width) 
+						   .attr("opacity","0.5")
+						   .attr("fill", "none");
+
+		linesuncomm = comm.append("path")
+						   .attr("d", commlineFunction(comdatasun))
+						   .attr("stroke", "grey")
+						   .attr("stroke-width", 0.5/500*width) 
+						   .attr("opacity","0.5")
+						   .attr("fill", "none");
+		////////////////////////////////////////////
 		
 		for(var m=0;m<960;m++){ 
 			dfri.push({"x":m,"y":dataloc[m][0]});
@@ -325,59 +393,76 @@ function View1b(Observer){
 		satmax=d3.max(sat2[0]);
 		sun2=d3.transpose(datalocSun);
 		sunmax=d3.max(sun2[0]);
-		
-		linearfri = d3.scale.linear()
-					   .domain([0, frimax])
+		var tmax=d3.max([frimax,satmax,sunmax]);
+		linear0 = d3.scale.linear()
+					   .domain([0, tmax])
 					   .range([83/500*width,6/500*width]);
 		linearsat = d3.scale.linear()
-				   .domain([0, satmax])
+				   .domain([0, tmax])
 				   //.range([165/500*width,88/500*width]);
 				   .range([83/500*width,6/500*width]);
 		linearsun = d3.scale.linear()
-				   .domain([0, sunmax])
+				   .domain([0, tmax])
 				   //.range([247/500*width,170/500*width]);
 				   .range([83/500*width,6/500*width]);
 		
 		lineFunctionfri = d3.svg.line()
 								 .x(function(d) { return (15+d.x/2)/500*width; })
-								 .y(function(d) { return linearfri(d.y); })
+								 .y(function(d) { return linear0(d.y); })
 								 .interpolate("linear");
 		lineFunctionsat = d3.svg.line()
 								 .x(function(d) { return (15+d.x/2)/500*width; })
-								 .y(function(d) { return linearsat(d.y); })
+								 .y(function(d) { return linear0(d.y); })
 								 .interpolate("linear");
 		lineFunctionsun = d3.svg.line()
 								 .x(function(d) { return (15+d.x/2)/500*width; })
-								 .y(function(d) { return linearsun(d.y); })
+								 .y(function(d) { return linear0(d.y); })
 								 .interpolate("linear");						 
-		var pfri=svg2.append("g");			
+					
 		lineGraphfri = pfri.append("path")
 						   .attr("d", lineFunctionfri(dfri))
 						   .attr("stroke", "steelblue")
-						   .attr("stroke-width", 2/500*width) 
+						   .attr("stroke-width", 1/500*width) 
 						   .attr("fill", "none");
 						   
-		var psat=svg2.append("g");			
+		//var psat=svg2.append("g");			
 		lineGraphsat = pfri.append("path")
 						   .attr("d", lineFunctionsat(dsat))
 						   .attr("stroke", "yellowgreen")
-						   .attr("stroke-width", 2/500*width) 
+						   .attr("stroke-width", 1/500*width) 
 						   .attr("fill", "none");
-		var psun=svg2.append("g");			
+		//var psun=svg2.append("g");			
 		lineGraphsun = pfri.append("path")
 						   .attr("d", lineFunctionsun(dsun))
 						   .attr("stroke", "grey")
-						   .attr("stroke-width", 2/500*width) 
+						   .attr("stroke-width", 1/500*width) 
 						   .attr("fill", "none");
 
 		circlelag=circles.append("title")
 					.text(function(d,i){
 						return dataloc[0][i]+" people in "+locidnum[i]+":"+locname[i];
 					});	
-
+		brushg=svg2.append("g")
+			.attr("transform", "translate("+15/500*width+",0)")
+			.attr("class", "x brush")
+			.call(brush);
+		brushrect=brushg.selectAll("rect")
+				.attr("y", 6/500*width)
+				.attr("height", 77/500*width);
 
 	}
 	
+	
+		
+	function brushed() {
+	  var brushtime=brush.empty() ? x.domain() : brush.extent();
+	  var brushtime2=[0,0];
+	  brushtime2[0]=brushtime[0].getHours()*3600+brushtime[0].getMinutes()*60+brushtime[0].getSeconds();
+	  brushtime2[1]=brushtime[1].getHours()*3600+brushtime[1].getMinutes()*60+brushtime[1].getSeconds();
+	  //console.log(brushtime2);
+	  Observer.fireEvent("chooseIdTimeRange", brushtime2, "view1b");
+	}
+
 		
 					   
 	function numberindata(t){
@@ -403,16 +488,16 @@ function View1b(Observer){
 		satmax=d3.max(sat2[n]);
 		sun2=d3.transpose(datalocSun);
 		sunmax=d3.max(sun2[n]);
-		
-		linearfri = d3.scale.linear()
-				   .domain([0, frimax])
+		var tmax=d3.max([frimax,satmax,sunmax]);
+		linear0 = d3.scale.linear()
+				   .domain([0, tmax])
 				   .range([83/500*width,6/500*width]);
 		linearsat = d3.scale.linear()
-				   .domain([0, satmax])
+				   .domain([0, tmax])
 				   //.range([165/500*width,88/500*width]);
 				   .range([83/500*width,6/500*width]);
 		linearsun = d3.scale.linear()
-				   .domain([0, sunmax])
+				   .domain([0, tmax])
 				   //.range([247/500*width,170/500*width]);	
 				   .range([83/500*width,6/500*width]);
 		
@@ -429,6 +514,8 @@ function View1b(Observer){
 					  .attr("d", lineFunctionsun(dsun));						   
 		Observer.fireEvent("chooseSpot", destable[locnum], "view1b");
 		//document.getElementById("viewb2outer").style.display = "block";
+		
+
 	}
 	
 	
@@ -559,6 +646,21 @@ function View1b(Observer){
 				circles.attr("opacity",1);
 			  }
 		  });
+	$("#desnumcheck").click(function(){
+			  if(!document.getElementById("desnumcheck").checked){
+				pfri.attr("opacity",0);
+			  }else{
+				pfri.attr("opacity",1);
+			  }
+		  });
+	$("#commnumcheck").click(function(){
+			  if(!document.getElementById("commnumcheck").checked){
+				comm.attr("opacity",0);
+			  }else{
+				comm.attr("opacity",1);
+			  }
+		  });
+	
 	$(window).resize(function(){
 		var prewidth=width;
 		//width=$("div#view1b").width(); 
@@ -648,7 +750,7 @@ function View1b(Observer){
                             .attr("cx",function(d,i){return (destable[i][0]*5)/500*width;})
 							.attr("cy",function(d,i){return (500-destable[i][1]*5)/500*width;});				
 				
-		linearfri = linearfri.range([83/500*width,6/500*width]);
+		linear0 = linearfri.range([83/500*width,6/500*width]);
 		linearsat = linearsat.range([83/500*width,6/500*width]);
 		linearsun = linearsun.range([83/500*width,6/500*width]);
 		//linearsat =linearsat.range([165/500*width,88/500*width]);
@@ -658,9 +760,9 @@ function View1b(Observer){
 		lineFunctionsat = lineFunctionsat.x(function(d) { return (15+d.x/2)/500*width; });
 		lineFunctionsun = lineFunctionsun.x(function(d) { return (15+d.x/2)/500*width; });						 
 		
-		lineGraphfri = lineGraphfri.attr("stroke-width", 2/500*width) ;		
-		lineGraphsat = lineGraphsat.attr("stroke-width", 2/500*width);		
-		lineGraphsun = lineGraphsun.attr("stroke-width", 2/500*width);				
+		lineGraphfri = lineGraphfri.attr("stroke-width", 1/500*width) ;		
+		lineGraphsat = lineGraphsat.attr("stroke-width", 1/500*width);		
+		lineGraphsun = lineGraphsun.attr("stroke-width", 1/500*width);				
 		//linearfri =linearfri.range([83/500*width,6/500*width]);
 		//linearsat =linearsat.range([165/500*width,88/500*width]);
 		//linearsun =linearsun.range([247/500*width,170/500*width]);					
@@ -668,6 +770,16 @@ function View1b(Observer){
 		lineGraphfri.attr("d", lineFunctionfri(dfri)); 
 		lineGraphsat.attr("d", lineFunctionsat(dsat));
 		lineGraphsun.attr("d", lineFunctionsun(dsun));		
+		
+		
+		
+		
+		
+		brush = brush.x(x).on("brushend", brushed);
+		brushg=brushg.attr("transform", "translate("+15/500*width+",0)").call(brush);
+		brushrect=brushg.selectAll("rect")
+				.attr("y", 6/500*width)
+				.attr("height", 77/500*width);
 				
 	});
 

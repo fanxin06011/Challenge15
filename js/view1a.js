@@ -59,6 +59,28 @@
 			"y":["0"],
 			"time":["28800"]
 			}];
+		////////////////////////////
+		
+		var brush = d3.svg.brush()
+					.x(d3.scale.identity().domain([0, width]))
+					.y(d3.scale.identity().domain([0, width]))
+					.on("brushend", brushed);
+		function brushed() {
+		  var brushrange=brush.empty() ?[[0, 0], [width, width]] : brush.extent();
+		  //console.log(brushrange[0][0]/width*100+" "+brushrange[0][1]/width*100+" "+brushrange[1][0]/width*100+" "+brushrange[1][1]/width*100);
+		  var brushrange2=[[0,0],[0,0],daynum];
+		  brushrange2[0][0]=brushrange[0][0]/width*100;
+		  brushrange2[0][1]=100-brushrange[0][1]/width*100;
+		  brushrange2[1][0]=brushrange[1][0]/width*100;
+		  brushrange2[1][1]=100-brushrange[1][1]/width*100;
+		  Observer.fireEvent("chooseIdLocRange", brushrange2, "view1a");
+		}
+		var brusharea=svg.append("g")
+			.attr("class", "brush")
+			.call(brush);
+		
+		
+		
 			///////////////////////////////////////////////////
 		//人的点
 		
@@ -89,7 +111,7 @@
 		function autop(){
 			
 			ttime=ttime+60;
-			rects2.attr("x",10+(ttime-28800)/120);
+			rects2.attr("x",(10+(ttime-28800)/120)/500*width);
 			hourrelative=Math.floor(ttime/3600);
 			minuterelative=Math.floor((ttime-hourrelative*3600)/60);
 			if(minuterelative<10){minuterelative="0"+minuterelative;}
@@ -101,7 +123,7 @@
 			if(ttime<=86400){
 			sto=setTimeout(function(){autop();},100);
 			}
-			abtilinear
+			//abtilinear
 			Observer.fireEvent("timedrag", abtilinear(ttime), "view1a");
 		}
 
@@ -125,6 +147,7 @@
             left: '50%'// spinner 相对父容器Left定位 单位 px
         };
 		var spinner = new Spinner(opts);
+		
 		function showUser(idlist,day){ 
 			 //console.log(idlist.length);
 			 //document.getElementById("judge").innerHTML='0';
@@ -149,7 +172,7 @@
                     spinner.spin(target);                    
                  },
 				 success:function(data){  
-					 //console.log(data);
+					 console.log(data);
 					 datajson[day]=data;  
 					 spinner.spin();
 					 if(idlist.length==0){
@@ -249,6 +272,7 @@
 		
 		var destable=[];
 		var totalloc=42;
+		
 		d3.csv("data/spot.csv", function(error, data) {		
 			for(var i=0;i<totalloc;i++){
 				var L1=data[i].x;
@@ -275,7 +299,7 @@
 			$scope.Properties=[];
 			var count=-1;
 			
-			$scope.showrects=function(){
+			$scope.showrects=function($event){
 				count=-1;
 				$scope.Properties=[];
 				for(var i=0;i<idnum;i++){
@@ -291,9 +315,10 @@
 					}
 				
 				}
-				//console.log($scope.Properties);
+
+				$event.stopPropagation();
 			}
-			$scope.hlspot=function(d){
+			$scope.hlspot=function(d,$event){
 				
 				var ds=d.split(",")
 				var counttmp=ds[1];
@@ -329,8 +354,11 @@
 					}
 					
 				}
+				$event.stopPropagation();
+				$event.preventDefault();
+				//event.stopPropagation();
 			}
-			$scope.hlid=function(){
+			$scope.hlid=function($event){
 				//console.log(recidhl);
 				for(var i=0;i<count+1;i++){
 					//console.log(i);
@@ -344,8 +372,11 @@
 						}
 					}
 				}
+				$event.preventDefault();
+				$event.stopPropagation();
+				//event.stopPropagation();
 			}
-			$scope.rcvhlspot=function(){
+			$scope.rcvhlspot=function($event){
 				for(var i=0;i<count+1;i++){
 					var dtmp=$scope.Properties[i].idnum.split(",")[2];
 					var isid=$scope.Properties[i].idnum.split(",")[0];
@@ -356,6 +387,8 @@
 						}
 					}
 				}
+				$event.stopPropagation();
+				$event.preventDefault();
 			}
 
 		}]);
@@ -404,6 +437,7 @@
 						return d;
 					});
 		////////////////////////////////////////////////////
+		
 		var lengthlimit=480/500*width;
 		var linear = d3.scale.linear()
 				   .domain([0, lengthlimit])
@@ -590,7 +624,7 @@
 			if(newx<0){newx=0;}
 			if(newx>lengthlimit){newx=lengthlimit;}
 			ttime=linear(newx);
-		
+			//console.log(lengthlimit);
 			var newx2=(linear(newx)-28800)/60
 			//console.log(517+newx2/2);
 			rects2.attr("x",(10+newx2/2)/500*width);
@@ -619,7 +653,7 @@
 		var view1a={};
 		var tmpi=[];//需要高亮的id的序号i
 		view1a.onMessage = function(message, data, from){
-			console.log("view1a received message "+message+"  "+data+" from "+from );
+			//console.log("view1a received message "+message+"  "+data+" from "+from );
 			if(message == "showPath"){
 				
 				if(from == "view4"){
@@ -872,7 +906,9 @@
 			via2xis=via2xis.attr("transform", "translate(10,"+(height3*0.8)+")").call(xAxis2);
 
 			
-			
+			brush = brush.x(d3.scale.identity().domain([0, width]))
+						.y(d3.scale.identity().domain([0, width]));
+			brusharea=brusharea.call(brush);
 			$("#viewa2draw").click();
 			
 		});

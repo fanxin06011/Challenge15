@@ -208,6 +208,40 @@ div#view1a2{
 	padding:0px 5px 0px 0px;
 	float:right;
 }
+#v6closediv{
+	padding:0px 5px 0px 0px;
+	float:right;
+}
+
+div#view6 {
+	overflow-x:hidden;
+	overflow-y:hidden;
+	background-color: white;
+	width:100%;
+	-webkit-box-shadow:1px 1px 3px #292929;
+    -moz-box-shadow:1px 1px 3px #292929;
+	border-radius: 8px; 
+}
+div#v6outer{
+	position:absolute ;
+	left: 37%;
+	top: 43%;
+	z-index:50;
+	padding:0px 6px 6px 6px;
+	width:77%;
+	//height:200px;
+	border-radius: 8px; 
+	box-shadow: 0 2px 16px #000, 0 0 1px #000, 0 0 1px #000; 
+	text-shadow: 0 0 15px #fff, 0 0 15px #fff;
+	background-color: #999999;
+	display: none;
+}
+#v6p{
+	padding:2px 0px 0px 0px;
+	float:left;
+}
+
+
 .idlistp{
 	font-family:Verdana;
 	font-size:1vw;
@@ -273,6 +307,9 @@ div#view1a2{
 #viewb2close i{
 	color: white;
 }
+#view6close i{
+	color: white;
+}
 #view4.fa-spinner{
 	color: #999999;
 }
@@ -290,5 +327,9 @@ div#view1a2{
 	background-attachment:scroll;
 }	
 
-
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
 

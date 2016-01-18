@@ -15,8 +15,8 @@ if (!$con)
  {
  die('Could not connect: ' . mysql_error());
  }
-mysql_select_db("vc2015", $con);
-//mysql_select_db("aaa", $con);
+//mysql_select_db("vc2015", $con);
+mysql_select_db("aaa", $con);
 
 //$idstr="39012,530079";
 //$day=2;
