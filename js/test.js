@@ -38,7 +38,7 @@ function View3(Observer){
 		width = 540/1360*winWidth - margin.left - margin.right;
 		height = 180/386*winHeight - margin.top - margin.bottom;
 
-		x = d3.scale.ordinal().rangePoints([0, width], 1);                  // horizonal distribution
+		x = d3.scale.ordinal().rangePoints([0, width], 1);                 
 		y = {};
 		dragging = {};
 		line = d3.svg.line();
