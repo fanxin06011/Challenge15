@@ -282,7 +282,15 @@ d3.csv("data/dfSat.csv", function(error, wine) {
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(wine[0]).filter(function(d) {
     return d!=""&&d!="id"&&d!="num"&&d!="num67"&&d!="stay67"&&d!="num643"&&d!="stay643"&&d!="num1649"&&d!="stay1649"&&d!="num1666"&&d!="stay1666"&&d!="num1743"&&d!="stay1743"&&d!="num1767"&&d!="stay1767"&&d!="num2354"&&d!="stay2354"&&d!="num2659"&&d!="stay2659"&&d!="num2715"&&d!="stay2715"&&d!="num2866"&&d!="stay2866"&&d!="num3233"&&d!="stay3233"&&d!="num3468"&&d!="stay3468"&&d!="num3890"&&d!="stay3890"&&d!="num4237"&&d!="stay4237"&&d!="num4356"&&d!="stay4356"&&d!="num4378"&&d!="stay4378"&&d!="num4524"&&d!="stay4524"&&d!="num4711"&&d!="stay4711"&&d!="num4887"&&d!="stay4887"&&d!="num5057"&&d!="stay5057"&&d!="num6037"&&d!="stay6037"&&d!="num6399"&&d!="stay6399"&&d!="num6737"&&d!="stay6737"&&d!="num6944"&&d!="stay6944"&&d!="num7379"&&d!="stay7379"&&d!="num7384"&&d!="stay7384"&&d!="num7622"&&d!="stay7622"&&d!="num7688"&&d!="stay7688"&&d!="num7837"&&d!="stay7837"&&d!="num7848"&&d!="stay7848"&&d!="num7987"&&d!="stay7987"&&d!="num7989"&&d!="stay7989"&&d!="num8177"&&d!="stay8177"&&d!="num8280"&&d!="stay8280"&&d!="num8388"&&d!="stay8388"&&d!="num8586"&&d!="stay8586"&&d!="num8644"&&d!="stay8644"&&d!="num8748"&&d!="stay8748"&&d!="num8763"&&d!="stay8763"&&d!="num8781"&&d!="stay8781"&&d!="num9281"&&d!="stay9281"&&d!="num9977"&&d!="stay9977" && (y[d] = d3.scale.linear()
-        .domain(d3.extent(wine, function(p) { return +p[d]; }))
+        .domain(d3.extent(wine, function(p) {
+			if(d!="inin"&&d!="outout"&&d!="stay")
+			return +p[d]; 
+		else
+			{
+				p[d]=p[d]/3600;
+				var hourrelative=p[d];
+				return hourrelative;
+			} }))
         .range([height, 0]));
   }));
 
@@ -367,7 +375,16 @@ d3.csv("data/dfSun.csv", function(error, wine) {
   // Extract the list of dimensions and create a scale for each.
   x.domain(dimensions = d3.keys(wine[0]).filter(function(d) {
     return d!=""&&d!="id"&&d!="num"&&d!="num67"&&d!="stay67"&&d!="num643"&&d!="stay643"&&d!="num1649"&&d!="stay1649"&&d!="num1666"&&d!="stay1666"&&d!="num1743"&&d!="stay1743"&&d!="num1767"&&d!="stay1767"&&d!="num2354"&&d!="stay2354"&&d!="num2659"&&d!="stay2659"&&d!="num2715"&&d!="stay2715"&&d!="num2866"&&d!="stay2866"&&d!="num3233"&&d!="stay3233"&&d!="num3468"&&d!="stay3468"&&d!="num3890"&&d!="stay3890"&&d!="num4237"&&d!="stay4237"&&d!="num4356"&&d!="stay4356"&&d!="num4378"&&d!="stay4378"&&d!="num4524"&&d!="stay4524"&&d!="num4711"&&d!="stay4711"&&d!="num4887"&&d!="stay4887"&&d!="num5057"&&d!="stay5057"&&d!="num6037"&&d!="stay6037"&&d!="num6399"&&d!="stay6399"&&d!="num6737"&&d!="stay6737"&&d!="num6944"&&d!="stay6944"&&d!="num7379"&&d!="stay7379"&&d!="num7384"&&d!="stay7384"&&d!="num7622"&&d!="stay7622"&&d!="num7688"&&d!="stay7688"&&d!="num7837"&&d!="stay7837"&&d!="num7848"&&d!="stay7848"&&d!="num7987"&&d!="stay7987"&&d!="num7989"&&d!="stay7989"&&d!="num8177"&&d!="stay8177"&&d!="num8280"&&d!="stay8280"&&d!="num8388"&&d!="stay8388"&&d!="num8586"&&d!="stay8586"&&d!="num8644"&&d!="stay8644"&&d!="num8748"&&d!="stay8748"&&d!="num8763"&&d!="stay8763"&&d!="num8781"&&d!="stay8781"&&d!="num9281"&&d!="stay9281"&&d!="num9977"&&d!="stay9977" && (y[d] = d3.scale.linear()
-        .domain(d3.extent(wine, function(p) { return +p[d]; }))
+        .domain(d3.extent(wine, function(p) {
+			if(d!="inin"&&d!="outout"&&d!="stay")
+			return +p[d]; 
+		else
+			{
+				p[d]=p[d]/3600;
+				var hourrelative=p[d];
+				return hourrelative;
+			}
+			}))
         .range([height, 0]));
   }));
 
