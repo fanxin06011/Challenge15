@@ -17,8 +17,8 @@ if (!$con)
  {
  die('Could not connect: ' . mysql_error());
  }
-//mysql_select_db("vc2015", $con);
-mysql_select_db("aaa", $con);
+mysql_select_db("vc2015", $con);
+//mysql_select_db("aaa", $con);
 
 $id=explode(',',$idstr);
 $arrlength=count($id);

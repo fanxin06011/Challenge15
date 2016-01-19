@@ -20,8 +20,8 @@ if (!$con)
  {
  die('Could not connect: ' . mysql_error());
  }
-//mysql_select_db("vc2015", $con);
-mysql_select_db("aaa", $con);
+mysql_select_db("vc2015", $con);
+//mysql_select_db("aaa", $con);
 
 
 $sql="SELECT distinct id FROM fri WHERE time >= ".$timestart." AND time<=".$timeend." AND x >=".$x0." AND x<=".$x1." AND y >=".$y0." AND y<=".$y1 ."";
