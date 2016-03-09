@@ -6,7 +6,7 @@ header("Cache-Control: no-cache, must-revalidate");//当前页面不进行缓存
 //A date in the past
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");//内容过期时间,故意写一个过期时间目的也是让浏览器去重新读取页面内容
 
-$con = mysql_connect('localhost', 'root', 'root');
+$con = mysql_connect('localhost', 'vc2015', 'vc2015');
 if (!$con)
  {
  die('Could not connect: ' . mysql_error());

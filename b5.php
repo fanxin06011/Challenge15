@@ -11,7 +11,7 @@ $timeend=$_GET["timeend"];
 $day=$_GET["day"];
 
 
-$con = mysql_connect('localhost', 'root', 'root');
+$con = mysql_connect('localhost', 'vc2015', 'vc2015');
 if (!$con)
  {
  die('Could not connect: ' . mysql_error());

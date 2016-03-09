@@ -576,7 +576,7 @@ function View6(Observer){
 						if(commdata[i].idto==1278894||commdata[i].idto=="1278894"){
 							lineData[i-1]=[{"x":commdata[i].fromx,"y":commdata[i].fromy},{"x":0,"y":50}];
 						}else{
-							if(commdata[i].idto==1||commdata[i].idto=="1"){
+							if(commdata[i].idto==0||commdata[i].idto=="0"){
 								lineData[i-1]=[{"x":commdata[i].fromx,"y":commdata[i].fromy},{"x":0,"y":25}];
 							}else{
 								lineData[i-1]=[{"x":commdata[i].fromx,"y":commdata[i].fromy},{"x":commdata[i].tox,"y":commdata[i].toy}];

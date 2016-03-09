@@ -10,7 +10,7 @@ $idstr=$_GET["id"];
 $day=$_GET["day"];
 
 
-$con = mysql_connect('localhost', 'root', 'root');
+$con = mysql_connect('localhost', 'vc2015', 'vc2015');
 if (!$con)
  {
  die('Could not connect: ' . mysql_error());
@@ -25,16 +25,16 @@ mysql_select_db("vc2015", $con);
 $id=explode(',',$idstr);
 $arrlength=count($id);
 for($x=0;$x<$arrlength;$x++) {
-	$sql="SELECT x,y,time FROM fri WHERE id = ".$id[$x]." ORDER BY time " ;
+	$sql="SELECT x,y,time FROM movfri WHERE id = ".$id[$x]." ORDER BY time " ;
 	if($day==0){
 		global $sql;
-		$sql="SELECT x,y,time FROM fri WHERE id = ".$id[$x]." ORDER BY time " ;
+		$sql="SELECT x,y,time FROM movfri WHERE id = ".$id[$x]." ORDER BY time " ;
 	}elseif($day==1){
 		global $sql;
-		$sql="SELECT x,y,time FROM sat WHERE id = ".$id[$x]." ORDER BY time " ;
+		$sql="SELECT x,y,time FROM movsat WHERE id = ".$id[$x]." ORDER BY time " ;
 	}else{
 		global $sql;
-		$sql="SELECT x,y,time FROM sun WHERE id = ".$id[$x]." ORDER BY time " ;
+		$sql="SELECT x,y,time FROM movsun WHERE id = ".$id[$x]." ORDER BY time " ;
 	}
 	$result = mysql_unbuffered_query($sql);
 	//print_r(mysql_fetch_array($result)) ;

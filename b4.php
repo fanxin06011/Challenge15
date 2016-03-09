@@ -12,7 +12,7 @@ $idstr=$_POST["idstr"];
 $day=$_POST["day"];
 $flag=$_POST["flag"];
 
-$con = mysql_connect('localhost', 'root', 'root');
+$con = mysql_connect('localhost', 'vc2015', 'vc2015');
 if (!$con)
  {
  die('Could not connect: ' . mysql_error());
